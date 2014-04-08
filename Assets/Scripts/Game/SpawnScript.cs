@@ -8,6 +8,8 @@ public class SpawnScript : MonoBehaviour {
 	public float SpawnRate = 10;
 	public float TimeUntilNextWave;
 
+	public float EnemiesRemaining = 10;
+
 	// Use this for initialization
 	void Start () {
 		TimeUntilNextWave = SpawnRate;
