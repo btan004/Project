@@ -21,7 +21,8 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		//make our player cube red
+		renderer.material.color = Color.red;
 	}
 	
 	// Update is called once per frame

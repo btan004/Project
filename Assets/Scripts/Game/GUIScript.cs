@@ -29,5 +29,9 @@ public class GUIScript : MonoBehaviour {
 
 		//Display the players Score
 		GUI.Label(new Rect(Screen.width - 110, 60, 100, 20), "Score: " + playerScript.Score);
+
+		//debug stuff
+		GUI.Label(new Rect(10, 100, 100, 20), "Player Position: (" + (int) playerScript.transform.position.x +
+		          ", " + (int) playerScript.transform.position.y + ", " + (int) playerScript.transform.position.z + ")");
 	}
 }
