@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour {
 	public float sprintCoefficient = 2.0f;
 	public float sprintCooldown = 3;
 	private float sprintCooldownTimer = 0;
+	private float radius = 0.5f;
 
 	public int Score = 0;
 	public int Lives = 3;
@@ -80,10 +81,7 @@ public class PlayerScript : MonoBehaviour {
 
 	private void KeepPlayerInMap()
 	{
-		if (transform.position.x < -50) SetPlayerPositionX(-50);
-		if (transform.position.x > 50) SetPlayerPositionX(50);
-		if (transform.position.z < -50) SetPlayerPositionZ(-50);
-		if (transform.position.z > 50) SetPlayerPositionZ(50);
+		transform.BindToArea(-50 + radius, 50 - radius, -50 + radius, 50 - radius);
 	}
 
 	private void SetPlayerPositionX(float position)

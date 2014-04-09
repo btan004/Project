@@ -10,9 +10,10 @@ public class CameraScript : MonoBehaviour {
 	private Vector3 offset;
 
 	//camera boundaries
-	private float cameraLeftMax = -41;
-	private float cameraRightMax = 41;
+	private float cameraLeftMax = -39;
+	private float cameraRightMax = 39;
 	private float cameraBackMax = -53.5f;
+	private float cameraFrontMax = 100;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,34 +30,7 @@ public class CameraScript : MonoBehaviour {
 		transform.position = (target.transform.position + offset);
 
 		//make sure the camera stays in the map
-		KeepCameraInMap();
+		transform.BindToArea(cameraLeftMax, cameraRightMax, cameraBackMax, cameraFrontMax);
 	}
 
-	void KeepCameraInMap()
-	{
-		if (transform.position.x < cameraLeftMax) SetCameraPositionX(cameraLeftMax);
-		if (transform.position.x > cameraRightMax) SetCameraPositionX(cameraRightMax);
-		if (transform.position.z < cameraBackMax) SetCameraPositionZ(cameraBackMax);
-	}
-
-	private void SetCameraPositionX(float position)
-	{
-		Vector3 temp = transform.position;
-		temp.x = position;
-		transform.position = temp;
-	}
-	
-	private void SetCameraPositionY(float position)
-	{
-		Vector3 temp = transform.position;
-		temp.y = position;
-		transform.position = temp;
-	}
-	
-	private void SetCameraPositionZ(float position)
-	{
-		Vector3 temp = transform.position;
-		temp.z = position;
-		transform.position = temp;
-	}
 }

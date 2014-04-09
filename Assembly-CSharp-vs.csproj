@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Game\CameraScript.cs" />
      <Compile Include="Assets\Scripts\Game\GUIScript.cs" />
+     <Compile Include="Assets\Scripts\Game\Misc\Extensions.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerScript.cs" />
      <Compile Include="Assets\Scripts\Game\SpawnScript.cs" />
      <Compile Include="Assets\Scripts\StartMenu\StartMenuScript.cs" />
