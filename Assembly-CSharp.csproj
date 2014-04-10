@@ -47,10 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Game\CameraScript.cs" />
+     <Compile Include="Assets\Scripts\Game\CursorScript.cs" />
      <Compile Include="Assets\Scripts\Game\GUIScript.cs" />
-     <Compile Include="Assets\Scripts\Game\Misc\Extensions.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerScript.cs" />
      <Compile Include="Assets\Scripts\Game\SpawnScript.cs" />
+     <Compile Include="Assets\Scripts\Interface\ProgressBar.cs" />
+     <Compile Include="Assets\Scripts\Misc\Extensions.cs" />
      <Compile Include="Assets\Scripts\StartMenu\StartMenuScript.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

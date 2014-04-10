@@ -17,6 +17,9 @@ public class CameraScript : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		//align the camera to the players x position
+		transform.SetPositionX(target.transform.position.x);
+
 		//get our camera offset from the player
 		offset = transform.position - target.transform.position;
 

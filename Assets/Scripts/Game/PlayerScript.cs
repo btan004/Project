@@ -4,26 +4,48 @@ using System.Collections;
 public class PlayerScript : MonoBehaviour {
 
 	//player stats
-	public float velocity = 1f;
-	private bool IsSprinting = false;
-	public float sprintCoefficient = 2.0f;
-	public float sprintCooldown = 3;
-	private float sprintCooldownTimer = 0;
-	private float radius = 0.5f;
-
 	public int Score = 0;
-	public int Lives = 3;
+	public static int Lives = 3;
+	public const int MaxLives = 5;
 	public float Health = 100;
+	public float TotalHealth = 100;
 	public float Stamina = 10;
 	public float TotalStamina = 10;
 	public int Level = 1;
 	public int Experience;
 	public int ExperienceToNextLevel;
+	
+	//player movement
+	public float velocity = 1f;
+	private bool WantToSprint = false;
+	public bool RanOutOfStamina = false;
+	public float sprintCoefficient = 5.0f;
+	public float StaminaToSprint = 3;
+	private float radius = 0.5f;
+
+	//player attack
+	public bool IsAttacking = false;
+	public static float AttackCooldown = .25f;
+	private float attackCooldownTimer = 0;
+	public static float StaminaToSwing = .5f;
+
+	//player aura
+	public static bool IsAuraActive = false;
+	public static bool IsAuraReady = true;
+	public static float auraDuration = 5f;
+	public static float auraDurationTimer = 0f;
+	public static float auraCooldown = 5f;
+	public static float auraCooldownTimer = 0f;
+	public static float auraCost = 3f;
+
+	//player skill shot
+	public static float skillShotCooldown = 5f;
+	public static float skillShotCooldownTimer = 0;
+	public static float skillCost = 3f;
 
 	// Use this for initialization
 	void Start () {
-		//make our player cube red
-		renderer.material.color = Color.red;
+		IsAuraActive = false;
 	}
 	
 	// Update is called once per frame
@@ -32,7 +54,16 @@ public class PlayerScript : MonoBehaviour {
 		MovePlayer();
 
 		//Keep the Player within the map bounds
-		KeepPlayerInMap();
+		transform.BindToArea(-50 + radius, 50 - radius, -50 + radius, 50 - radius);
+
+		CheckForAttack();
+
+		CheckForAuraAttack();
+
+		//CheckForSkillShotAttack();
+
+		if (Stamina < TotalStamina)
+			Stamina += Time.deltaTime;
 
 		//Check if the player wants to end the game
 		if (Input.GetKey("escape"))
@@ -41,68 +72,118 @@ public class PlayerScript : MonoBehaviour {
 		}
 	}
 
+	#region MovePlayer
 	private void MovePlayer()
 	{
 		//Get a Movement Vector from user input
 		Vector3 movementVector = Vector3.zero;
-		if (Input.GetKey("a")) movementVector += Vector3.left;
-		if (Input.GetKey("d")) movementVector += Vector3.right;
-		if (Input.GetKey("w")) movementVector += Vector3.forward;
-		if (Input.GetKey("s")) movementVector += Vector3.back;
+		if (Input.GetAxis("Horizontal Movement") < -.5) movementVector += Vector3.left;
+		if (Input.GetAxis("Horizontal Movement") > .5) movementVector += Vector3.right;
+		if (Input.GetAxis("Vertical Movement") > -.5) movementVector += Vector3.forward;
+		if (Input.GetAxis("Vertical Movement") < .5) movementVector += Vector3.back;
 		movementVector.Normalize ();
 
-		if (Input.GetKey (KeyCode.LeftShift))
-			IsSprinting = true;
+		if (Input.GetButton("Sprint"))
+			WantToSprint = true;
 		else
-			IsSprinting = false;
+			WantToSprint = false;
 
 		//apply it to the player
 		Vector3 newMovement = movementVector * velocity * Time.deltaTime;
-		bool canSprint = Stamina > 0 && sprintCooldownTimer <= 0;
-		if (IsSprinting && canSprint) 
-		{
-			newMovement *= sprintCoefficient;
-			Stamina -= Time.deltaTime;
 
-			if (Stamina < 0)
+		if (WantToSprint)
+		{
+			if (Stamina <= 0)
 			{
-				sprintCooldownTimer = sprintCooldown;
+				RanOutOfStamina = true;
 			}
-		} 
-		else {
-			if (Stamina < TotalStamina)
-				Stamina += Time.deltaTime;
-			if (sprintCooldownTimer > 0)
-				sprintCooldownTimer -= Time.deltaTime;
+
+			if (RanOutOfStamina)
+			{
+				if (Stamina > StaminaToSprint) 
+				{
+					RanOutOfStamina = false;
+				}
+			}
+			else
+			{
+				newMovement *= sprintCoefficient;
+				Stamina -= 2.0f * Time.deltaTime;
+			}
+
 		}
 
 		this.transform.position = (this.transform.position + newMovement);
 	}
 
-	private void KeepPlayerInMap()
+	#endregion
+
+	private void CheckForAttack()
 	{
-		transform.BindToArea(-50 + radius, 50 - radius, -50 + radius, 50 - radius);
+		bool wantToAttack 		= Input.GetButton("Attack");
+
+		//if already attacking
+		if (IsAttacking)
+		{
+			//increment the attack cooldown timer
+			attackCooldownTimer -= Time.deltaTime;
+
+			//check if the cooldown is finished
+			if (attackCooldownTimer  < 0)
+			{
+				IsAttacking = false;
+			}
+		}
+
+		//if we are not attacking anymore
+		if (!IsAttacking && wantToAttack && Stamina > StaminaToSwing)
+		{
+			//attack
+			IsAttacking = true;
+			Stamina -= StaminaToSwing;
+			attackCooldownTimer = AttackCooldown;
+		}
+
+		if (IsAttacking) renderer.material.color = Color.green;
+		else renderer.material.color = Color.red;
 	}
 
-	private void SetPlayerPositionX(float position)
+	private void CheckForAuraAttack()
 	{
-		Vector3 temp = transform.position;
-		temp.x = position;
-		transform.position = temp;
+		bool wantToTriggerAura = (Input.GetAxis("Aura") > 0.5f);
+
+		IsAuraReady = (!IsAuraActive && auraCooldownTimer <= 0 && Stamina > auraCost);
+
+		//if the aura is not active and we want to turn it on
+		if (wantToTriggerAura && IsAuraReady)
+		{
+			IsAuraActive = true;
+			Stamina -= auraCost;
+			auraDurationTimer = auraDuration;
+		}
+
+		if (IsAuraActive) 
+		{	
+			auraDurationTimer -= Time.deltaTime;
+			if (auraDurationTimer <= 0)
+			{
+				IsAuraActive = false;
+				auraCooldownTimer = auraCooldown;
+			}
+		}
+		else 
+		{
+			auraCooldownTimer -= Time.deltaTime;
+		}
+
 	}
 
-	private void SetPlayerPositionY(float position)
+	private void CheckForSkillShot()
 	{
-		Vector3 temp = transform.position;
-		temp.y = position;
-		transform.position = temp;
+		bool wantToSkillShot = (Input.GetAxis("Skill Shot") < -0.5f);
+
 	}
 
-	private void SetPlayerPositionZ(float position)
-	{
-		Vector3 temp = transform.position;
-		temp.z = position;
-		transform.position = temp;
-	}
 	
+
 }
