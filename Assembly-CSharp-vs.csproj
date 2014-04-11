@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Game\CameraScript.cs" />
      <Compile Include="Assets\Scripts\Game\CursorScript.cs" />
      <Compile Include="Assets\Scripts\Game\GUIScript.cs" />
+     <Compile Include="Assets\Scripts\Game\InputHandler.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerScript.cs" />
      <Compile Include="Assets\Scripts\Game\SpawnScript.cs" />
      <Compile Include="Assets\Scripts\Interface\ProgressBar.cs" />

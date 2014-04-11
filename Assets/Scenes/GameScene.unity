@@ -182,10 +182,11 @@ MonoBehaviour:
   Level: 1
   Experience: 0
   ExperienceToNextLevel: 0
-  velocity: 10
-  RanOutOfStamina: 0
-  sprintCoefficient: 2
+  Radius: .5
+  SprintCoefficient: 5
   StaminaToSprint: 3
+  Velocity: 1
+  RanOutOfStamina: 0
   IsAttacking: 0
 --- !u!23 &39119748
 Renderer:

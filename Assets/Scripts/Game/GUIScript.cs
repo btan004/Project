@@ -14,21 +14,21 @@ public class GUIScript : MonoBehaviour {
 	private string 		greyHeartTexturePath		= "Assets/Resources/Textures/Hearts/GreyHeart.png";
 
 	//scroll bars
-	private ProgressBar healthBar;
-	private ProgressBar staminaBar;
-	private ProgressBar auraBar;
-	private ProgressBar skillShotBar;
+	private ProgressBar	healthBar;
+	private ProgressBar	staminaBar;
+	private ProgressBar	auraBar;
+	private ProgressBar	skillShotBar;
 	private string 		progressBarBackPath 		= "Assets/Resources/Textures/ProgressBar/Back1.png";
 	private string 		progressBarYellowPath 		= "Assets/Resources/Textures/ProgressBar/YellowFadebar.png";
 	private string 		progressBarRedPath 			= "Assets/Resources/Textures/ProgressBar/RedFadebar.png";
-	private string		progressBarBluePath			= "Assets/Resources/Textures/ProgressBar/BlueFadebar.png";
-	private string		progressBarGreenPath		= "Assets/Resources/Textures/ProgressBar/GreenFadebar.png";
-	private string		progressBarProgressGreyPath = "Assets/Resources/Textures/ProgressBar/GreyFadebar.png";
+	private string			progressBarBluePath			= "Assets/Resources/Textures/ProgressBar/BlueFadebar.png";
+	private string			progressBarGreenPath		= "Assets/Resources/Textures/ProgressBar/GreenFadebar.png";
+	private string			progressBarProgressGreyPath = "Assets/Resources/Textures/ProgressBar/GreyFadebar.png";
 	private string 		progressBarCoverPath 		= "Assets/Resources/Textures/ProgressBar/Cover1.png";
-	private string		healthTextPath				= "Assets/Resources/Textures/ProgressBar/HealthText.png";
-	private string		staminaTextPath				= "Assets/Resources/Textures/ProgressBar/StaminaText.png";
-	private string		auraTextPath				= "Assets/Resources/Textures/ProgressBar/AuraText.png";
-	private string		skillShotTextPath			= "Assets/Resources/Textures/ProgressBar/SkillShotText.png";
+	private string			healthTextPath				= "Assets/Resources/Textures/ProgressBar/HealthText.png";
+	private string			staminaTextPath				= "Assets/Resources/Textures/ProgressBar/StaminaText.png";
+	private string			auraTextPath				= "Assets/Resources/Textures/ProgressBar/AuraText.png";
+	private string			skillShotTextPath			= "Assets/Resources/Textures/ProgressBar/SkillShotText.png";
 
 
 
@@ -81,15 +81,15 @@ public class GUIScript : MonoBehaviour {
 		{
 			auraBar.GreyOut(false);
 			if (PlayerScript.IsAuraReady) auraBar.SetPercentage(1);
-			else auraBar.SetPercentage((PlayerScript.auraDurationTimer) / PlayerScript.auraDuration);
+			else auraBar.SetPercentage(playerScript.GetAuraDurationPercentage());
 		}
 		else
 		{
 			auraBar.GreyOut(true);
-			auraBar.SetPercentage((PlayerScript.auraCooldown - PlayerScript.auraCooldownTimer)/ PlayerScript.auraCooldown);
+			auraBar.SetPercentage(playerScript.GetAuraCooldownPercentage());
 		}
 
-		skillShotBar.SetPercentage(1);
+		skillShotBar.SetPercentage(playerScript.GetSkillShotCooldownPercentage());
 	}
 
 	//Our GUI 
