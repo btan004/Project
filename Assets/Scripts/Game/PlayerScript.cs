@@ -17,7 +17,7 @@ public class PlayerScript : MonoBehaviour {
 	public int					Level = 1;
 	public int					Experience;
 	public int					ExperienceToNextLevel;
-	public float				Radius = 0.5f;
+	public float				Radius = 2f;
 
 	//player movement
 	public float				SprintCoefficient = 5.0f;
@@ -46,7 +46,6 @@ public class PlayerScript : MonoBehaviour {
 	public static float		SkillShotCooldown = 2f;
 	public static float		SkillShotCost = 3f;
 	private static float		skillShotCooldownTimer = 0;
-
 
 	// Use this for initialization
 	void Start () {
@@ -116,7 +115,13 @@ public class PlayerScript : MonoBehaviour {
 		this.transform.position = (this.transform.position + newMovement);
 
 		//Keep the Player within the map bounds
-		transform.BindToArea(-50 + Radius, 50 - Radius, -50 + Radius, 50 - Radius);
+		transform.BindToArea(
+			MapInfo.MinimumX + Radius, 
+			MapInfo.MaximumX - Radius, 
+			MapInfo.MinimumZ + Radius, 
+			MapInfo.MaximumZ - Radius);
+
+		
 	}
 
 	private void CheckForAttack()
@@ -230,4 +235,18 @@ public class PlayerScript : MonoBehaviour {
 		return (SkillShotCooldown - skillShotCooldownTimer) / SkillShotCooldown;
 	}
 
+	public void ApplyPowerup(PowerupScript powerup)
+	{
+		switch(powerup.Type)
+		{
+			case (PowerupType.Health):
+				Health = Mathf.Clamp(Health + powerup.Amount, 0, TotalHealth);
+				break;
+			case (PowerupType.Stamina):
+				Stamina = Mathf.Clamp(Stamina + powerup.Amount, 0, TotalStamina);
+				break;
+			default:
+				break;
+		}
+	}
 }

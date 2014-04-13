@@ -45,5 +45,4 @@ public static class Extensions
 		if (t.position.z < minZ) t.SetPositionZ(minZ);
 		if (t.position.z > maxZ) t.SetPositionZ(maxZ);
 	}
-
 }

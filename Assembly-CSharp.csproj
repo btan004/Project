@@ -50,7 +50,11 @@
      <Compile Include="Assets\Scripts\Game\CursorScript.cs" />
      <Compile Include="Assets\Scripts\Game\GUIScript.cs" />
      <Compile Include="Assets\Scripts\Game\InputHandler.cs" />
+     <Compile Include="Assets\Scripts\Game\MapInfo.cs" />
+     <Compile Include="Assets\Scripts\Game\ObjectFactory.cs" />
+     <Compile Include="Assets\Scripts\Game\PickupRadiusScript.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerScript.cs" />
+     <Compile Include="Assets\Scripts\Game\PowerupScript.cs" />
      <Compile Include="Assets\Scripts\Game\SpawnScript.cs" />
      <Compile Include="Assets\Scripts\Interface\ProgressBar.cs" />
      <Compile Include="Assets\Scripts\Misc\Extensions.cs" />
