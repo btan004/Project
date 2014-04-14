@@ -28,6 +28,7 @@ public class GameGUI : MonoBehaviour {
 	private ProgressBar experienceBar;
 	private ProgressBar movementSpeedBar;
 	private ProgressBar pickupRadiusBar;
+	private ProgressBar powerupBar;
 
 	private string 		progressBarBackPath 				= "Assets/Resources/Textures/ProgressBar/Back.png";
 	private string 		progressBarYellowPath 			= "Assets/Resources/Textures/ProgressBar/YellowBar.png";
@@ -113,6 +114,14 @@ public class GameGUI : MonoBehaviour {
 			progressBarStyle,
 			progressBarTextOffset);
 
+		powerupBar = new ProgressBar(new Vector2(Screen.width - 250, 10), new Vector2(200, 30),
+			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
+			(Texture2D)Resources.LoadAssetAtPath(progressBarDarkGreyPath, typeof(Texture2D)),
+			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
+			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			progressBarStyle,
+			progressBarTextOffset);
+
 	}
 	
 	// Update is called once per frame
@@ -136,20 +145,6 @@ public class GameGUI : MonoBehaviour {
 	//Our GUI 
 	void OnGUI()
 	{
-		/*
-		//Display the current Wave
-		GUI.Label(new Rect((Screen.width / 2) - 50, 10, 100, 20), "Current Wave: " + spawnScript.Wave);
-
-		//Dispaly the time until the next wave
-		GUI.Label(new Rect((Screen.width / 2) - 78, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.TimeUntilNextWave);
-
-		//Display the number of enemies remaining
-		GUI.Label(new Rect((Screen.width / 2) - 50, 70, 100, 20), "Enemies Remaining: " + (int) spawnScript.EnemiesRemaining);
-
-		//Display the players Score
-		GUI.Label(new Rect(Screen.width - 110, 60, 100, 20), "Score: " + playerScript.Score);
-		*/
-
 		//display lives
 		for (int i = 0; i < PlayerScript.MaxLives; i++)
 		{
@@ -216,18 +211,23 @@ public class GameGUI : MonoBehaviour {
 
 		movementSpeedBar.OnGUI(
 			0f,
-			"Movement Speed: " + playerScript.FinalMoveSpeed,
+			"Movement Speed: " + playerScript.FinalMoveSpeed.ToString("F0"),
 			"",
 			""
 		);
 
 		pickupRadiusBar.OnGUI(
 			0f,
-			"Pickup Radius: " + playerScript.Radius,
+			"Pickup Radius: " + playerScript.Radius.ToString("F0"),
 			"",
 			""
 		);
 
-
+		powerupBar.OnGUI(
+			0f,
+			"Powerups:",
+			"",
+			""
+		);
 	}
 }
