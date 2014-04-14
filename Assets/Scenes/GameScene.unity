@@ -55459,6 +55459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScript: {fileID: 80020895}
   spawnScript: {fileID: 1794454831}
+  MaxPowerupsToDisplay: 10
 --- !u!4 &827999608
 Transform:
   m_ObjectHideFlags: 0
