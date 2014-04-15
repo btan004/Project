@@ -88,8 +88,10 @@ MonoBehaviour:
   TurnVelocity: 0
   IsAttacking: 0
   AttackPower: 0
-  AttackSphere: {fileID: 0}
   AttackRate: 0
+  NextAttack: 0
+  AttackDistance: 0
+  EnemyAttackSphere: {fileID: 100000, guid: 019fd4ee6839d45e793f5b406f11f8c3, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
