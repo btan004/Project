@@ -241,7 +241,7 @@ public class GameGUI : MonoBehaviour {
 			Powerup powerup = playerScript.ActivePowerups[i];
 			
 			GUI.DrawTexture(powerupDisplayRect, PowerupInfo.GetIcon(powerup.Type));
-			GUI.Label(powerupTextDisplayRect, "+" + powerup.Amount.ToString("F1") + " for " + powerup.Amount.ToString("F2") + " seconds");
+			GUI.Label(powerupTextDisplayRect, "+" + powerup.Amount.ToString("F1") + " for " + powerup.Duration.ToString("F2") + " seconds");
 			powerupDisplayRect.y += 68;
 			powerupTextDisplayRect.y += 68;
 		}

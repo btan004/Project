@@ -4,7 +4,7 @@ using System.Collections;
 public class LandmineScript : MonoBehaviour {
 
 	public float Damage = 30;
-	public float ExplosionDuration = 5f;
+	public float ExplosionDuration = 2f;
 	private float explosionTimer;
 	private bool exploding;
 

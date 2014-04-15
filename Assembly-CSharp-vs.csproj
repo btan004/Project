@@ -50,10 +50,12 @@
      <Compile Include="Assets\Scripts\Game\Map\ObjectFactory.cs" />
      <Compile Include="Assets\Scripts\Game\Map\PowerupInfo.cs" />
      <Compile Include="Assets\Scripts\Game\Map\SpawnScript.cs" />
+     <Compile Include="Assets\Scripts\Game\Player\AuraAttackScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\CameraScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\CursorScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\HitboxScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\InputHandler.cs" />
+     <Compile Include="Assets\Scripts\Game\Player\MeleeAttackBoxScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\PickupRadiusScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\PlayerScript.cs" />
      <Compile Include="Assets\Scripts\Game\Player\Skills\Skill.cs" />
