@@ -12,6 +12,9 @@ public class InputHandler {
 	public bool		WantToSkillShot;
 	public bool		WantToQuit;
 
+	//Debug variables
+	public bool		WantToSpawnEnemy;
+
 	// Use this for initialization
 	public InputHandler () {
 		MovementVector = Vector3.zero;
@@ -29,7 +32,7 @@ public class InputHandler {
 		CheckMeleeAttack();
 		CheckAura();
 		CheckSkillShot();
-
+		CheckForSpawningButton();
 	}
 
 	//supports: xbox controller and keyboard
@@ -92,6 +95,12 @@ public class InputHandler {
 	private void CheckForQuit()
 	{
 		WantToQuit = Input.GetKey("escape");
+	}
+
+	//On button press, set up bool so it will spawn enemies in SpawnScript.cs
+	private void CheckForSpawningButton()
+	{
+		WantToSpawnEnemy = Input.GetButton("Spawn Debug");
 	}
 	
 }

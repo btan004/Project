@@ -18,7 +18,7 @@ public class LandmineScript : MonoBehaviour {
 			else if (mesh.name == "Trigger")
 				mesh.material.color = new Color(186f / 255f, 93f / 255f, 104f / 255f);
 		}
-
+		print ("I'm attached to " + transform.name);
 		exploding = false;
 	}
 	

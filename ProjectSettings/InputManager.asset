@@ -164,3 +164,19 @@ InputManager:
     type: 0
     axis: 1
     joyNum: 1
+  - serializedVersion: 3
+    m_Name: Spawn Debug
+    descriptiveName: Spawn random enemy on button press
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: l
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1000
+    dead: .00100000005
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0

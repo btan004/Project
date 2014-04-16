@@ -3,11 +3,18 @@ using System.Collections;
 
 public class SpawnScript : MonoBehaviour {
 
+	//Debugging spawning option
+	private InputHandler inputHandler;
+
 	//Spawn Data
 	public float Wave = 1;
 	public float SpawnRate = 10;
 	public float TimeUntilNextWave;
 	public float EnemiesRemaining = 10;
+
+	//Minimum range that enemies must spawn away from player
+	//E.g, if player.x = 20 and range is 5, enemy must spawn at x position > 25 or < 15
+	public float minimumSpawnRange = 6;
 
 	//Powerup Data
 	public int MaxNumberOfPowerups = 100;
@@ -26,17 +33,21 @@ public class SpawnScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-			
+		inputHandler = new InputHandler ();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		inputHandler.Update ();
+
 		//Handle powerup spawning
 		SpawnPowerups();
 
 		//Handle trap spawning
 		SpawnTraps();
+
+		SpawnEnemyDebug ();
 	}
 
 	private void SpawnPowerups()
@@ -114,6 +125,27 @@ public class SpawnScript : MonoBehaviour {
 			//we are not ready to spawn another trap
 			//so we decrement the timer
 			timeUntilNextTrapSpawn -= Time.deltaTime;
+		}
+	}
+
+	private void SpawnEnemy()
+	{
+		GameObject player = GameObject.Find ("Player");
+		Vector3 spawnPos = MapInfo.GetRandomPointOnMap ();
+		Vector3 playerPos = player.transform.position;
+		if( Mathf.Abs(playerPos.x - spawnPos.x) > minimumSpawnRange )
+		{
+			ObjectFactory.CreateDebugEnemy(spawnPos);
+		}
+	}
+
+	private void SpawnEnemyDebug()
+	{
+		//If the spawn button is pressed
+		if (inputHandler.WantToSpawnEnemy)
+		{
+			//Function to spawn the enemy
+			SpawnEnemy();
 		}
 	}
 }

@@ -14,6 +14,9 @@ public class ObjectFactory : MonoBehaviour {
 	public GameObject SlimeTrapPrefab;
 	public GameObject LandminePrefab;
 
+	/* Enemies */
+	public GameObject DebugEnemyPrefab;
+
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -122,5 +125,15 @@ public class ObjectFactory : MonoBehaviour {
 
 		//return the landmine
 		return landmine;
+	}
+
+	public static DebugEnemyScript CreateDebugEnemy(Vector3 position)
+	{
+		//Instantiate enemy
+		DebugEnemyScript enemy = (Object.Instantiate (instance.DebugEnemyPrefab, position, Quaternion.identity) as GameObject).GetComponent<DebugEnemyScript> ();
+
+		enemy.Lifetime = 60f;
+
+		return enemy;
 	}
 }
