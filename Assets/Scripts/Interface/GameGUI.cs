@@ -9,17 +9,17 @@ public class GameGUI : MonoBehaviour {
 
 	//font
 	private Font			font;
-	private string			fontPath								= "Assets/Resources/Fonts/FreePixel.ttf";
+	private string			fontPath					= "Assets/Resources/Fonts/FreePixel.ttf";
 
 	//lives
 	private Texture2D 	heartTexture;
 	private Texture2D 	greyHeartTexture;
-	private string 		heartTexturePath					= "Assets/Resources/Textures/Hearts/Heart.png";
-	private string 		greyHeartTexturePath				= "Assets/Resources/Textures/Hearts/GreyHeart.png";
+	private string 		heartTexturePath				= "Assets/Resources/Textures/Hearts/Heart.png";
+	private string 		greyHeartTexturePath			= "Assets/Resources/Textures/Hearts/GreyHeart.png";
 
 	//scroll bars
-	private GUIStyle		progressBarStyle;
-	private float			progressBarTextOffset;
+	private GUIStyle	progressBarStyle;
+	private float		progressBarTextOffset;
 	private ProgressBar	healthBar;
 	private ProgressBar	staminaBar;
 	private ProgressBar	auraBar;
@@ -30,15 +30,15 @@ public class GameGUI : MonoBehaviour {
 	private ProgressBar pickupRadiusBar;
 	private ProgressBar powerupBar;
 
-	private string 		progressBarBackPath 				= "Assets/Resources/Textures/ProgressBar/Back.png";
+	private string 		progressBarBackPath 			= "Assets/Resources/Textures/ProgressBar/Back.png";
 	private string 		progressBarYellowPath 			= "Assets/Resources/Textures/ProgressBar/YellowBar.png";
 	private string 		progressBarRedPath 				= "Assets/Resources/Textures/ProgressBar/RedBar.png";
-	private string			progressBarBluePath				= "Assets/Resources/Textures/ProgressBar/BlueBar.png";
-	private string			progressBarGreenPath				= "Assets/Resources/Textures/ProgressBar/GreenBar.png";
-	private string			progressBarProgressGreyPath	= "Assets/Resources/Textures/ProgressBar/GreyBar.png";
+	private string		progressBarBluePath				= "Assets/Resources/Textures/ProgressBar/BlueBar.png";
+	private string		progressBarGreenPath			= "Assets/Resources/Textures/ProgressBar/GreenBar.png";
+	private string		progressBarProgressGreyPath		= "Assets/Resources/Textures/ProgressBar/GreyBar.png";
 	private string 		progressBarCoverPath 			= "Assets/Resources/Textures/ProgressBar/Cover.png";
-	private string			progressBarDarkGreyPath			= "Assets/Resources/Textures/ProgressBar/DarkGreyBar.png";
-	private string			progressBarPurplePath			= "Assets/Resources/Textures/ProgressBar/PurpleBar.png";
+	private string		progressBarDarkGreyPath			= "Assets/Resources/Textures/ProgressBar/DarkGreyBar.png";
+	private string		progressBarPurplePath			= "Assets/Resources/Textures/ProgressBar/PurpleBar.png";
 
 	//load resources for the gui
 	void Start()
@@ -122,13 +122,28 @@ public class GameGUI : MonoBehaviour {
 			progressBarStyle,
 			progressBarTextOffset);
 
+		spawnScript = GameObject.Find ("Spawner").gameObject.GetComponent<SpawnScript> ();
 	}
-	
+
+	void DisplaySpawnInfo()
+	{
+		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Wave: " + spawnScript.Wave);
+		if (spawnScript.EnemiesRemaining == 0)
+		{
+			GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.TimeUntilNextWave);
+		}
+		else
+		{
+			GUI.Label(new Rect((Screen.width / 2) - 80, 35, 200, 20), "Enemies Remaining: " + spawnScript.EnemiesRemaining);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
 		if (playerScript.RanOutOfStamina) staminaBar.GreyOut(true);
 		else staminaBar.GreyOut(false);
+
 
 		/*
 		if (PlayerScript.IsAuraActive || PlayerScript.IsAuraReady) 
@@ -229,5 +244,6 @@ public class GameGUI : MonoBehaviour {
 			"",
 			""
 		);
+		DisplaySpawnInfo ();
 	}
 }

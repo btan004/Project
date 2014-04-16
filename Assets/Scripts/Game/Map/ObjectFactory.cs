@@ -132,7 +132,7 @@ public class ObjectFactory : MonoBehaviour {
 		//Instantiate enemy
 		DebugEnemyScript enemy = (Object.Instantiate (instance.DebugEnemyPrefab, position, Quaternion.identity) as GameObject).GetComponent<DebugEnemyScript> ();
 
-		enemy.Lifetime = 60f;
+		enemy.Lifetime = 3f;
 
 		return enemy;
 	}

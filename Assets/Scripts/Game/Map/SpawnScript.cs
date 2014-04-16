@@ -9,8 +9,9 @@ public class SpawnScript : MonoBehaviour {
 	//Spawn Data
 	public float Wave = 1;
 	public float SpawnRate = 10;
-	public float TimeUntilNextWave;
-	public float EnemiesRemaining = 10;
+	public float WaveSpawnTime = 10;		//in seconds
+	public float TimeUntilNextWave = 10;
+	public int EnemiesRemaining = 0;
 
 	//Minimum range that enemies must spawn away from player
 	//E.g, if player.x = 20 and range is 5, enemy must spawn at x position > 25 or < 15
@@ -48,6 +49,9 @@ public class SpawnScript : MonoBehaviour {
 		SpawnTraps();
 
 		SpawnEnemyDebug ();
+
+		SpawnWave ();
+		Debug.Log ("Enemies: " + EnemiesRemaining);
 	}
 
 	private void SpawnPowerups()
@@ -88,9 +92,6 @@ public class SpawnScript : MonoBehaviour {
 				//so we need to decrement the timer
 				timeUntilNextPowerupSpawn -= Time.deltaTime;
 			}
-
-
-
 		}
 	}
 
@@ -128,14 +129,21 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	private void SpawnEnemy()
+	private void SpawnEnemy( int count )
 	{
 		GameObject player = GameObject.Find ("Player");
-		Vector3 spawnPos = MapInfo.GetRandomPointOnMap ();
 		Vector3 playerPos = player.transform.position;
-		if( Mathf.Abs(playerPos.x - spawnPos.x) > minimumSpawnRange )
+
+		for( int i = 0; i < count; ++i )
 		{
+			Vector3 spawnPos = MapInfo.GetRandomPointOnMap ();
+
+			while( Mathf.Abs(playerPos.x - spawnPos.x) <= minimumSpawnRange || Mathf.Abs(playerPos.z - spawnPos.z) <= minimumSpawnRange )
+			{
+				spawnPos = MapInfo.GetRandomPointOnMap();
+			}
 			ObjectFactory.CreateDebugEnemy(spawnPos);
+			++EnemiesRemaining;
 		}
 	}
 
@@ -145,7 +153,22 @@ public class SpawnScript : MonoBehaviour {
 		if (inputHandler.WantToSpawnEnemy)
 		{
 			//Function to spawn the enemy
-			SpawnEnemy();
+			SpawnEnemy(1);
+		}
+	}
+
+	private void SpawnWave()
+	{
+		if (EnemiesRemaining == 0)
+		{
+			TimeUntilNextWave -= Time.deltaTime;
+
+			if (TimeUntilNextWave <= 0)
+			{
+				SpawnEnemy(12);
+				TimeUntilNextWave = 10;
+				++Wave;
+			}
 		}
 	}
 }

@@ -4,7 +4,8 @@ using System.Collections;
 public class DebugEnemyScript : MonoBehaviour {
 
 	//Lifetime in seconds
-	public float Lifetime = 60f;
+	public float Lifetime = 3f;
+	public SpawnScript spawnScript;
 
 	// Use this for initialization
 	void Start () 
@@ -16,7 +17,7 @@ public class DebugEnemyScript : MonoBehaviour {
 			else if (mesh.name == "Head")
 				mesh.material.color = new Color(186f / 255f, 93f / 255f, 104f / 255f);
 		}
-
+		spawnScript = GameObject.Find ("Spawner").gameObject.GetComponent<SpawnScript> ();
 	}
 	
 	// Update is called once per frame
@@ -26,6 +27,7 @@ public class DebugEnemyScript : MonoBehaviour {
 		if( Lifetime <= 0 )
 		{
 			Destroy(this.gameObject);
+			spawnScript.EnemiesRemaining--;
 		}
 	}
 }

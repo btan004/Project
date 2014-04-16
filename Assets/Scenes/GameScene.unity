@@ -59415,6 +59415,10 @@ Prefab:
       propertyPath: PowerupSpawnRateMax
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 902c9a2b4b98c7b4f985cef4933b7562, type: 2}
+      propertyPath: EnemiesRemaining
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 902c9a2b4b98c7b4f985cef4933b7562, type: 2}
   m_RootGameObject: {fileID: 1794454830}
@@ -103839,8 +103843,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wave: 1
   SpawnRate: 10
+  WaveSpawnTime: 10
   TimeUntilNextWave: 10
-  EnemiesRemaining: 10
+  EnemiesRemaining: 0
   minimumSpawnRange: 6
   MaxNumberOfPowerups: 100
   NumberOfPowerups: 0
