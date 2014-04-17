@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlayerScript : MonoBehaviour {
 
 	//player input
-	private InputHandler		inputHandler;
+	public InputHandler		inputHandler;
 
 	//player stats
 	public int					Score = 0;
@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour {
 		Stamina = Mathf.Clamp(Stamina + staminaFromPowerups, 0, TotalStamina);
 
 		//Check if the player wants to end the game
-		if (inputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
+		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
 	}
 
 	private void UpdateActivePowerups()
@@ -128,12 +128,12 @@ public class PlayerScript : MonoBehaviour {
 	private void CheckForMovement()
 	{
 		//apply it to the player
-		Vector3 newMovement = inputHandler.MovementVector * Velocity * movespeedFromPowerups * Time.deltaTime;
+		Vector3 newMovement = InputHandler.MovementVector * Velocity * movespeedFromPowerups * Time.deltaTime;
 
 		FinalMoveSpeed = Velocity * movespeedFromPowerups;
 
 		//if the player wants to sprint
-		if (inputHandler.WantToSprint)
+		if (InputHandler.WantToSprint)
 		{
 			//and they run out of stamina
 			if (Stamina <= 0)
@@ -193,7 +193,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		//if we are not attacking anymore
-		if (!IsAttacking && inputHandler.WantToAttack && Stamina > StaminaToAttack)
+		if (!IsAttacking && InputHandler.WantToAttack && Stamina > StaminaToAttack)
 		{
 			//attack: use up stamina and reset our attack cooldown
 			IsAttacking = true;
@@ -215,7 +215,7 @@ public class PlayerScript : MonoBehaviour {
 		IsAuraReady = (!IsAuraActive && auraCooldownTimer <= 0 && Stamina > AuraCost);
 
 		//if we want to use the aura and it is ready
-		if (inputHandler.WantToAura && IsAuraReady)
+		if (InputHandler.WantToAura && IsAuraReady)
 		{
 			//set aura to active, use up our stamina, and reset the aura duration timer
 			IsAuraActive = true;
@@ -255,7 +255,7 @@ public class PlayerScript : MonoBehaviour {
 		IsSkillShotReady = (!IsSkillShotActive && skillShotCooldownTimer <= 0 && Stamina > SkillShotCost);
 
 		//if we want to use the skill shot and it is ready
-		if (inputHandler.WantToSkillShot && IsSkillShotReady)
+		if (InputHandler.WantToSkillShot && IsSkillShotReady)
 		{
 			//use the skill shot: set active, use up stamina, and reset the cooldown timer
 			IsSkillShotActive = true;

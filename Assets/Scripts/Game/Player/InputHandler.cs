@@ -4,13 +4,13 @@ using System.Collections;
 public class InputHandler {
 
 	//Input
-	public Vector3 MovementVector;
-	public Vector3 DirectionVector;
-	public bool		WantToSprint;
-	public bool		WantToAttack;
-	public bool		WantToAura;
-	public bool		WantToSkillShot;
-	public bool		WantToQuit;
+	public static Vector3 MovementVector;
+	public static Vector3 DirectionVector;
+	public static bool		WantToSprint;
+	public static bool		WantToAttack;
+	public static bool		WantToAura;
+	public static bool		WantToSkillShot;
+	public static bool		WantToQuit;
 
 	//Debug variables
 	public bool		WantToSpawnEnemy;
@@ -40,14 +40,20 @@ public class InputHandler {
 	{		
 		//check for changes in our movement
 		MovementVector = Vector3.zero;
+		/*
 		if (Input.GetAxis("Horizontal Movement") < -.5		|| Input.GetAxis("Horizontal Movement KB") < 0)
 			MovementVector += Vector3.left;
 		if (Input.GetAxis("Horizontal Movement") > .5		|| Input.GetAxis("Horizontal Movement KB") > 0)
 			MovementVector += Vector3.right;
-		if (Input.GetAxis("Vertical Movement") < -.5			|| Input.GetAxis("Vertical Movement KB") > 0)
+		if (Input.GetAxis("Vertical Movement") < -.5		|| Input.GetAxis("Vertical Movement KB") > 0)
 			MovementVector += Vector3.forward;
 		if (Input.GetAxis("Vertical Movement") > .5			|| Input.GetAxis("Vertical Movement KB") < 0)
 			MovementVector += Vector3.back;
+			*/
+		if (Input.GetAxis("Horizontal Movement") < -.5 || Input.GetAxis("Horizontal Movement") > .5)
+			MovementVector.x = Input.GetAxis("Horizontal Movement");
+		if (Input.GetAxis("Vertical Movement") < -.5 || Input.GetAxis("Vertical Movement") > .5)
+			MovementVector.z = -1 * Input.GetAxis ("Vertical Movement");
 		MovementVector.Normalize();
 		
 	}
@@ -57,10 +63,16 @@ public class InputHandler {
 	{
 		//check for changes in our direction
 		DirectionVector = Vector3.zero;
-		if (Input.GetAxis("Horizontal Direction") < -.5)	DirectionVector += Vector3.left;
-		if (Input.GetAxis("Horizontal Direction") > .5)		DirectionVector += Vector3.right;
-		if (Input.GetAxis("Vertical Direction") > -.5)		DirectionVector += Vector3.forward;
-		if (Input.GetAxis("Vertical Direction") < .5)		DirectionVector += Vector3.back;
+		/*
+		if (Input.GetAxis("Horizontal Direction") < -.5)	DirectionVector.x += Input.GetAxis("Horizontal Direction");
+		if (Input.GetAxis("Horizontal Direction") > .5)		DirectionVector.x -= Input.GetAxis("Horizontal Direction");
+		if (Input.GetAxis ("Vertical Direction") > -.5)		DirectionVector.y += Input.GetAxis ("Vertical Direction");
+		if (Input.GetAxis ("Vertical Direction") < .5) 		DirectionVector.y -= Input.GetAxis ("Vertical Direction");
+		*/
+		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > .3)
+			DirectionVector.x = Input.GetAxis ("Horizontal Direction");
+		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > .3)
+			DirectionVector.z = -1 * Input.GetAxis ("Vertical Direction");
 		DirectionVector.Normalize();
 	}
 

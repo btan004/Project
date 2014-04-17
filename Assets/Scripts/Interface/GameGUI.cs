@@ -25,10 +25,12 @@ public class GameGUI : MonoBehaviour {
 	private ProgressBar	auraBar;
 	private ProgressBar	skillShotBar;
 
-	private ProgressBar experienceBar;
-	private ProgressBar movementSpeedBar;
-	private ProgressBar pickupRadiusBar;
-	private ProgressBar powerupBar;
+	private ProgressBar	experienceBar;
+	private ProgressBar	movementSpeedBar;
+	private ProgressBar	pickupRadiusBar;
+	private ProgressBar	powerupBar;
+
+	public int				MaxPowerupsToDisplay				= 10;
 
 	private string 		progressBarBackPath 			= "Assets/Resources/Textures/ProgressBar/Back.png";
 	private string 		progressBarYellowPath 			= "Assets/Resources/Textures/ProgressBar/YellowBar.png";
@@ -244,6 +246,22 @@ public class GameGUI : MonoBehaviour {
 			"",
 			""
 		);
+
 		DisplaySpawnInfo ();
+		
+		//display powerups
+		int powerupsToDisplay = Mathf.Min(playerScript.ActivePowerups.Count, MaxPowerupsToDisplay);
+		Rect powerupDisplayRect = new Rect(Screen.width - 250, 50, 60, 60);
+		Rect powerupTextDisplayRect = new Rect(powerupDisplayRect.x + 70, powerupDisplayRect.y, 200, 60);
+		for (int i = 0; i < powerupsToDisplay; i++)
+		{
+			Powerup powerup = playerScript.ActivePowerups[i];
+			
+			GUI.DrawTexture(powerupDisplayRect, PowerupInfo.GetIcon(powerup.Type));
+			GUI.Label(powerupTextDisplayRect, "+" + powerup.Amount.ToString("F1") + " for " + powerup.Duration.ToString("F2") + " seconds");
+			powerupDisplayRect.y += 68;
+			powerupTextDisplayRect.y += 68;
+		}
+
 	}
 }

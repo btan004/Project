@@ -11,6 +11,8 @@ public class PowerupInfo : MonoBehaviour
 	public static float HealthMaxAmount = 100f;
 
 	/* Health Regen Powerup */
+	private static Texture2D healthRegenIcon;
+	private static string healthRegenIconPath = "Assets/Resources/Textures/Icons/RedPlusPowerup.png";
 	public static Color HealthRegenParticleColor = Color.white;
 	public static float HealthRegenMinAmount = 1f;
 	public static float HealthRegenMaxAmount = 10f;
@@ -23,6 +25,8 @@ public class PowerupInfo : MonoBehaviour
 	public static float StaminaMaxAmount = 5f;
 
 	/* Stamina Regen Powerup */
+	private static Texture2D staminaRegenIcon;
+	private static string staminaRegenIconPath = "Assets/Resources/Textures/Icons/YellowPlusPowerup.png";
 	public static Color StaminaRegenParticleColor = Color.white;
 	public static float StaminaRegenMinAmount = .5f;
 	public static float StaminaRegenMaxAmount = 2f;
@@ -35,6 +39,8 @@ public class PowerupInfo : MonoBehaviour
 	public static float ExperienceMaxAmount = 30f;
 
 	/* Movespeed Powerup */
+	private static Texture2D movespeedIcon;
+	private static string movementSpeedIconPath = "Assets/Resources/Textures/Icons/PurplePlusPowerup.png";
 	public static Color MovementSpeedColor = new Color(92f / 255f, 33f / 255f, 169f / 255f);
 	public static float MovementSpeedMinAmount = 20f;
 	public static float MovementSpeedMaxAmount = 50f;
@@ -97,4 +103,39 @@ public class PowerupInfo : MonoBehaviour
 		return c;
 	}
 
+	public static Texture2D GetHealthRegenIcon()
+	{
+		if (healthRegenIcon == null)
+			healthRegenIcon = Resources.LoadAssetAtPath<Texture2D>(healthRegenIconPath);
+		return healthRegenIcon;
+	}
+
+	public static Texture2D GetStaminaRegenIcon()
+	{
+		if (staminaRegenIcon == null)
+			staminaRegenIcon = Resources.LoadAssetAtPath<Texture2D>(staminaRegenIconPath);
+		return staminaRegenIcon;
+	}
+
+	public static Texture2D GetMovespeedIcon()
+	{
+		if (movespeedIcon == null)
+			movespeedIcon = Resources.LoadAssetAtPath<Texture2D>(movementSpeedIconPath);
+		return movespeedIcon;
+	}
+
+	public static Texture2D GetIcon(PowerupType type)
+	{
+		switch (type)
+		{
+			case (PowerupType.HealthRegen):
+				return GetHealthRegenIcon();
+			case (PowerupType.StaminaRegen):
+				return GetStaminaRegenIcon();
+			case (PowerupType.MovementSpeed):
+				return GetMovespeedIcon();
+		}
+
+		return null;
+	}
 }
