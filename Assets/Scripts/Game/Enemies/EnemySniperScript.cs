@@ -33,6 +33,8 @@ public class EnemySniperScript : EnemyBaseScript {
 		AttackRate = 1;
 		NextAttack = AttackRate;
 		AttackDistance = 10;
+
+		renderer.material.color = new Color(1f, 165f / 255f, 0f);
 	}
 	
 	// Update is called once per frame
@@ -42,6 +44,9 @@ public class EnemySniperScript : EnemyBaseScript {
 		
 		// Move Enemy
 		MoveEnemy ();
+
+		//
+		ApplyKnockback();
 
 		// Rotate enemy towards player
 		RotateEnemy ();

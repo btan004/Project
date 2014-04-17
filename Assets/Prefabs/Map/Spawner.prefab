@@ -42,11 +42,14 @@ MonoBehaviour:
   SpawnRate: 10
   TimeUntilNextWave: 10
   EnemiesRemaining: 10
-  Powerup: {fileID: 0}
   MaxNumberOfPowerups: 100
   NumberOfPowerups: 0
-  SpawnRateMin: .100000001
-  SpawnRateMax: .200000003
+  PowerupSpawnRateMin: 2
+  PowerupSpawnRateMax: 5
+  MaxNumberOfTraps: 100
+  NumberOfTraps: 0
+  TrapSpawnRateMin: 2
+  TrapSpawnRateMax: 5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

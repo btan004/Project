@@ -11,6 +11,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 	//Enemy Attack
 	public bool IsAttacking;
 	public float AttackPower;
+	public float Force;
 	public float AttackRate;
 	public float NextAttack;
 	public float AttackDistance;
@@ -30,9 +31,13 @@ public class EnemyChaserScript : EnemyBaseScript {
 		// Attack
 		IsAttacking = false;
 		AttackPower = 10;
+		Force = 10f;
 		AttackRate = 3;
 		AttackDistance = 2;
 		NextAttack = AttackRate;
+
+		renderer.material.color = Color.green;
+		mass = 20;
 	}
 	
 	// Update is called once per frame
@@ -43,6 +48,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 		// Move Enemy
 		MoveEnemy ();
+
+		//apply knockback
+		ApplyKnockback();
 
 		// Rotate enemy towards player
 		RotateEnemy ();
@@ -97,15 +105,16 @@ public class EnemyChaserScript : EnemyBaseScript {
 		}
 	}
 
-	public void StopAndAttack (){
+	public void StopAndAttack () {
+		NextAttack = NextAttack - Time.deltaTime;
 		if (IsWithinAttackRange ()) {
-			NextAttack = NextAttack - Time.deltaTime;
 			if(NextAttack <= 0){
 				NextAttack = AttackRate;
 				Vector3 createPosition = transform.position + transform.forward;
 				GameObject attack = Instantiate(EnemyAttackSphere) as GameObject;
 				attack.transform.position = createPosition;
 				attack.GetComponent<EnemyAttackSphereScript>().SetDamage(AttackPower);
+				attack.GetComponent<EnemyAttackSphereScript>().SetForce(Force);
 			}
 		}
 	}

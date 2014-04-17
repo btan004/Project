@@ -37,22 +37,11 @@ public class InputHandler {
 	{		
 		//check for changes in our movement
 		MovementVector = Vector3.zero;
-		/*
-		if (Input.GetAxis("Horizontal Movement") < -.5		|| Input.GetAxis("Horizontal Movement KB") < 0)
-			MovementVector += Vector3.left;
-		if (Input.GetAxis("Horizontal Movement") > .5		|| Input.GetAxis("Horizontal Movement KB") > 0)
-			MovementVector += Vector3.right;
-		if (Input.GetAxis("Vertical Movement") < -.5		|| Input.GetAxis("Vertical Movement KB") > 0)
-			MovementVector += Vector3.forward;
-		if (Input.GetAxis("Vertical Movement") > .5			|| Input.GetAxis("Vertical Movement KB") < 0)
-			MovementVector += Vector3.back;
-			*/
 		if (Input.GetAxis("Horizontal Movement") < -.5 || Input.GetAxis("Horizontal Movement") > .5)
 			MovementVector.x = Input.GetAxis("Horizontal Movement");
 		if (Input.GetAxis("Vertical Movement") < -.5 || Input.GetAxis("Vertical Movement") > .5)
 			MovementVector.z = -1 * Input.GetAxis ("Vertical Movement");
 		MovementVector.Normalize();
-		
 	}
 
 	//supports: xbox controller
@@ -60,12 +49,6 @@ public class InputHandler {
 	{
 		//check for changes in our direction
 		DirectionVector = Vector3.zero;
-		/*
-		if (Input.GetAxis("Horizontal Direction") < -.5)	DirectionVector.x += Input.GetAxis("Horizontal Direction");
-		if (Input.GetAxis("Horizontal Direction") > .5)		DirectionVector.x -= Input.GetAxis("Horizontal Direction");
-		if (Input.GetAxis ("Vertical Direction") > -.5)		DirectionVector.y += Input.GetAxis ("Vertical Direction");
-		if (Input.GetAxis ("Vertical Direction") < .5) 		DirectionVector.y -= Input.GetAxis ("Vertical Direction");
-		*/
 		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > .3)
 			DirectionVector.x = Input.GetAxis ("Horizontal Direction");
 		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > .3)
@@ -76,7 +59,7 @@ public class InputHandler {
 	//supports xbox controller and keyboard
 	private void CheckSprint()
 	{
-		if (Input.GetButton("Sprint"))
+		if ((Input.GetAxis("Sprint") > 0.5f))
 			WantToSprint = true;
 		else
 			WantToSprint = false;
@@ -85,19 +68,19 @@ public class InputHandler {
 	//supports: xbox controller
 	private void CheckMeleeAttack()
 	{
-		WantToAttack = Input.GetButton("Attack");
+		WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
 	}
 
 	//supports: xbox controller
 	private void CheckAura()
 	{
-		WantToAura = (Input.GetAxis("Aura") > 0.5f);
+		WantToAura = Input.GetButton("Aura");
 	}
 
 	//supports: xbox controller
 	private void CheckSkillShot()
 	{
-		WantToSkillShot = (Input.GetAxis("Skill Shot") < -0.5f);
+		WantToSkillShot = Input.GetButton("Skill Shot");
 	}
 
 	//supports: keyboard

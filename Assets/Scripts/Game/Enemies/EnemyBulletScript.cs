@@ -7,9 +7,13 @@ public class EnemyBulletScript : MonoBehaviour {
 	public float Velocity;
 	public float Damage;
 	public Vector3 Direction;
+	public float Force;
 
 	// Use this for initialization
 	void Start () {
+		//bullet force
+		Force = 10f;
+
 		//Bullet color
 		this.renderer.material.color = Color.cyan;
 
@@ -76,6 +80,7 @@ public class EnemyBulletScript : MonoBehaviour {
 			GameObject player = GameObject.FindGameObjectWithTag("Player");
 			PlayerScript playerScript = player.GetComponent<PlayerScript>();
 			playerScript.ApplyDamage(Damage);
+			playerScript.AddKnockback(playerScript.transform.position - this.transform.position, Force);
 			Destroy(gameObject);
 		}
 	}
