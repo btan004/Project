@@ -54189,8 +54189,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: -50
   Damage: 10
-  TimeOff: 5
-  TimeOn: 5
+  TimeOff: 1
+  TimeOn: 3
 --- !u!1 &786135297
 GameObject:
   m_ObjectHideFlags: 0
@@ -62661,6 +62661,10 @@ Prefab:
       propertyPath: PowerupSpawnRateMax
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 902c9a2b4b98c7b4f985cef4933b7562, type: 2}
+      propertyPath: EnemiesRemaining
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 902c9a2b4b98c7b4f985cef4933b7562, type: 2}
   m_RootGameObject: {fileID: 1794454830}
@@ -64055,8 +64059,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: 500
   Damage: 10
-  TimeOff: 5
-  TimeOn: 5
+  TimeOff: 1
+  TimeOn: 3
 --- !u!1 &1001848565
 GameObject:
   m_ObjectHideFlags: 0
@@ -83002,8 +83006,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: 250
   Damage: 10
-  TimeOff: 5
-  TimeOn: 5
+  TimeOff: 1
+  TimeOn: 3
 --- !u!1 &1413586407
 GameObject:
   m_ObjectHideFlags: 0
@@ -106256,7 +106260,9 @@ MonoBehaviour:
   IsAttacking: 0
   AttackPower: 0
   AttackRate: 0
+  NextAttack: 0
   AttackDistance: 0
+  EnemyAttackSphere: {fileID: 100000, guid: 019fd4ee6839d45e793f5b406f11f8c3, type: 2}
 --- !u!23 &1752265361
 Renderer:
   m_ObjectHideFlags: 0
@@ -108762,8 +108768,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wave: 1
   SpawnRate: 10
+  WaveSpawnTime: 10
   TimeUntilNextWave: 10
-  EnemiesRemaining: 10
+  EnemiesRemaining: 0
+  minimumSpawnRange: 6
   MaxNumberOfPowerups: 100
   NumberOfPowerups: 0
   PowerupSpawnRateMin: 1
@@ -108797,6 +108805,7 @@ MonoBehaviour:
   PowerupPrefab: {fileID: 100010, guid: 26027f36e8a3cf542856c2bfcd640e5f, type: 2}
   SlimeTrapPrefab: {fileID: 100000, guid: 7e3c070bac8d16847a63d5e8c42c56c3, type: 2}
   LandminePrefab: {fileID: 100000, guid: 96036ccf5aa134c4da79ab7c2f229156, type: 2}
+  DebugEnemyPrefab: {fileID: 100000, guid: b88d1989725877c4bb5f7eb8e834e3a3, type: 2}
 --- !u!1 &1794512642
 GameObject:
   m_ObjectHideFlags: 0
@@ -120196,8 +120205,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: 50
   Damage: 10
-  TimeOff: 5
-  TimeOn: 5
+  TimeOff: 1
+  TimeOn: 3
 --- !u!1 &1968161136
 GameObject:
   m_ObjectHideFlags: 0

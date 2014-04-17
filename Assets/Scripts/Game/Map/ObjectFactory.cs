@@ -15,7 +15,13 @@ public class ObjectFactory : MonoBehaviour {
 	public GameObject LandminePrefab;
 
 	/* Enemies */
+
+	//A testing enemy to debug spawning
 	public GameObject DebugEnemyPrefab;
+
+	//Enemies to be included in real game
+	public GameObject EnemyChaserPrefab;
+	public GameObject EnemySniperPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -132,8 +138,22 @@ public class ObjectFactory : MonoBehaviour {
 		//Instantiate enemy
 		DebugEnemyScript enemy = (Object.Instantiate (instance.DebugEnemyPrefab, position, Quaternion.identity) as GameObject).GetComponent<DebugEnemyScript> ();
 
-		enemy.Lifetime = 3f;
+		return enemy;
+	}
 
+	public static EnemyChaserScript CreateEnemyChaser(Vector3 position)
+	{
+		//Instantiate enemy
+		EnemyChaserScript enemy = (Object.Instantiate (instance.EnemyChaserPrefab, position, Quaternion.identity) as GameObject).GetComponent<EnemyChaserScript> ();
+		
+		return enemy;
+	}
+
+	public static EnemySniperScript CreateEnemySniper(Vector3 position)
+	{
+		//Instantiate enemy
+		EnemySniperScript enemy = (Object.Instantiate (instance.EnemySniperPrefab, position, Quaternion.identity) as GameObject).GetComponent<EnemySniperScript> ();
+		
 		return enemy;
 	}
 }

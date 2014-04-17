@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SpawnScript : MonoBehaviour {
 
+	public enum EnemyTypes {Debugging, Chaser, Sniper};
+
 	//Debugging spawning option
 	private InputHandler inputHandler;
 
@@ -129,7 +131,7 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	private void SpawnEnemy( int count )
+	private void SpawnEnemy( int count, EnemyTypes type )
 	{
 		GameObject player = GameObject.Find ("Player");
 		Vector3 playerPos = player.transform.position;
@@ -142,7 +144,18 @@ public class SpawnScript : MonoBehaviour {
 			{
 				spawnPos = MapInfo.GetRandomPointOnMap();
 			}
-			ObjectFactory.CreateDebugEnemy(spawnPos);
+			switch(type)
+			{
+				case (EnemyTypes.Debugging):
+					ObjectFactory.CreateDebugEnemy(spawnPos);
+					break;
+				case (EnemyTypes.Chaser):
+					ObjectFactory.CreateEnemyChaser(spawnPos);
+					break;
+				case (EnemyTypes.Sniper):
+					ObjectFactory.CreateEnemySniper(spawnPos);
+					break;
+			}
 			++EnemiesRemaining;
 		}
 	}
@@ -153,7 +166,7 @@ public class SpawnScript : MonoBehaviour {
 		if (inputHandler.WantToSpawnEnemy)
 		{
 			//Function to spawn the enemy
-			SpawnEnemy(1);
+			SpawnEnemy(1, EnemyTypes.Chaser);
 		}
 	}
 
@@ -165,7 +178,8 @@ public class SpawnScript : MonoBehaviour {
 
 			if (TimeUntilNextWave <= 0)
 			{
-				SpawnEnemy(12);
+				SpawnEnemy(3, EnemyTypes.Sniper);
+				SpawnEnemy(9, EnemyTypes.Chaser);
 				TimeUntilNextWave = 10;
 				++Wave;
 			}

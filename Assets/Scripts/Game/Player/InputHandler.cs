@@ -35,12 +35,11 @@ public class InputHandler {
 		CheckForSpawningButton();
 	}
 
-	//supports: xbox controller and keyboard
+	//Supports: xbox controller and keyboard
 	private void CheckMovement()
 	{		
 		//check for changes in our movement
 		MovementVector = Vector3.zero;
-		/*
 		if (Input.GetAxis("Horizontal Movement") < -.5		|| Input.GetAxis("Horizontal Movement KB") < 0)
 			MovementVector += Vector3.left;
 		if (Input.GetAxis("Horizontal Movement") > .5		|| Input.GetAxis("Horizontal Movement KB") > 0)
@@ -49,11 +48,13 @@ public class InputHandler {
 			MovementVector += Vector3.forward;
 		if (Input.GetAxis("Vertical Movement") > .5			|| Input.GetAxis("Vertical Movement KB") < 0)
 			MovementVector += Vector3.back;
-			*/
+
+		/*
 		if (Input.GetAxis("Horizontal Movement") < -.5 || Input.GetAxis("Horizontal Movement") > .5)
 			MovementVector.x = Input.GetAxis("Horizontal Movement");
 		if (Input.GetAxis("Vertical Movement") < -.5 || Input.GetAxis("Vertical Movement") > .5)
 			MovementVector.z = -1 * Input.GetAxis ("Vertical Movement");
+		*/
 		MovementVector.Normalize();
 		
 	}
