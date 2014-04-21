@@ -7,13 +7,23 @@ public class EnemyAttackSphereScript : MonoBehaviour {
 	public float Damage;
 	public float Force;
 
+	public int lifetime;
+
 	// Use this for initialization
 	void Start () {
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		lifetime++;
+	}
+
+	void LateUpdate()
+	{
+		//if alive at the end of the frame, destroy the attack sphere
+		if (this.gameObject && lifetime > 3)
+			Destroy(this.gameObject);
 	}
 
 	// Set damage of bullets

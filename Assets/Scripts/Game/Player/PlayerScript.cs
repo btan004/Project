@@ -7,18 +7,20 @@ public class PlayerScript : MonoBehaviour {
 	//player input
 	public InputHandler		inputHandler;
 
+	//player skills and leveling
+	public PlayerSkills Skills;
+	public LevelSystem LevelSystem;
+
 	//player stats
 	public int					Score = 0;
 	public static int			Lives = 3;
 	public const int			MaxLives = 5;
 	public float				Health = 100;
-	public float				TotalHealth = 100;
+	public float				TotalHealth;
 	public float				Stamina = 10;
-	public float				TotalStamina = 10;
-	public int					Level = 1;
-	public float				Experience;
-	public float				ExperienceToNextLevel;
+	public float				TotalStamina;
 	public float				Radius = 2f;
+
 
 	//player movement
 	public float				SprintCoefficient = 5.0f;
@@ -64,11 +66,18 @@ public class PlayerScript : MonoBehaviour {
 	private float movespeedFromPowerups = 1;
 	
 
+
 	// Use this for initialization
 	void Start () {
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
-		ExperienceToNextLevel = 100;
+
+		LevelSystem = new LevelSystem();
+		Skills = LevelSystem.GetPlayerSkills();
+		Skills.AddSkillPoint();
+
+		Health = TotalHealth = Skills.GetPlayerHealth();
+		Stamina = TotalStamina = Skills.GetPlayerStamina();
 
 		renderer.material.color = Color.red;
 		knockback = new Vector3();
@@ -77,6 +86,10 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//get skill updates
+		TotalHealth = Skills.GetPlayerHealth();
+		TotalStamina = Skills.GetPlayerStamina();
+
 		//Check for user input
 		inputHandler.Update();
 
@@ -317,7 +330,7 @@ public class PlayerScript : MonoBehaviour {
 				ActivePowerups.Add(powerup);
 				break;
 			case (PowerupType.Experience):
-				Experience += (int) powerup.Amount;
+				ApplyExperience(powerup.Amount);
 				break;
 			default:
 				break;
@@ -341,5 +354,10 @@ public class PlayerScript : MonoBehaviour {
 		this.transform.position = this.transform.position + knockback;
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
+	}
+
+	public void ApplyExperience(float experience)
+	{
+		LevelSystem.ApplyExperience(experience);
 	}
 }

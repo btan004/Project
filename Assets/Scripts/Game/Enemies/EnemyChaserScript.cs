@@ -19,6 +19,8 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 	// Use this for initialization
 	public override void Start () {
+		if (!player) AssignPlayer();
+
 		// Set stats
 		Health = 200;
 		ExperienceToGive = 10;
@@ -62,9 +64,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 	// Figure out if enemy within range of player
 	public bool IsWithinAttackRange(){
 		// Find player in game
-		if (GameObject.FindGameObjectWithTag ("Player")) {
+		if (player) {
 			// Get player location
-			Vector3 playerLocation = GameObject.FindGameObjectWithTag("Player").transform.position;
+			Vector3 playerLocation = player.transform.position;
 			
 			// Get distance between player and enemy
 			float distance = Vector3.Distance (playerLocation, this.transform.position);
@@ -78,9 +80,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 	}
 
 	public void RotateEnemy() {
-		if (GameObject.FindGameObjectWithTag("Player")) {
+		if (player) {
 			// Get player location
-			Vector3 playerLocation = GameObject.FindGameObjectWithTag("Player").transform.position;
+			Vector3 playerLocation = player.transform.position;
 
 			// Set rotation step
 			float rotationStep = TurnVelocity*Time.deltaTime;
@@ -93,9 +95,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 	public void MoveEnemy() {
 		// Find player in game
-		if (GameObject.FindGameObjectWithTag("Player") && IsMoving && !IsWithinAttackRange()) {
+		if (player && IsMoving && !IsWithinAttackRange()) {
 			// Get player location
-			Vector3 playerLocation = GameObject.FindGameObjectWithTag("Player").transform.position;
+			Vector3 playerLocation = player.transform.position;
 
 			// Set movement step
 			float moveStep = Velocity*Time.deltaTime;

@@ -11,6 +11,9 @@ public class InputHandler {
 	public static bool		WantToAura;
 	public static bool		WantToSkillShot;
 	public static bool		WantToQuit;
+	public static bool		WantToSpendSkillPoint;
+	public static bool		WantToChangeSkillLeft;
+	public static bool		WantToChangeSkillRight;
 
 	// Use this for initialization
 	public InputHandler () {
@@ -29,7 +32,8 @@ public class InputHandler {
 		CheckMeleeAttack();
 		CheckAura();
 		CheckSkillShot();
-
+		CheckSpendSkillPoint();
+		CheckSkillChange();
 	}
 
 	//supports: xbox controller and keyboard
@@ -89,4 +93,21 @@ public class InputHandler {
 		WantToQuit = Input.GetKey("escape");
 	}
 	
+	private void CheckSpendSkillPoint()
+	{
+		WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
+	}
+
+	private void CheckSkillChange()
+	{
+		WantToChangeSkillLeft = false;
+		WantToChangeSkillRight = false;
+
+		if (Input.GetAxis("SkillSelect") < -.5)
+			WantToChangeSkillLeft = true;
+		if (Input.GetAxis("SkillSelect") > .5)
+			WantToChangeSkillRight = true;
+
+	}
+
 }
