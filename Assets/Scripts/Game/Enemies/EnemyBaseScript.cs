@@ -34,11 +34,16 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	// Death of enemy
 	public virtual void Death() {
+		//Give exp to player
+		player.ApplyExperience(ExperienceToGive);
+		
+		//decrement the enemy count
+		WaveSystem.EnemiesRemaining--;
+
 		//Destroy object
 		DestroyObject (this.gameObject);
 
-		//Give exp to player
-		player.ApplyExperience(ExperienceToGive);
+
 	}
 
 	public virtual void ApplyDamage(float damage)

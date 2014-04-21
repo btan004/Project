@@ -8,6 +8,8 @@ public class SpawnScript : MonoBehaviour {
 	//Debugging spawning option
 	private InputHandler inputHandler;
 
+	public WaveSystem waveSystem;
+
 	//Spawn Data
 	public float Wave = 1;
 	public float SpawnRate = 10;
@@ -37,6 +39,7 @@ public class SpawnScript : MonoBehaviour {
 	void Start () 
 	{
 		inputHandler = new InputHandler ();
+		waveSystem = new WaveSystem (this);
 	}
 	
 	// Update is called once per frame
@@ -50,9 +53,12 @@ public class SpawnScript : MonoBehaviour {
 		//Handle trap spawning
 		SpawnTraps();
 
-		SpawnEnemyDebug ();
+		//wave system
+		waveSystem.update ();
 
-		SpawnWave ();
+		//SpawnEnemyDebug ();
+
+		//SpawnWave ();
 	}
 
 	private void SpawnPowerups()
@@ -130,7 +136,7 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	private void SpawnEnemy( int count, EnemyTypes type )
+	public void SpawnEnemy( int count, EnemyTypes type )
 	{
 		GameObject player = GameObject.Find ("Player");
 		Vector3 playerPos = player.transform.position;

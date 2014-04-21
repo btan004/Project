@@ -88,7 +88,7 @@ MonoBehaviour:
   TurnVelocity: 0
   IsAttacking: 0
   AttackPower: 0
-  Force: 0
+  Force: 2
   AttackRate: 0
   NextAttack: 0
   AttackDistance: 0

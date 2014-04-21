@@ -67935,6 +67935,14 @@ Prefab:
       propertyPath: AttackDamage
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: b150b33370e5fe140a2251b1edac774d, type: 2}
+      propertyPath: Velocity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: b150b33370e5fe140a2251b1edac774d, type: 2}
+      propertyPath: SprintCoefficient
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b150b33370e5fe140a2251b1edac774d, type: 2}
   m_RootGameObject: {fileID: 1647401678}
@@ -98112,9 +98120,9 @@ MonoBehaviour:
   Stamina: 10
   TotalStamina: 10
   Radius: 2
-  SprintCoefficient: 1.20000005
+  SprintCoefficient: 2
   StaminaToSprint: 3
-  Velocity: 20
+  Velocity: 10
   RanOutOfStamina: 0
   FinalMoveSpeed: 0
   Mass: 10

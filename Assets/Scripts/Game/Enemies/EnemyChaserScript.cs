@@ -20,6 +20,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 	// Use this for initialization
 	public override void Start () {
 		if (!player) AssignPlayer();
+		WaveSystem.EnemiesRemaining++;
 
 		// Set stats
 		Health = 200;
@@ -33,7 +34,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 		// Attack
 		IsAttacking = false;
 		AttackPower = 10;
-		Force = 10f;
+		//Force = 10f;
 		AttackRate = 3;
 		AttackDistance = 2;
 		NextAttack = AttackRate;

@@ -49,7 +49,7 @@ public class PlayerScript : MonoBehaviour {
 	public static float		AuraCost = 3f;
 	private static float		auraDurationTimer = 0f;
 	private static float		auraCooldownTimer = 0f;
-	public static float		AuraDamage = 1f;
+	public static float		AuraDamage = 1000000f;
 	public static float		AuraForce = 1f;
 
 	//player skill shot

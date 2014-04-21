@@ -58,4 +58,13 @@ public class AuraAttackScript : MonoBehaviour {
 			enemiesInRange.Add(other.gameObject);
 		}
 	}
+
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			enemiesInRange.Add(other.gameObject);
+		}
+	}
+
 }

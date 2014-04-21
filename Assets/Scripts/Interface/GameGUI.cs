@@ -62,7 +62,7 @@ public class GameGUI : MonoBehaviour {
 	private string		progressBarProgressGreyPath		= "Assets/Resources/Textures/ProgressBar/GreyBar.png";
 	private string 		progressBarCoverPath 			= "Assets/Resources/Textures/ProgressBar/Cover.png";
 	private string		progressBarDarkGreyPath			= "Assets/Resources/Textures/ProgressBar/DarkGreyBar.png";
-	private string		progressBarPurplePath			= "Assets/Resources/Textures/ProgressBar/PurpleBar.png";
+	//private string		progressBarPurplePath			= "Assets/Resources/Textures/ProgressBar/PurpleBar.png";
 
 	private string skillDisplayBackPath = "Assets/Resources/Textures/SkillDisplays/Background.png";
 	private string skillDisplayCoverPath = "Assets/Resources/Textures/SkillDisplays/Cover.png";
@@ -205,14 +205,14 @@ public class GameGUI : MonoBehaviour {
 
 	void DisplaySpawnInfo()
 	{
-		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Wave: " + spawnScript.Wave);
-		if (spawnScript.EnemiesRemaining == 0)
+		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Wave: " + spawnScript.waveSystem.WaveNumber);
+		if (WaveSystem.EnemiesRemaining == 0)
 		{
-			GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.TimeUntilNextWave);
+			GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.waveSystem.TimeBetweenWavesTimer);
 		}
 		else
 		{
-			GUI.Label(new Rect((Screen.width / 2) - 80, 35, 200, 20), "Enemies Remaining: " + spawnScript.EnemiesRemaining);
+			GUI.Label(new Rect((Screen.width / 2) - 80, 35, 200, 20), "Enemies Remaining: " + WaveSystem.EnemiesRemaining);
 		}
 	}
 
