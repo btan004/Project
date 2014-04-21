@@ -11,6 +11,9 @@ public class InputHandler {
 	public static bool		WantToAura;
 	public static bool		WantToSkillShot;
 	public static bool		WantToQuit;
+	public static bool		WantToSpendSkillPoint;
+	public static bool		WantToChangeSkillLeft;
+	public static bool		WantToChangeSkillRight;
 
 	//Debug variables
 	public bool		WantToSpawnEnemy;
@@ -32,7 +35,11 @@ public class InputHandler {
 		CheckMeleeAttack();
 		CheckAura();
 		CheckSkillShot();
+
 		CheckForSpawningButton();
+
+		CheckSpendSkillPoint();
+		CheckSkillChange();
 	}
 
 	//Supports: xbox controller and keyboard
@@ -40,6 +47,7 @@ public class InputHandler {
 	{		
 		//check for changes in our movement
 		MovementVector = Vector3.zero;
+		
 		if (Input.GetAxis("Horizontal Movement") < -.5		|| Input.GetAxis("Horizontal Movement KB") < 0)
 			MovementVector += Vector3.left;
 		if (Input.GetAxis("Horizontal Movement") > .5		|| Input.GetAxis("Horizontal Movement KB") > 0)
@@ -56,7 +64,6 @@ public class InputHandler {
 			MovementVector.z = -1 * Input.GetAxis ("Vertical Movement");
 		*/
 		MovementVector.Normalize();
-		
 	}
 
 	//supports: xbox controller
@@ -64,12 +71,6 @@ public class InputHandler {
 	{
 		//check for changes in our direction
 		DirectionVector = Vector3.zero;
-		/*
-		if (Input.GetAxis("Horizontal Direction") < -.5)	DirectionVector.x += Input.GetAxis("Horizontal Direction");
-		if (Input.GetAxis("Horizontal Direction") > .5)		DirectionVector.x -= Input.GetAxis("Horizontal Direction");
-		if (Input.GetAxis ("Vertical Direction") > -.5)		DirectionVector.y += Input.GetAxis ("Vertical Direction");
-		if (Input.GetAxis ("Vertical Direction") < .5) 		DirectionVector.y -= Input.GetAxis ("Vertical Direction");
-		*/
 		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > .3)
 			DirectionVector.x = Input.GetAxis ("Horizontal Direction");
 		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > .3)
@@ -80,7 +81,7 @@ public class InputHandler {
 	//supports xbox controller and keyboard
 	private void CheckSprint()
 	{
-		if (Input.GetButton("Sprint"))
+		if ((Input.GetAxis("Sprint") > 0.5f))
 			WantToSprint = true;
 		else
 			WantToSprint = false;
@@ -89,19 +90,19 @@ public class InputHandler {
 	//supports: xbox controller
 	private void CheckMeleeAttack()
 	{
-		WantToAttack = Input.GetButton("Attack");
+		WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
 	}
 
 	//supports: xbox controller
 	private void CheckAura()
 	{
-		WantToAura = (Input.GetAxis("Aura") > 0.5f);
+		WantToAura = Input.GetButton("Aura");
 	}
 
 	//supports: xbox controller
 	private void CheckSkillShot()
 	{
-		WantToSkillShot = (Input.GetAxis("Skill Shot") < -0.5f);
+		WantToSkillShot = Input.GetButton("Skill Shot");
 	}
 
 	//supports: keyboard
@@ -116,4 +117,21 @@ public class InputHandler {
 		WantToSpawnEnemy = Input.GetButton("Spawn Debug");
 	}
 	
+	private void CheckSpendSkillPoint()
+	{
+		WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
+	}
+
+	private void CheckSkillChange()
+	{
+		WantToChangeSkillLeft = false;
+		WantToChangeSkillRight = false;
+
+		if (Input.GetAxis("SkillSelect") < -.5)
+			WantToChangeSkillLeft = true;
+		if (Input.GetAxis("SkillSelect") > .5)
+			WantToChangeSkillRight = true;
+
+	}
+
 }

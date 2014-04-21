@@ -7,18 +7,20 @@ public class PlayerScript : MonoBehaviour {
 	//player input
 	public InputHandler		inputHandler;
 
+	//player skills and leveling
+	public PlayerSkills Skills;
+	public LevelSystem LevelSystem;
+
 	//player stats
 	public int					Score = 0;
 	public static int			Lives = 3;
 	public const int			MaxLives = 5;
 	public float				Health = 100;
-	public float				TotalHealth = 100;
+	public float				TotalHealth;
 	public float				Stamina = 10;
-	public float				TotalStamina = 10;
-	public int					Level = 1;
-	public float				Experience;
-	public float				ExperienceToNextLevel;
+	public float				TotalStamina;
 	public float				Radius = 2f;
+
 
 	//player movement
 	public float				SprintCoefficient = 5.0f;
@@ -27,8 +29,14 @@ public class PlayerScript : MonoBehaviour {
 	public bool					RanOutOfStamina = false;
 	public float				FinalMoveSpeed = 0;
 
+	//knockback
+	public float				Mass = 10f;
+	private Vector3			knockback;
+
 	//player attack
+	public float				AttackDamage = 35f;
 	public bool					IsAttacking = false;
+	public bool					IsAttackReady = false;
 	public static float		StaminaToAttack = .5f;
 	public static float		AttackCooldown = .25f;
 	private float				attackCooldownTimer = 0;
@@ -41,9 +49,11 @@ public class PlayerScript : MonoBehaviour {
 	public static float		AuraCost = 3f;
 	private static float		auraDurationTimer = 0f;
 	private static float		auraCooldownTimer = 0f;
+	public static float		AuraDamage = 1f;
+	public static float		AuraForce = 1f;
 
 	//player skill shot
-	public static bool		IsSkillShotActive = false;
+	public bool					IsSkillShotActive = false;
 	public static bool		IsSkillShotReady = true;
 	public static float		SkillShotCooldown = 2f;
 	public static float		SkillShotCost = 3f;
@@ -56,15 +66,30 @@ public class PlayerScript : MonoBehaviour {
 	private float movespeedFromPowerups = 1;
 	
 
+
 	// Use this for initialization
 	void Start () {
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
-		ExperienceToNextLevel = 100;
+
+		LevelSystem = new LevelSystem();
+		Skills = LevelSystem.GetPlayerSkills();
+		Skills.AddSkillPoint();
+
+		Health = TotalHealth = Skills.GetPlayerHealth();
+		Stamina = TotalStamina = Skills.GetPlayerStamina();
+
+		renderer.material.color = Color.red;
+		knockback = new Vector3();
+		Mass = 10f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//get skill updates
+		TotalHealth = Skills.GetPlayerHealth();
+		TotalStamina = Skills.GetPlayerStamina();
+
 		//Check for user input
 		inputHandler.Update();
 
@@ -167,6 +192,9 @@ public class PlayerScript : MonoBehaviour {
 		//make our player movement
 		this.transform.position = (this.transform.position + newMovement);
 
+		//
+		ApplyKnockback();
+
 		//Keep the Player within the map bounds
 		transform.BindToArea(
 			MapInfo.MinimumX + Radius, 
@@ -179,31 +207,23 @@ public class PlayerScript : MonoBehaviour {
 
 	private void CheckForAttack()
 	{
-		//if already attacking
-		if (IsAttacking)
-		{
-			//increment the attack cooldown timer
-			attackCooldownTimer -= Time.deltaTime;
+		IsAttacking = false;
 
-			//check if the cooldown is finished
-			if (attackCooldownTimer  < 0)
-			{
-				IsAttacking = false;
-			}
-		}
+		IsAttackReady = (!IsAttacking && attackCooldownTimer <= 0 && Stamina > StaminaToAttack);
 
-		//if we are not attacking anymore
-		if (!IsAttacking && InputHandler.WantToAttack && Stamina > StaminaToAttack)
+		if (InputHandler.WantToAttack && IsAttackReady)
 		{
-			//attack: use up stamina and reset our attack cooldown
 			IsAttacking = true;
 			Stamina -= StaminaToAttack;
 			attackCooldownTimer = AttackCooldown;
 		}
 
-		//debug: green while attacking, red otherwise
-		if (IsAttacking) renderer.material.color = Color.green;
-		else renderer.material.color = Color.red;
+		attackCooldownTimer -= Time.deltaTime;
+
+		if (attackCooldownTimer < 0)
+		{
+			IsAttackReady = true;
+		}
 	}
 
 	private void CheckForAuraAttack()
@@ -248,6 +268,8 @@ public class PlayerScript : MonoBehaviour {
 
 	private void CheckForSkillShot()
 	{
+		IsSkillShotActive = false;
+
 		//Check if the skill shot attack is ready:
 		//		1.) Skill Shot isnt currently active
 		//		2.) Skill Shot timer is ready
@@ -269,7 +291,7 @@ public class PlayerScript : MonoBehaviour {
 		//check if we are ready to use the skill shot again
 		if (skillShotCooldownTimer < 0)
 		{
-			IsSkillShotActive = false;
+			IsSkillShotReady = true;
 		}
 	}
 
@@ -308,7 +330,7 @@ public class PlayerScript : MonoBehaviour {
 				ActivePowerups.Add(powerup);
 				break;
 			case (PowerupType.Experience):
-				Experience += (int) powerup.Amount;
+				ApplyExperience(powerup.Amount);
 				break;
 			default:
 				break;
@@ -319,5 +341,23 @@ public class PlayerScript : MonoBehaviour {
 	{
 		if (Health <= damage) Health = 0;
 		else Health -= damage;
+	}
+
+	public void AddKnockback(Vector3 direction, float force)
+	{
+		knockback = direction * (force / Mass);
+	}
+
+	protected void ApplyKnockback()
+	{
+		
+		this.transform.position = this.transform.position + knockback;
+
+		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
+	}
+
+	public void ApplyExperience(float experience)
+	{
+		LevelSystem.ApplyExperience(experience);
 	}
 }

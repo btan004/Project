@@ -5,11 +5,17 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	//Enemy Stats
 	public float Health = 100;
+	protected float mass = 10;
 	public int ExperienceToGive = 1;
+	protected Vector3 knockback;
+
+	public static PlayerScript player;
 
 	// Use this for initialization
 	public virtual void Start () {
-		print ("This is the base class");
+		//print ("This is the base class");
+		knockback = new Vector3();
+		if (!player) AssignPlayer();
 	}
 	
 	// Update is called once per frame
@@ -30,6 +36,30 @@ public class EnemyBaseScript : MonoBehaviour {
 	public virtual void Death() {
 		//Destroy object
 		DestroyObject (this.gameObject);
+
+		//Give exp to player
+		player.ApplyExperience(ExperienceToGive);
 	}
-	                 
+
+	public virtual void ApplyDamage(float damage)
+	{
+		Health -= damage;
+	}
+
+	public virtual void AddKnockback(Vector3 direction, float force)
+	{
+		knockback = direction * (force / mass);
+	}
+   
+	protected virtual void ApplyKnockback()
+	{
+		transform.position = transform.position + knockback;
+		
+		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
+	}
+
+	protected void AssignPlayer()
+	{
+		player =  GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+	}
 }
