@@ -108806,6 +108806,8 @@ MonoBehaviour:
   SlimeTrapPrefab: {fileID: 100000, guid: 7e3c070bac8d16847a63d5e8c42c56c3, type: 2}
   LandminePrefab: {fileID: 100000, guid: 96036ccf5aa134c4da79ab7c2f229156, type: 2}
   DebugEnemyPrefab: {fileID: 100000, guid: b88d1989725877c4bb5f7eb8e834e3a3, type: 2}
+  EnemyChaserPrefab: {fileID: 100000, guid: 4c28773ebe2d0410a9723a93237adbc2, type: 2}
+  EnemySniperPrefab: {fileID: 100000, guid: 56319cdc21b3d487e9a14b87b471c438, type: 2}
 --- !u!1 &1794512642
 GameObject:
   m_ObjectHideFlags: 0
