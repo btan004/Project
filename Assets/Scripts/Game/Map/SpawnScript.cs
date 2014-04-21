@@ -53,7 +53,6 @@ public class SpawnScript : MonoBehaviour {
 		SpawnEnemyDebug ();
 
 		SpawnWave ();
-		Debug.Log ("Enemies: " + EnemiesRemaining);
 	}
 
 	private void SpawnPowerups()
