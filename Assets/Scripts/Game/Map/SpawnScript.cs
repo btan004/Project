@@ -8,14 +8,8 @@ public class SpawnScript : MonoBehaviour {
 	//Debugging spawning option
 	private InputHandler inputHandler;
 
+	//enemy spawning wave system
 	public WaveSystem waveSystem;
-
-	//Spawn Data
-	public float Wave = 1;
-	public float SpawnRate = 10;
-	public float WaveSpawnTime = 10;		//in seconds
-	public float TimeUntilNextWave = 10;
-	public int EnemiesRemaining = 0;
 
 	//Minimum range that enemies must spawn away from player
 	//E.g, if player.x = 20 and range is 5, enemy must spawn at x position > 25 or < 15
@@ -161,7 +155,7 @@ public class SpawnScript : MonoBehaviour {
 					ObjectFactory.CreateEnemySniper(spawnPos);
 					break;
 			}
-			++EnemiesRemaining;
+			
 		}
 	}
 
@@ -175,19 +169,4 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	private void SpawnWave()
-	{
-		if (EnemiesRemaining == 0)
-		{
-			TimeUntilNextWave -= Time.deltaTime;
-
-			if (TimeUntilNextWave <= 0)
-			{
-				SpawnEnemy(3, EnemyTypes.Sniper);
-				SpawnEnemy(9, EnemyTypes.Chaser);
-				TimeUntilNextWave = 10;
-				++Wave;
-			}
-		}
-	}
 }

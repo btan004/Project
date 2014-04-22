@@ -101,6 +101,9 @@ public class EnemySniperScript : EnemyBaseScript {
 			
 			// Move towards player
 			this.transform.position = Vector3.MoveTowards(this.transform.position,playerLocation,moveStep);
+
+			//make sure the enemy stays on the ground plane
+			this.transform.SetPositionY(1);
 		}
 	}
 

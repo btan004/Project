@@ -8,6 +8,8 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 	public PlayerScript player;
 	private Vector3 directionToOffset;
 	public float Force = 3f;
+	private bool attacking;
+	private bool really;
 
 	private List<GameObject> enemiesInRange = new List<GameObject>();
 
@@ -28,12 +30,24 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
 
-		this.renderer.enabled = cursor.player.IsAttacking;
+		this.renderer.enabled = PlayerScript.IsAttacking;
 	}
 
+	/*
+	public void ApplyMeleeAttack(EnemyBaseScript enemy)
+	{
+		if (PlayerScript.IsAttacking)
+		{
+			enemy.ApplyDamage(player.AttackDamage);
+			enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+			Debug.LogError("PLAYER ATTACKING ENEMY");
+		}
+	}
+	*/
+	
 	void LateUpdate()
 	{
-		if (player.IsAttacking)
+		if (PlayerScript.IsAttacking)
 		{
 			foreach (GameObject other in enemiesInRange)
 			{
@@ -53,4 +67,5 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 			enemiesInRange.Add(other.gameObject);
 		}
 	}
+	 
 }

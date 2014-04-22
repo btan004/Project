@@ -36,7 +36,7 @@ public class EnemyBaseScript : MonoBehaviour {
 	public virtual void Death() {
 		//Give exp to player
 		player.ApplyExperience(ExperienceToGive);
-		
+
 		//decrement the enemy count
 		WaveSystem.EnemiesRemaining--;
 

@@ -10,12 +10,11 @@ public class AuraAttackScript : MonoBehaviour {
 
 	public float Force = 1f;
 
-	private List<GameObject> enemiesInRange = new List<GameObject>();
-
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
 	// Use this for initialization
 	void Start () {
+		//get references to all particle systems, and disable their emission
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 		{
 			particleSystems.Add(s);
@@ -30,41 +29,20 @@ public class AuraAttackScript : MonoBehaviour {
 		this.renderer.enabled = Debug;
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 		{
+			
 			s.enableEmission = PlayerScript.IsAuraActive;
+			if (!PlayerScript.IsAuraActive) s.Clear();
 		}
 
 		transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime);
 	}
 
-	void LateUpdate()
+	public void ApplyAuraAttack(EnemyBaseScript enemy)
 	{
 		if (PlayerScript.IsAuraActive)
 		{
-			foreach (GameObject other in enemiesInRange)
-			{
-				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(PlayerScript.AuraDamage);
-				enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
-			}
-		}
-
-		enemiesInRange.Clear();
-	}
-
-	void OnTriggerStay(Collider other)
-	{
-		if (other.gameObject.tag == "Enemy")
-		{
-			enemiesInRange.Add(other.gameObject);
+			enemy.ApplyDamage(PlayerScript.AuraDamage);
+			enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
 		}
 	}
-
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.tag == "Enemy")
-		{
-			enemiesInRange.Add(other.gameObject);
-		}
-	}
-
 }

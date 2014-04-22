@@ -14,8 +14,8 @@ public class WaveSystem
 	private bool hasFinishedWave;
 
 	public static int waveTypeCount = 3;
-	public static List<int> chasersPerWave = new List<int>() { 100, 150, 180 };
-	public static List<int> snipersPerWave = new List<int> () { 70, 120, 160 };
+	public static List<int> chasersPerWave = new List<int>() { 10, 15, 18 };
+	public static List<int> snipersPerWave = new List<int> () { 7, 12, 16 };
 
 	public WaveSystem (SpawnScript spawnScript)
 	{
@@ -36,7 +36,6 @@ public class WaveSystem
 
 		if (hasFinishedWave)
 			TimeBetweenWavesTimer -= Time.deltaTime;
-		Debug.Log (TimeBetweenWavesTimer);
 			
 		if (hasFinishedWave && TimeBetweenWavesTimer < 0) 
 		{

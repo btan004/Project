@@ -12,7 +12,7 @@ public class PlayerScript : MonoBehaviour {
 	public LevelSystem LevelSystem;
 
 	//player stats
-	public int					Score = 0;
+	public static float		Score = 0;
 	public static int			Lives = 3;
 	public const int			MaxLives = 5;
 	public float				Health = 100;
@@ -35,12 +35,12 @@ public class PlayerScript : MonoBehaviour {
 
 	//player attack
 	public float				AttackDamage = 35f;
-	public bool					IsAttacking = false;
+	public static bool		IsAttacking = false;
 	public bool					IsAttackReady = false;
 	public static float		StaminaToAttack = .5f;
 	public static float		AttackCooldown = .25f;
 	private float				attackCooldownTimer = 0;
-	
+
 	//player aura
 	public static bool		IsAuraActive = false;
 	public static bool		IsAuraReady = true;
@@ -48,9 +48,10 @@ public class PlayerScript : MonoBehaviour {
 	public static float		AuraCooldown = 5f;
 	public static float		AuraCost = 3f;
 	private static float		auraDurationTimer = 0f;
+
 	private static float		auraCooldownTimer = 0f;
-	public static float		AuraDamage = 1000000f;
-	public static float		AuraForce = 1f;
+	public static float		AuraDamage = 10f;
+	public static float		AuraForce = 0.1f;
 
 	//player skill shot
 	public bool					IsSkillShotActive = false;
@@ -113,6 +114,9 @@ public class PlayerScript : MonoBehaviour {
 
 		//Check if the player wants to end the game
 		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
+
+		//increase the score
+		Score += (Time.deltaTime * 10);
 	}
 
 	private void UpdateActivePowerups()
@@ -191,9 +195,13 @@ public class PlayerScript : MonoBehaviour {
 
 		//make our player movement
 		this.transform.position = (this.transform.position + newMovement);
+		
 
 		//
 		ApplyKnockback();
+
+		//make sure our player stays on the ground plan
+		this.transform.SetPositionY(1);
 
 		//Keep the Player within the map bounds
 		transform.BindToArea(
@@ -350,7 +358,6 @@ public class PlayerScript : MonoBehaviour {
 
 	protected void ApplyKnockback()
 	{
-		
 		this.transform.position = this.transform.position + knockback;
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
@@ -359,5 +366,6 @@ public class PlayerScript : MonoBehaviour {
 	public void ApplyExperience(float experience)
 	{
 		LevelSystem.ApplyExperience(experience);
+		Score += (experience * 10f);
 	}
 }
