@@ -48,9 +48,16 @@ public class WaveSystem
 
 	public void SpawnWave()
 	{
+		//determine the wave type so we know how many of each unit to spawn
 		int waveType = WaveNumber % waveTypeCount;
-		spawnScript.SpawnEnemy (chasersPerWave [waveType], SpawnScript.EnemyTypes.Chaser);
-		spawnScript.SpawnEnemy (snipersPerWave [waveType], SpawnScript.EnemyTypes.Sniper);
+
+		//create our chasers
+		EnemyUpgrade chaserUpgrade = new EnemyUpgrade(10, 5, 3, 1, 100);
+		spawnScript.SpawnEnemy (chasersPerWave [waveType], SpawnScript.EnemyTypes.Chaser, chaserUpgrade);
+
+		//create our snipers
+		EnemyUpgrade sniperUpgrade = new EnemyUpgrade(10, 5, 5, 1, 100);
+		spawnScript.SpawnEnemy (snipersPerWave [waveType], SpawnScript.EnemyTypes.Sniper, sniperUpgrade);
 
 		//increase buffs
 

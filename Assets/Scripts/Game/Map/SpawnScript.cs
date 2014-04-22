@@ -130,7 +130,7 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	public void SpawnEnemy( int count, EnemyTypes type )
+	public void SpawnEnemy( int count, EnemyTypes type, EnemyUpgrade upgrade)
 	{
 		GameObject player = GameObject.Find ("Player");
 		Vector3 playerPos = player.transform.position;
@@ -149,10 +149,10 @@ public class SpawnScript : MonoBehaviour {
 					ObjectFactory.CreateDebugEnemy(spawnPos);
 					break;
 				case (EnemyTypes.Chaser):
-					ObjectFactory.CreateEnemyChaser(spawnPos);
+					ObjectFactory.CreateEnemyChaser(spawnPos, upgrade);
 					break;
 				case (EnemyTypes.Sniper):
-					ObjectFactory.CreateEnemySniper(spawnPos);
+					ObjectFactory.CreateEnemySniper(spawnPos, upgrade);
 					break;
 			}
 			
@@ -165,7 +165,7 @@ public class SpawnScript : MonoBehaviour {
 		if (inputHandler.WantToSpawnEnemy)
 		{
 			//Function to spawn the enemy
-			SpawnEnemy(1, EnemyTypes.Chaser);
+			SpawnEnemy(1, EnemyTypes.Chaser, null);
 		}
 	}
 

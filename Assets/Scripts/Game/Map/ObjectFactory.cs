@@ -26,6 +26,8 @@ public class ObjectFactory : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		instance = this;
+
+		
 	}
 	
 	public static PowerupScript CreatePowerup(PowerupType type, float amount, float duration, float lifetime, Vector3 position)
@@ -141,19 +143,29 @@ public class ObjectFactory : MonoBehaviour {
 		return enemy;
 	}
 
-	public static EnemyChaserScript CreateEnemyChaser(Vector3 position)
+	public static EnemyChaserScript CreateEnemyChaser(Vector3 position, EnemyUpgrade upgrade)
 	{
-		//Instantiate enemy
-		EnemyChaserScript enemy = (Object.Instantiate (instance.EnemyChaserPrefab, position, Quaternion.identity) as GameObject).GetComponent<EnemyChaserScript> ();
-		
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemyChaserPrefab, position, Quaternion.identity) as GameObject;
+		EnemyChaserScript enemy = enemyObject.GetComponent<EnemyChaserScript>();
+
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+
+		//return the enemy
 		return enemy;
 	}
 
-	public static EnemySniperScript CreateEnemySniper(Vector3 position)
+	public static EnemySniperScript CreateEnemySniper(Vector3 position, EnemyUpgrade upgrade)
 	{
-		//Instantiate enemy
-		EnemySniperScript enemy = (Object.Instantiate (instance.EnemySniperPrefab, position, Quaternion.identity) as GameObject).GetComponent<EnemySniperScript> ();
-		
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemySniperPrefab, position, Quaternion.identity) as GameObject;
+		EnemySniperScript enemy = enemyObject.GetComponent<EnemySniperScript>();
+
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+
+		//return the enemy
 		return enemy;
 	}
 }

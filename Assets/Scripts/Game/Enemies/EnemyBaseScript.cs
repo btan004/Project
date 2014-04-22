@@ -3,10 +3,16 @@ using System.Collections;
 
 public class EnemyBaseScript : MonoBehaviour {
 
-	//Enemy Stats
+	//Upgradable Enemy Stats
+	public bool HasBeenUpgraded = false;
 	public float Health = 100;
+	public float Velocity = 10;
+	public float Damage = 10;
+	public float AttackRate = 2;
+	public float Experience = 1;
+
+	//Non-upgradable Enemy Stats
 	protected float mass = 10;
-	public int ExperienceToGive = 1;
 	protected Vector3 knockback;
 
 	public static PlayerScript player;
@@ -35,7 +41,7 @@ public class EnemyBaseScript : MonoBehaviour {
 	// Death of enemy
 	public virtual void Death() {
 		//Give exp to player
-		player.ApplyExperience(ExperienceToGive);
+		player.ApplyExperience(Experience);
 
 		//decrement the enemy count
 		WaveSystem.EnemiesRemaining--;
@@ -66,5 +72,15 @@ public class EnemyBaseScript : MonoBehaviour {
 	protected void AssignPlayer()
 	{
 		player =  GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+	}
+
+	public void ApplyUpgrade(EnemyUpgrade upgrade)
+	{
+		this.Health = upgrade.Health;
+		this.Velocity = upgrade.Velocity;
+		this.Damage = upgrade.Damage;
+		this.AttackRate = upgrade.AttackRate;
+		this.Experience = upgrade.Experience;
+		this.HasBeenUpgraded = true;
 	}
 }
