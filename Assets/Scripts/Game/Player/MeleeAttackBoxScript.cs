@@ -32,18 +32,6 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 
 		this.renderer.enabled = PlayerScript.IsAttacking;
 	}
-
-	/*
-	public void ApplyMeleeAttack(EnemyBaseScript enemy)
-	{
-		if (PlayerScript.IsAttacking)
-		{
-			enemy.ApplyDamage(player.AttackDamage);
-			enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
-			Debug.LogError("PLAYER ATTACKING ENEMY");
-		}
-	}
-	*/
 	
 	void LateUpdate()
 	{
