@@ -69,7 +69,6 @@ public class EnemyBulletScript : MonoBehaviour {
 
 	// Set damage of bullets
 	public void SetDamage(float dmg){
-		print ("New damage");
 		Damage = dmg;
 	}
 

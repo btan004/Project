@@ -28,6 +28,7 @@ public class WaveSystem
 
 	//upgrades per difficulty
 	public static Difficulty GameDifficulty;
+	public static List<int> LivesPerDifficulty = new List<int>() { 5, 3, 1 };
 	
 	//chaser upgrades
 	public static EnemyUpgrade ChaserUpgrade;
@@ -67,9 +68,6 @@ public class WaveSystem
 
 	public WaveSystem (SpawnScript spawnScript)
 	{
-		//game difficulty
-		GameDifficulty = Difficulty.Normal;
-
 		//misc wave system init
 		WaveNumber = 0;
 		this.spawnScript = spawnScript;

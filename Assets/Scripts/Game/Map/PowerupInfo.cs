@@ -42,10 +42,11 @@ public class PowerupInfo : MonoBehaviour
 	private static Texture2D movespeedIcon;
 	private static string movementSpeedIconPath = "Assets/Resources/Textures/Icons/PurplePlusPowerup.png";
 	public static Color MovementSpeedColor = new Color(92f / 255f, 33f / 255f, 169f / 255f);
-	public static float MovementSpeedMinAmount = 20f;
-	public static float MovementSpeedMaxAmount = 50f;
+	public static float MovementSpeedMinAmount = 1.2f;
+	public static float MovementSpeedMaxAmount = 2.0f;
 	public static float MovementSpeedMinDuration = 3f;
 	public static float MovementSpeedMaxDuration = 10f;
+	public static float MovementSpeedCap = 2.0f;
 
 	public static Color GetColor(PowerupType type)
 	{

@@ -40,7 +40,7 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 			foreach (GameObject other in enemiesInRange)
 			{
 				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(player.AttackDamage);
+				enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 				enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
 			}
 		}

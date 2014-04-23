@@ -8,41 +8,56 @@ public class Skill
 	public string Description;
 	public int Level;
 	public float CurrentAmount;
-	public float NextAmount;
+	public float Total;
+	public float NextTotal;
 
-	public static int MaxUpgrades;
+	public int MaxUpgrades;
 	protected List<float> amounts;
 
 	public Skill(string name, string description, List<float> amounts)
 	{
 		Name = name;
 		Description = description;
-		Level = 1;
+		Level = 0;
 		this.amounts = amounts;
 
-		CurrentAmount = amounts[0];
-
-		MaxUpgrades = amounts.Count;
-
-		if (Level != MaxUpgrades)
-			NextAmount = amounts[Level];
+		CurrentAmount = this.amounts[Level];
+		Total = this.amounts[Level];
+		MaxUpgrades = this.amounts.Count;
+		
+		if (Level < MaxUpgrades)
+		{
+			NextTotal = this.amounts[Level + 1];
+		}
 		else
-			NextAmount = CurrentAmount;
+		{
+			NextTotal = Total;
+		}
 	}
 
 	public void Upgrade()
 	{
+		//level up
+		Level++;
+
+		//get the difference
+		float change = NextTotal - Total;
+
+		//and increase our current amount by it
+		CurrentAmount += change;
+
+		//get our new total
+		Total = this.amounts[Level];
+
+		//get our new next total
 		if (Level < MaxUpgrades)
-			Level++;
-
-		CurrentAmount = amounts[Level - 1];
-
-		MaxUpgrades = amounts.Count;
-
-		if (Level != MaxUpgrades)
-			NextAmount = amounts[Level];
+		{
+			NextTotal = this.amounts[Level + 1];
+		}
 		else
-			NextAmount = CurrentAmount;
+		{
+			NextTotal = Total;
+		}
 	}
 }
 

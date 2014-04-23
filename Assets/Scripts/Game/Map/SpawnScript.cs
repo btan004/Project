@@ -110,7 +110,7 @@ public class SpawnScript : MonoBehaviour {
 			switch(type)
 			{
 				case (TrapType.SlimeTrap):
-					ObjectFactory.CreateSlimeTrap(Random.Range(2, 5), MapInfo.GetRandomPointOnMap());
+					ObjectFactory.CreateSlimeTrap(Random.Range(0.5f, 2), MapInfo.GetRandomPointOnMap());
 					break;
 				case (TrapType.Landmine):
 					ObjectFactory.CreateLandmine(Random.Range(10, 30), MapInfo.GetRandomPointOnMap());

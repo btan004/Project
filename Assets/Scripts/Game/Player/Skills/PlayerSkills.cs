@@ -6,14 +6,20 @@ public enum SkillType
 {
 	Health,
 	Stamina,
-	Speed
+	Speed,
+	Attack,
+	SkillShot,
+	Aura
 };
 
 public class PlayerSkills
 {
 	public Skill HealthSkill;
 	public Skill StaminaSkill;
-	public Skill SpeedSkill;
+	public Skill VelocitySkill;
+	public Skill AttackSkill;
+	public Skill SkillShotSkill;
+	public Skill AuraSkill;
 
 	public int PointsToSpend;
 
@@ -22,31 +28,88 @@ public class PlayerSkills
 	{
 		PointsToSpend = 0;
 
-		List<float> healthSkillAmounts = new List<float>(){
-			200, 250, 300, 350, 400
-		};
+		setupHealthSkill();
+		setupStaminaSkill();
+		setupVelocitySkill();
+		setupAttackSkill();
+		setupSkillShotSkill();
+		setupAuraSkill();
+	}
+
+	private void setupHealthSkill()
+	{
+		List<float> healthSkillAmounts = new List<float>();
+		/* Health amounts: 100, 120, 140, ..., 960, 980, 1000 */
+		for (int health = 100; health <= 1000; health += 20)
+			healthSkillAmounts.Add(health);
+
 		HealthSkill = new Skill(
 			"Health",
 			"The amount of health that the player has.",
 			healthSkillAmounts
 		);
+	}
 
-		List<float> staminaSkillAmounts = new List<float>(){
-			10, 15, 20, 25, 30
-		};
+	private void setupStaminaSkill()
+	{
+		List<float> staminaSkillAmounts = new List<float>();
+		/* Stamina amounts: 5, 10, 15, ..., 190, 195, 200 */
+		for (int stamina = 5; stamina <= 200; stamina += 5)
+			staminaSkillAmounts.Add(stamina);
+
 		StaminaSkill = new Skill(
 			"Stamina",
 			"The amount of stamina that the player has.",
 			staminaSkillAmounts
 		);
+	}
 
-		List<float> speedSkillAmounts = new List<float>(){
-			1, 1.1f, 1.2f, 1.3f, 1.4f
+	private void setupVelocitySkill()
+	{
+		List<float> velocitySkillAmounts = new List<float>(){
+			8, 9, 10, 13, 15
 		};
-		SpeedSkill = new Skill(
-			"Speed",
-			"A speed multiplier for the player.",
-			speedSkillAmounts
+		VelocitySkill = new Skill(
+			"Velocity",
+			"The player's movement speed.",
+			velocitySkillAmounts
+		);		
+	}
+
+	private void setupAttackSkill()
+	{
+		List<float> attackSkillAmounts = new List<float>() {
+			10, 20, 30, 40, 50
+		};
+		AttackSkill = new Skill(
+			"Attack",
+			"The Player's attack damage.",
+			attackSkillAmounts
+		);
+	}
+
+	private void setupSkillShotSkill()
+	{
+		List<float> skillShotSkillAmounts = new List<float>() {
+			20, 50, 100, 150, 200
+		};
+		SkillShotSkill = new Skill(
+			"Skill Shot",
+			"The Player's Skill Shot damage.",
+			skillShotSkillAmounts
+		);
+	}
+
+	private void setupAuraSkill()
+	{
+		List<float> auraSkillAmounts = new List<float>()
+		{
+			5, 10, 20, 35, 50
+		};
+		AuraSkill = new Skill(
+			"Aura Skill",
+			"The Player's Aura Skill damage.",
+			auraSkillAmounts
 		);
 	}
 
@@ -63,7 +126,16 @@ public class PlayerSkills
 					StaminaSkill.Upgrade();
 					break;
 				case (SkillType.Speed):
-					SpeedSkill.Upgrade();
+					VelocitySkill.Upgrade();
+					break;
+				case (SkillType.Attack):
+					AttackSkill.Upgrade();
+					break;
+				case (SkillType.SkillShot):
+					SkillShotSkill.Upgrade();
+					break;
+				case (SkillType.Aura):
+					AuraSkill.Upgrade();
 					break;
 				default:
 					break;
@@ -73,7 +145,14 @@ public class PlayerSkills
 	}
 
 	public float GetPlayerHealth() { return HealthSkill.CurrentAmount; }
+	public float GetPlayerHealthMax() { return HealthSkill.Total; }
 	public float GetPlayerStamina() { return StaminaSkill.CurrentAmount; }
+	public float GetPlayerStaminaMax() { return StaminaSkill.Total; }
+	public float GetPlayerVelocity() { return VelocitySkill.CurrentAmount; }
+	public float GetPlayerDamage() { return AttackSkill.CurrentAmount; }
+	public float GetPlayerSkillShotDamage() { return SkillShotSkill.CurrentAmount; }
+	public float GetAuraDamage() { return AuraSkill.CurrentAmount; }
+
 	public void AddSkillPoint() { PointsToSpend++; }
 }
 
