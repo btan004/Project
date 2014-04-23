@@ -37,27 +37,33 @@ public class Skill
 
 	public void Upgrade()
 	{
-		//level up
-		Level++;
-
-		//get the difference
-		float change = NextTotal - Total;
-
-		//and increase our current amount by it
-		CurrentAmount += change;
-
-		//get our new total
-		Total = this.amounts[Level];
-
-		//get our new next total
+		//if we can upgrade
 		if (Level < MaxUpgrades)
 		{
-			NextTotal = this.amounts[Level + 1];
-		}
-		else
-		{
-			NextTotal = Total;
+			//level up
+			Level++;
+
+			//get the difference
+			float change = NextTotal - Total;
+
+			//and increase our current amount by it
+			CurrentAmount += change;
+
+			//get our new total
+			Total = this.amounts[Level];
+
+			//get our new next total
+			if (Level < MaxUpgrades)
+			{
+				NextTotal = this.amounts[Level + 1];
+			}
+			else
+			{
+				NextTotal = Total;
+			}
 		}
 	}
+
+	public bool IsFullyUpgraded() { return Level == MaxUpgrades; }
 }
 

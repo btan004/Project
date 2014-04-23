@@ -260,9 +260,12 @@ public class GameGUI : MonoBehaviour {
 		else staminaBar.GreyOut(false);
 
 
-		healthSkillDisplay.Update(1);
-		staminaSkillDisplay.Update(1);
-		speedSkillDisplay.Update(1);
+		healthSkillDisplay.Update(playerScript.Skills.HealthSkill.Level);
+		staminaSkillDisplay.Update(playerScript.Skills.StaminaSkill.Level);
+		speedSkillDisplay.Update(playerScript.Skills.VelocitySkill.Level);
+		attackSkillDisplay.Update(playerScript.Skills.AttackSkill.Level);
+		skillShotSkillDisplay.Update(playerScript.Skills.SkillShotSkill.Level);
+		auraSkillDisplay.Update(playerScript.Skills.AuraSkill.Level);
 
 		skillSelectCooldownTimer -= Time.deltaTime;
 		skillShowTooltipTimer -= Time.deltaTime;
@@ -292,6 +295,15 @@ public class GameGUI : MonoBehaviour {
 					break;
 				case 2:
 					playerScript.Skills.UpdgradeSkill(SkillType.Speed);
+					break;
+				case 3:
+					playerScript.Skills.UpdgradeSkill(SkillType.Attack);
+					break;
+				case 4:
+					playerScript.Skills.UpdgradeSkill(SkillType.SkillShot);
+					break;
+				case 5:
+					playerScript.Skills.UpdgradeSkill(SkillType.Aura);
 					break;
 				default:
 					break;

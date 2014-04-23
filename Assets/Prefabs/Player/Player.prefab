@@ -669,19 +669,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d291dcd570b390546a1a5a73939aaf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Score: 0
-  Health: 100
-  TotalHealth: 100
-  Stamina: 10
-  TotalStamina: 10
   Radius: 2
   SprintCoefficient: 2
   StaminaToSprint: 3
-  Velocity: 10
   RanOutOfStamina: 0
   FinalMoveSpeed: 0
   Mass: 10
-  AttackDamage: 50
   IsAttackReady: 0
   IsSkillShotActive: 0
 --- !u!114 &11400002

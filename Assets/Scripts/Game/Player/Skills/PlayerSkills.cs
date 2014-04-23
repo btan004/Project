@@ -120,27 +120,51 @@ public class PlayerSkills
 			switch (type)
 			{
 				case (SkillType.Health):
-					HealthSkill.Upgrade();
+					if (!HealthSkill.IsFullyUpgraded())
+					{
+						HealthSkill.Upgrade();
+						PointsToSpend--;
+					}
 					break;
 				case (SkillType.Stamina):
-					StaminaSkill.Upgrade();
+					if (!StaminaSkill.IsFullyUpgraded())
+					{
+						StaminaSkill.Upgrade();
+						PointsToSpend--;
+					}
 					break;
 				case (SkillType.Speed):
-					VelocitySkill.Upgrade();
+					if (!VelocitySkill.IsFullyUpgraded())
+					{
+						VelocitySkill.Upgrade();
+						PointsToSpend--;
+					}
 					break;
 				case (SkillType.Attack):
-					AttackSkill.Upgrade();
+					if (!AttackSkill.IsFullyUpgraded())
+					{
+						AttackSkill.Upgrade();
+						PointsToSpend--;
+					}
 					break;
 				case (SkillType.SkillShot):
-					SkillShotSkill.Upgrade();
+					if (!SkillShotSkill.IsFullyUpgraded())
+					{
+						SkillShotSkill.Upgrade();
+						PointsToSpend--;
+					}
 					break;
 				case (SkillType.Aura):
-					AuraSkill.Upgrade();
+					if (!AuraSkill.IsFullyUpgraded())
+					{
+						AuraSkill.Upgrade();
+						PointsToSpend--;
+					}
 					break;
 				default:
 					break;
 			}
-			PointsToSpend--;
+			
 		}
 	}
 
