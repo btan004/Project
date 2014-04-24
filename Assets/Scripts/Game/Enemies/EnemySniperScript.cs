@@ -85,6 +85,7 @@ public class EnemySniperScript : EnemyBaseScript {
 			
 			// Rotate enemy towards player
 			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
+			playerDir = new Vector3(playerDir.x,0,playerDir.z);
 			this.transform.rotation = Quaternion.LookRotation(playerDir);
 		}
 	}

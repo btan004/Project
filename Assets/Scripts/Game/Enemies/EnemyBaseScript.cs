@@ -3,6 +3,10 @@ using System.Collections;
 
 public class EnemyBaseScript : MonoBehaviour {
 
+	// Spawner 
+	public bool IsSpawned;
+	public GameObject ParentSpawner;
+
 	//Enemy Stats
 	public float Health = 100;
 	protected float mass = 10;
@@ -13,6 +17,7 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	// Use this for initialization
 	public virtual void Start () {
+		IsSpawned = false;
 		//print ("This is the base class");
 		knockback = new Vector3();
 		if (!player) AssignPlayer();
@@ -34,11 +39,31 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	// Death of enemy
 	public virtual void Death() {
+		// Check if spawner
+		if(IsSpawned){
+			ReportToSpawner();
+		}
+
 		//Destroy object
 		DestroyObject (this.gameObject);
 
 		//Give exp to player
 		player.ApplyExperience(ExperienceToGive);
+	}
+
+	// Spawner
+	public virtual void ReportToSpawner(){
+		if(ParentSpawner!=null){
+			ParentSpawner.GetComponent<EnemySpawnerScript>().ReduceSpawns ();
+		}
+		else{
+			print ("Parent Dead");
+		}
+	}
+
+	public virtual void SetSpawner(GameObject Spawner){
+		IsSpawned = true;
+		ParentSpawner = Spawner;
 	}
 
 	public virtual void ApplyDamage(float damage)
@@ -48,6 +73,7 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	public virtual void AddKnockback(Vector3 direction, float force)
 	{
+		direction = new Vector3 (direction.x,0,direction.z);
 		knockback = direction * (force / mass);
 	}
    

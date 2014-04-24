@@ -14,8 +14,8 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   m_Layer: 8
-  m_Name: EnemySniper
-  m_TagString: Enemy
+  m_Name: EnemyBouncer
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .237934113, y: 1, z: -23.4881382}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -15.8772564, y: 2, z: -23.9102669}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!23 &2300000
@@ -94,22 +94,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17976e4c57b6d4e54a10e05f1a7f4222, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a2da0d26dcff4b4fb8a85b627680700, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSpawned: 0
   ParentSpawner: {fileID: 0}
-  Health: 100
+  Health: 200
   ExperienceToGive: 1
   IsMoving: 0
-  Velocity: 0
+  Velocity: 1
   TurnVelocity: 0
   IsAttacking: 0
-  AttackPower: 0
+  AttackPower: 20
+  Force: 0
   AttackRate: 0
   NextAttack: 0
   AttackDistance: 0
-  EnemyBulletPrefab: {fileID: 100000, guid: e73d9042f0e2d4952bb324c66f2be081, type: 2}
+  EnemyAttackSphere: {fileID: 100000, guid: 019fd4ee6839d45e793f5b406f11f8c3, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

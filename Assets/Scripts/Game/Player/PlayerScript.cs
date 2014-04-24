@@ -82,6 +82,8 @@ public class PlayerScript : MonoBehaviour {
 		renderer.material.color = Color.red;
 		knockback = new Vector3();
 		Mass = 10f;
+
+		Physics.IgnoreLayerCollision (8, 9);
 	}
 	
 	// Update is called once per frame
@@ -345,6 +347,7 @@ public class PlayerScript : MonoBehaviour {
 
 	public void AddKnockback(Vector3 direction, float force)
 	{
+		direction = new Vector3 (direction.x,0,direction.z);
 		knockback = direction * (force / Mass);
 	}
 
