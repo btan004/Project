@@ -99,8 +99,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsSpawned: 0
   ParentSpawner: {fileID: 0}
+  HasBeenUpgraded: 0
   Health: 100
-  ExperienceToGive: 1
+  Velocity: 10
+  Damage: 10
+  AttackRate: 2
+  Experience: 1
   CurrentSpawns: 0
   MaxSpawns: 0
   EnemySpawn: {fileID: 100000, guid: 4c28773ebe2d0410a9723a93237adbc2, type: 2}

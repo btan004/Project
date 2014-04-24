@@ -5,13 +5,10 @@ public class EnemySniperScript : EnemyBaseScript {
 
 	//Enemy Movement
 	public bool IsMoving;
-	public float Velocity;
 	public float TurnVelocity;
 	
 	//Enemy Attack
 	public bool IsAttacking;
-	public float AttackPower;
-	public float AttackRate;
 	public float NextAttack;
 	public float AttackDistance;
 	public GameObject EnemyBulletPrefab;
@@ -19,23 +16,28 @@ public class EnemySniperScript : EnemyBaseScript {
 	// Use this for initialization
 	public override void Start () {
 		if (!player) AssignPlayer();
+		WaveSystem.EnemiesRemaining++;
 
-		// Set stats
-		Health = 200;
-		ExperienceToGive = 50;
+		// Set initial stats (should overide by applying an upgrade)
+		if (!HasBeenUpgraded)
+		{
+			Health = 1;
+			Velocity = 1;
+			Damage = 1;
+			AttackRate = 5;
+			Experience = 1;
+		}
 
 		// Movement
 		IsMoving = true;
-		Velocity = 3f;
 		TurnVelocity = 5f;
 
 		// Attack
 		IsAttacking = false;
-		AttackPower = 1;
-		AttackRate = 1;
 		NextAttack = AttackRate;
 		AttackDistance = 10;
 
+		//misc
 		renderer.material.color = new Color(1f, 165f / 255f, 0f);
 	}
 	
@@ -101,6 +103,9 @@ public class EnemySniperScript : EnemyBaseScript {
 			
 			// Move towards player
 			this.transform.position = Vector3.MoveTowards(this.transform.position,playerLocation,moveStep);
+
+			//make sure the enemy stays on the ground plane
+			//this.transform.SetPositionY(1);
 		}
 	}
 
@@ -108,10 +113,13 @@ public class EnemySniperScript : EnemyBaseScript {
 		if (IsWithinAttackRange ()) {
 			NextAttack = NextAttack - Time.deltaTime;
 			if(NextAttack <=0){
+
+				// Create Bullet
 				GameObject bullet = Instantiate(EnemyBulletPrefab,this.transform.position,Quaternion.identity) as GameObject;
-				bullet.GetComponent<EnemyBulletScript>().SetDamage(AttackPower);
+				bullet.GetComponent<EnemyBulletScript>().SetDamage(Damage);
 				NextAttack = AttackRate;
 			}
 		}
 	}
+
 }

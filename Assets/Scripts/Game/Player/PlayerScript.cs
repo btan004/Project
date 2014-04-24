@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class PlayerScript : MonoBehaviour {
 
+	public static bool INVULNERABLE;
+
 	//player input
 	public InputHandler		inputHandler;
 
@@ -12,20 +14,26 @@ public class PlayerScript : MonoBehaviour {
 	public LevelSystem LevelSystem;
 
 	//player stats
-	public int					Score = 0;
-	public static int			Lives = 3;
+	public static float		Score = 0;
+	public static int			Lives;
 	public const int			MaxLives = 5;
+
+	/*
 	public float				Health = 100;
 	public float				TotalHealth;
 	public float				Stamina = 10;
 	public float				TotalStamina;
-	public float				Radius = 2f;
+	public float				Velocity = 10f;
+	public float				AttackDamage = 10f;
+	public static float		AuraDamage = 2f;
+	 */
 
+	public float				Radius = 2f;
 
 	//player movement
 	public float				SprintCoefficient = 5.0f;
 	public float				StaminaToSprint = 3;
-	public float				Velocity = 1f;
+
 	public bool					RanOutOfStamina = false;
 	public float				FinalMoveSpeed = 0;
 
@@ -34,13 +42,13 @@ public class PlayerScript : MonoBehaviour {
 	private Vector3			knockback;
 
 	//player attack
-	public float				AttackDamage = 35f;
-	public bool					IsAttacking = false;
+	
+	public static bool		IsAttacking = false;
 	public bool					IsAttackReady = false;
 	public static float		StaminaToAttack = .5f;
 	public static float		AttackCooldown = .25f;
 	private float				attackCooldownTimer = 0;
-	
+
 	//player aura
 	public static bool		IsAuraActive = false;
 	public static bool		IsAuraReady = true;
@@ -48,9 +56,9 @@ public class PlayerScript : MonoBehaviour {
 	public static float		AuraCooldown = 5f;
 	public static float		AuraCost = 3f;
 	private static float		auraDurationTimer = 0f;
+
 	private static float		auraCooldownTimer = 0f;
-	public static float		AuraDamage = 1f;
-	public static float		AuraForce = 1f;
+	public static float		AuraForce = 0.1f;
 
 	//player skill shot
 	public bool					IsSkillShotActive = false;
@@ -65,19 +73,26 @@ public class PlayerScript : MonoBehaviour {
 	private float staminaFromPowerups = 0;
 	private float movespeedFromPowerups = 1;
 	
-
-
 	// Use this for initialization
 	void Start () {
+		INVULNERABLE = true;
+		WaveSystem.GameDifficulty = Difficulty.Easy;
+
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
 
 		LevelSystem = new LevelSystem();
 		Skills = LevelSystem.GetPlayerSkills();
 		Skills.AddSkillPoint();
+		Skills.AddSkillPoint();
+		Skills.AddSkillPoint();
+		Skills.AddSkillPoint();
+		Skills.AddSkillPoint();
+		Skills.AddSkillPoint();
+		Skills.AddSkillPoint();
 
-		Health = TotalHealth = Skills.GetPlayerHealth();
-		Stamina = TotalStamina = Skills.GetPlayerStamina();
+		//get the proper amount of lives
+		Lives = WaveSystem.LivesPerDifficulty[(int)WaveSystem.GameDifficulty];
 
 		renderer.material.color = Color.red;
 		knockback = new Vector3();
@@ -88,9 +103,8 @@ public class PlayerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//get skill updates
-		TotalHealth = Skills.GetPlayerHealth();
-		TotalStamina = Skills.GetPlayerStamina();
+		//check for death
+		CheckForDeath();
 
 		//Check for user input
 		inputHandler.Update();
@@ -107,14 +121,20 @@ public class PlayerScript : MonoBehaviour {
 		CheckForSkillShot();
 
 		//Regen stamina based on time
-		Stamina = Mathf.Clamp(Stamina + Time.deltaTime, 0, TotalStamina);
+		//Stamina = Mathf.Clamp(Stamina + Time.deltaTime, 0, TotalStamina);
+		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + Time.deltaTime, 0, Skills.GetPlayerStaminaMax());
 
 		//Health + Stamina from powerup
-		Health = Mathf.Clamp(Health + healthFromPowerups, 0, TotalHealth);
-		Stamina = Mathf.Clamp(Stamina + staminaFromPowerups, 0, TotalStamina);
+		//Health = Mathf.Clamp(Health + healthFromPowerups, 0, TotalHealth);
+		Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthFromPowerups, 0, Skills.GetPlayerHealthMax());
+		//Stamina = Mathf.Clamp(Stamina + staminaFromPowerups, 0, TotalStamina);
+		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaFromPowerups, 0, Skills.GetPlayerStaminaMax());
 
 		//Check if the player wants to end the game
 		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
+
+		//increase the score
+		Score += (Time.deltaTime * 10);
 	}
 
 	private void UpdateActivePowerups()
@@ -137,7 +157,11 @@ public class PlayerScript : MonoBehaviour {
 
 			//if they are move speed powerups, add to the movespeed from powerups pool
 			if (p.Type == PowerupType.MovementSpeed)
-				movespeedFromPowerups += p.Amount * Time.deltaTime;
+				movespeedFromPowerups *= p.Amount;
+
+			//make sure we havent exceeded our movement speed cap
+			if (movespeedFromPowerups > PowerupInfo.MovementSpeedCap)
+				movespeedFromPowerups = PowerupInfo.MovementSpeedCap;
 
 			//reduce the duration of the powerup
 			p.Duration -= Time.deltaTime;
@@ -152,18 +176,32 @@ public class PlayerScript : MonoBehaviour {
 		return (p.Duration <= 0);
 	}
 
+	private void CheckForDeath()
+	{
+		if (Skills.GetPlayerHealth() <= 0) {
+			if (Lives > 1) {
+				Lives--;
+				Skills.HealthSkill.CurrentAmount = Skills.GetPlayerHealthMax();
+			}
+			else {
+				if (!INVULNERABLE)
+					Application.LoadLevel("StartMenuScene");
+			}
+		}
+	}
+
 	private void CheckForMovement()
 	{
 		//apply it to the player
-		Vector3 newMovement = InputHandler.MovementVector * Velocity * movespeedFromPowerups * Time.deltaTime;
+		Vector3 newMovement = InputHandler.MovementVector * Skills.GetPlayerVelocity() * movespeedFromPowerups * Time.deltaTime;
 
-		FinalMoveSpeed = Velocity * movespeedFromPowerups;
+		FinalMoveSpeed = Skills.GetPlayerVelocity() * movespeedFromPowerups;
 
 		//if the player wants to sprint
 		if (InputHandler.WantToSprint)
 		{
 			//and they run out of stamina
-			if (Stamina <= 0)
+			if (Skills.GetPlayerStamina() <= 0)
 			{
 				//signal that we have run out of stamina
 				RanOutOfStamina = true;
@@ -173,7 +211,7 @@ public class PlayerScript : MonoBehaviour {
 			if (RanOutOfStamina)
 			{
 				//check if we have enough stamina to sprint again
-				if (Stamina > StaminaToSprint) 
+				if (Skills.GetPlayerStamina() > StaminaToSprint) 
 				{
 					//then disable our lock against sprinting again
 					RanOutOfStamina = false;
@@ -187,15 +225,19 @@ public class PlayerScript : MonoBehaviour {
 				FinalMoveSpeed *= SprintCoefficient;
 
 				//and decrement our stamina for sprinting
-				Stamina -= 2.0f * Time.deltaTime;
+				Skills.StaminaSkill.CurrentAmount -= 2.0f * Time.deltaTime;
 			}
 		}
 
 		//make our player movement
 		this.transform.position = (this.transform.position + newMovement);
+		
 
 		//
 		ApplyKnockback();
+
+		//make sure our player stays on the ground plan
+		this.transform.SetPositionY(1);
 
 		//Keep the Player within the map bounds
 		transform.BindToArea(
@@ -211,12 +253,12 @@ public class PlayerScript : MonoBehaviour {
 	{
 		IsAttacking = false;
 
-		IsAttackReady = (!IsAttacking && attackCooldownTimer <= 0 && Stamina > StaminaToAttack);
+		IsAttackReady = (!IsAttacking && attackCooldownTimer <= 0 && Skills.GetPlayerStamina() > StaminaToAttack);
 
 		if (InputHandler.WantToAttack && IsAttackReady)
 		{
 			IsAttacking = true;
-			Stamina -= StaminaToAttack;
+			Skills.StaminaSkill.CurrentAmount -= StaminaToAttack;
 			attackCooldownTimer = AttackCooldown;
 		}
 
@@ -234,14 +276,14 @@ public class PlayerScript : MonoBehaviour {
 		//		1.) Aura isnt currently active
 		//		2.) Aura cooldown timer is ready
 		//		3.) We have enough stamina to use the aura
-		IsAuraReady = (!IsAuraActive && auraCooldownTimer <= 0 && Stamina > AuraCost);
+		IsAuraReady = (!IsAuraActive && auraCooldownTimer <= 0 && Skills.GetPlayerStamina() > AuraCost);
 
 		//if we want to use the aura and it is ready
 		if (InputHandler.WantToAura && IsAuraReady)
 		{
 			//set aura to active, use up our stamina, and reset the aura duration timer
 			IsAuraActive = true;
-			Stamina -= AuraCost;
+			Skills.StaminaSkill.CurrentAmount -= AuraCost;
 			auraDurationTimer = AuraDuration;
 		}
 
@@ -276,14 +318,14 @@ public class PlayerScript : MonoBehaviour {
 		//		1.) Skill Shot isnt currently active
 		//		2.) Skill Shot timer is ready
 		//		3.) We have enough stamina to use the Skill Shot
-		IsSkillShotReady = (!IsSkillShotActive && skillShotCooldownTimer <= 0 && Stamina > SkillShotCost);
+		IsSkillShotReady = (!IsSkillShotActive && skillShotCooldownTimer <= 0 && Skills.GetPlayerStamina() > SkillShotCost);
 
 		//if we want to use the skill shot and it is ready
 		if (InputHandler.WantToSkillShot && IsSkillShotReady)
 		{
 			//use the skill shot: set active, use up stamina, and reset the cooldown timer
 			IsSkillShotActive = true;
-			Stamina -= SkillShotCost;
+			Skills.StaminaSkill.CurrentAmount -= SkillShotCost;
 			skillShotCooldownTimer = SkillShotCooldown;
 		}
 
@@ -317,13 +359,13 @@ public class PlayerScript : MonoBehaviour {
 		switch(powerup.Type)
 		{
 			case (PowerupType.Health):
-				Health = Mathf.Clamp(Health + powerup.Amount, 0, TotalHealth);
+				Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + powerup.Amount, 0, Skills.GetPlayerHealthMax());
 				break;
 			case (PowerupType.HealthRegen):
 				ActivePowerups.Add(powerup);
 				break;
 			case (PowerupType.Stamina):
-				Stamina = Mathf.Clamp(Stamina + powerup.Amount, 0, TotalStamina);
+				Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + powerup.Amount, 0, Skills.GetPlayerStaminaMax());
 				break;
 			case (PowerupType.StaminaRegen):
 				ActivePowerups.Add(powerup);
@@ -341,8 +383,8 @@ public class PlayerScript : MonoBehaviour {
 
 	public void ApplyDamage(float damage)
 	{
-		if (Health <= damage) Health = 0;
-		else Health -= damage;
+		if (Skills.GetPlayerHealth() <= damage) Skills.HealthSkill.CurrentAmount = 0;
+		else Skills.HealthSkill.CurrentAmount -= damage;
 	}
 
 	public void AddKnockback(Vector3 direction, float force)
@@ -353,7 +395,6 @@ public class PlayerScript : MonoBehaviour {
 
 	protected void ApplyKnockback()
 	{
-		
 		this.transform.position = this.transform.position + knockback;
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
@@ -362,5 +403,6 @@ public class PlayerScript : MonoBehaviour {
 	public void ApplyExperience(float experience)
 	{
 		LevelSystem.ApplyExperience(experience);
+		Score += (experience * 10f);
 	}
 }

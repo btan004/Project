@@ -31,7 +31,18 @@ public class SkillShotAttackScript : MonoBehaviour {
 
 		this.renderer.enabled = cursor.player.IsSkillShotActive;
 	}
+	/*
+	public void ApplySkillShotAttack(EnemyBaseScript enemy)
+	{
+		if (player.IsSkillShotActive)
+		{
+			enemy.ApplyDamage(player.AttackDamage);
+			enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);			
+		}
+	}
 
+	 */
+	
 	void LateUpdate()
 	{
 		if (player.IsSkillShotActive)
@@ -39,7 +50,7 @@ public class SkillShotAttackScript : MonoBehaviour {
 			foreach (GameObject other in enemiesInRange)
 			{
 				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(player.AttackDamage);
+				enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 				enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
 			}
 		}
@@ -54,4 +65,5 @@ public class SkillShotAttackScript : MonoBehaviour {
 			enemiesInRange.Add(other.gameObject);
 		}
 	}
+	 
 }

@@ -15,11 +15,11 @@ public class EnemySpawnerScript : EnemyBaseScript {
 	public override void Start () {
 		// Set stats
 		Health = 5;
-		ExperienceToGive = 10;
+		Experience = 10;
 
 		// Spawning
 		CurrentSpawns = 0;
-		MaxSpawns = 1;
+		MaxSpawns = 5;
 		MaxBuffer = 3f;
 		CurrentBuffer = MaxBuffer;
 		SpawnRadius = 7f;
