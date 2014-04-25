@@ -19,6 +19,27 @@ public class EnemyBaseScript : MonoBehaviour {
 	protected float mass = 10;
 	protected Vector3 knockback;
 
+	// Animations
+	public Animation EnemyAnimation;
+	public bool IsMoving;
+	public bool IsAttacking;
+	public bool IsHit;
+
+	public void Animate()
+	{
+		if (IsHit && !EnemyAnimation.IsPlaying ("gethit"))
+						EnemyAnimation.Play ("gethit");
+				else if (IsAttacking && !EnemyAnimation.IsPlaying ("attack"))
+						EnemyAnimation.Play ("attack");
+				else if (IsMoving && !EnemyAnimation.IsPlaying ("run"))
+						EnemyAnimation.Play ("run");
+
+
+		IsMoving = false;
+		IsAttacking = false;
+		IsHit = false;
+	}
+
 	public static PlayerScript player;
 
 	// Use this for initialization
