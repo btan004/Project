@@ -6,11 +6,15 @@ public class AuraAttackScript : MonoBehaviour {
 
 	public PlayerScript player;
 	public float RotateSpeed;
+	public bool Debug;
+
+	public float Force = 1f;
 
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
 	// Use this for initialization
 	void Start () {
+		//get references to all particle systems, and disable their emission
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 		{
 			particleSystems.Add(s);
@@ -22,12 +26,38 @@ public class AuraAttackScript : MonoBehaviour {
 	void Update () {
 		this.transform.position = player.transform.position;
 
-		this.renderer.enabled = PlayerScript.IsAuraActive;
+		this.renderer.enabled = Debug;
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 		{
+			
 			s.enableEmission = PlayerScript.IsAuraActive;
+			if (!PlayerScript.IsAuraActive) s.Clear();
 		}
 
 		transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime);
+	}
+
+	
+	public void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			//UnityEngine.Debug.LogWarning("Aura Enter: " + other.name);
+		}
+	}
+
+	public void OnTriggerStay(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			//UnityEngine.Debug.LogWarning("Aura Stay: " + other.name);
+			if (PlayerScript.IsAuraActive)
+			{
+				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
+				//UnityEngine.Debug.LogWarning("Applying Aura to enemy for " + player.Skills.GetAuraDamage());
+				enemy.ApplyDamage(player.Skills.GetAuraDamage());
+				enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+			}
+		}
 	}
 }

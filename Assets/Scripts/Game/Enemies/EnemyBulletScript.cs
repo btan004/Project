@@ -7,9 +7,12 @@ public class EnemyBulletScript : MonoBehaviour {
 	public float Velocity;
 	public float Damage;
 	public Vector3 Direction;
+	public float Force;
 
 	// Use this for initialization
 	void Start () {
+
+
 		//Bullet color
 		this.renderer.material.color = Color.cyan;
 
@@ -52,21 +55,20 @@ public class EnemyBulletScript : MonoBehaviour {
 			float xpositive = sizeOfMap.x/2 + centerOfMap.x;
 			float xnegative = centerOfMap.x - sizeOfMap.x/2;
 			if(currentPosition.x > xpositive || currentPosition.x < xnegative){
-				DestroyImmediate(this.gameObject);
+				if (this.gameObject) DestroyImmediate(this.gameObject);
 			}
 
 			// Next the Z axis
 			float zpositive = sizeOfMap.z/2 + centerOfMap.z;
 			float znegative = centerOfMap.z - sizeOfMap.z/2;
 			if(currentPosition.z > zpositive || currentPosition.z < znegative){
-				DestroyImmediate(this.gameObject);
+				if (this.gameObject) DestroyImmediate(this.gameObject);
 			}
 		}
 	}
 
 	// Set damage of bullets
 	public void SetDamage(float dmg){
-		print ("New damage");
 		Damage = dmg;
 	}
 
@@ -76,6 +78,7 @@ public class EnemyBulletScript : MonoBehaviour {
 			GameObject player = GameObject.FindGameObjectWithTag("Player");
 			PlayerScript playerScript = player.GetComponent<PlayerScript>();
 			playerScript.ApplyDamage(Damage);
+			playerScript.AddKnockback(playerScript.transform.position - this.transform.position, Force);
 			Destroy(gameObject);
 		}
 	}

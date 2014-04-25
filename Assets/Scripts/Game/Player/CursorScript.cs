@@ -8,7 +8,7 @@ public class CursorScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		renderer.material.color = Color.magenta;
 	}
 	
 	// Update is called once per frame

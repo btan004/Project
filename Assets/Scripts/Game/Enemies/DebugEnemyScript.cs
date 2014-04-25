@@ -27,7 +27,7 @@ public class DebugEnemyScript : MonoBehaviour {
 		if( Lifetime <= 0 )
 		{
 			Destroy(this.gameObject);
-			spawnScript.EnemiesRemaining--;
+			//spawnScript.EnemiesRemaining--;
 		}
 	}
 }

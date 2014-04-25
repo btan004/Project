@@ -7,7 +7,7 @@ public class SlimeTrapScript : MonoBehaviour {
 	private GameObject victim;
 	private Vector3 victimPosition;
 	public bool HasVictim = false;
-	public float Duration = 5f;
+	public float Duration = 2f;
 
 
 	void Start () 
