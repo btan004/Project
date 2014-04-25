@@ -22,6 +22,8 @@ public class ObjectFactory : MonoBehaviour {
 	//Enemies to be included in real game
 	public GameObject EnemyChaserPrefab;
 	public GameObject EnemySniperPrefab;
+	public GameObject EnemyHealerPrefab;
+	public GameObject EnemySpawnerPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -165,6 +167,19 @@ public class ObjectFactory : MonoBehaviour {
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
 
+		//return the enemy
+		return enemy;
+	}
+
+	public static EnemyHealerScript CreateEnemyHealer(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemyHealerPrefab, position, Quaternion.identity) as GameObject;
+		EnemyHealerScript enemy = enemyObject.GetComponent<EnemyHealerScript>();
+		
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+		
 		//return the enemy
 		return enemy;
 	}

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpawnScript : MonoBehaviour {
 
-	public enum EnemyTypes {Debugging, Chaser, Sniper};
+	public enum EnemyTypes {Debugging, Chaser, Sniper, Healer, Spawner};
 
 	//Debugging spawning option
 	private InputHandler inputHandler;
@@ -153,6 +153,9 @@ public class SpawnScript : MonoBehaviour {
 					break;
 				case (EnemyTypes.Sniper):
 					ObjectFactory.CreateEnemySniper(spawnPos, upgrade);
+					break;
+				case (EnemyTypes.Healer):
+					ObjectFactory.CreateEnemyHealer(spawnPos, upgrade);
 					break;
 			}
 			
