@@ -47,7 +47,7 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 
 		enemiesInRange.Clear();
 	}
-
+	
 	void OnTriggerStay(Collider other)
 	{
 		if (other.gameObject.tag == "Enemy")
@@ -55,5 +55,12 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 			enemiesInRange.Add(other.gameObject);
 		}
 	}
-	 
+	
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			enemiesInRange.Add(other.gameObject);
+		}
+	}
 }

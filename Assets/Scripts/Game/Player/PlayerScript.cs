@@ -18,16 +18,6 @@ public class PlayerScript : MonoBehaviour {
 	public static int			Lives;
 	public const int			MaxLives = 5;
 
-	/*
-	public float				Health = 100;
-	public float				TotalHealth;
-	public float				Stamina = 10;
-	public float				TotalStamina;
-	public float				Velocity = 10f;
-	public float				AttackDamage = 10f;
-	public static float		AuraDamage = 2f;
-	 */
-
 	public float				Radius = 2f;
 
 	//player movement

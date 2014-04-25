@@ -37,12 +37,27 @@ public class AuraAttackScript : MonoBehaviour {
 		transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime);
 	}
 
-	public void ApplyAuraAttack(EnemyBaseScript enemy)
+	
+	public void OnTriggerEnter(Collider other)
 	{
-		if (PlayerScript.IsAuraActive)
+		if (other.gameObject.tag == "Enemy")
 		{
-			enemy.ApplyDamage(player.Skills.GetAuraDamage());
-			enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+			//UnityEngine.Debug.LogWarning("Aura Enter: " + other.name);
+		}
+	}
+
+	public void OnTriggerStay(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			//UnityEngine.Debug.LogWarning("Aura Stay: " + other.name);
+			if (PlayerScript.IsAuraActive)
+			{
+				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
+				//UnityEngine.Debug.LogWarning("Applying Aura to enemy for " + player.Skills.GetAuraDamage());
+				enemy.ApplyDamage(player.Skills.GetAuraDamage());
+				enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+			}
 		}
 	}
 }

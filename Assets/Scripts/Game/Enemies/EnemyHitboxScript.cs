@@ -15,14 +15,17 @@ public class EnemyHitboxScript : MonoBehaviour {
 		transform.position = enemy.transform.position;
 	}
 
+	/*
 	void OnTriggerEnter(Collider other)
 	{
 		switch (other.gameObject.tag)
 		{
 			case "PlayerMeleeAttackHitbox":
+				//Debug.Log("Within player attack range: " + this.name);
 				//other.gameObject.GetComponent<MeleeAttackBoxScript>().ApplyMeleeAttack(enemy);
 				break;
 			case "PlayerSkillShotAttackHitbox":
+				//Debug.Log("Within player skill shot range: " + this.name);
 				//other.gameObject.GetComponent<SkillShotAttackScript>().ApplySkillShotAttack(enemy);
 				break;
 			default:
@@ -34,11 +37,21 @@ public class EnemyHitboxScript : MonoBehaviour {
 	{
 		switch (other.gameObject.tag)
 		{
+			case "PlayerMeleeAttackHitbox":
+				Debug.Log("Within player attack range: " + this.name);
+				//other.gameObject.GetComponent<MeleeAttackBoxScript>().ApplyMeleeAttack(enemy);
+				break;
+			case "PlayerSkillShotAttackHitbox":
+				Debug.Log("Within player skill shot range: " + this.name);
+				//other.gameObject.GetComponent<SkillShotAttackScript>().ApplySkillShotAttack(enemy);
+				break;
 			case "PlayerAuraAttackHitbox":
-				other.gameObject.GetComponent<AuraAttackScript>().ApplyAuraAttack(enemy);
+				Debug.Log("Within aura range: " + this.name);
+				//other.gameObject.GetComponent<AuraAttackScript>().ApplyAuraAttack(enemy);
 				break;
 			default:
 				break;
 		}
 	}
+	*/
 }

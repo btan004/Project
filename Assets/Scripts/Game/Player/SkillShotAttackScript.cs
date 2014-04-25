@@ -31,17 +31,15 @@ public class SkillShotAttackScript : MonoBehaviour {
 
 		this.renderer.enabled = cursor.player.IsSkillShotActive;
 	}
-	/*
+	
 	public void ApplySkillShotAttack(EnemyBaseScript enemy)
 	{
 		if (player.IsSkillShotActive)
 		{
-			enemy.ApplyDamage(player.AttackDamage);
+			enemy.ApplyDamage(player.Skills.GetPlayerSkillShotDamage());
 			enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);			
 		}
-	}
-
-	 */
+	}	
 	
 	void LateUpdate()
 	{
@@ -58,12 +56,19 @@ public class SkillShotAttackScript : MonoBehaviour {
 		enemiesInRange.Clear();
 	}
 
-	void OnTriggerStay(Collider other)
+	public void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.tag == "Enemy")
+		if (other.tag == "Enemy")
 		{
 			enemiesInRange.Add(other.gameObject);
 		}
 	}
-	 
+
+	public void OnTriggerStay(Collider other)
+	{
+		if (other.tag == "Enemy")
+		{
+			enemiesInRange.Add(other.gameObject);
+		}
+	}
 }
