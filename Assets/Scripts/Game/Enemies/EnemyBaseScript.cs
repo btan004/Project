@@ -10,6 +10,7 @@ public class EnemyBaseScript : MonoBehaviour {
 	//Upgradable Enemy Stats
 	public bool HasBeenUpgraded = false;
 	public float Health = 100;
+	public float MaxHealth = 100;
 	public float Velocity = 10;
 	public float Damage = 10;
 	public float AttackRate = 2;
