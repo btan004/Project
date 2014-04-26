@@ -8424,7 +8424,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1474559594}
   m_GameObject: {fileID: 116067194}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<< .mine=======--- !u!1 &122883033
+--- !u!1 &122883033
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: d0c89dc2b324c40d49908044e347d0e6, type: 2}
@@ -8541,7 +8541,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 3, z: 1.5}
   m_Children: []
   m_Father: {fileID: 0}
->>>>>>> .theirs--- !u!1 &141948319
+--- !u!1 &141948319
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100006, guid: 2319f1473c0b19d498f19dc7e75e28ce, type: 2}
@@ -77124,7 +77124,7 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
-<<<<<<< .mine=======--- !u!1 &1157017607
+--- !u!1 &1157017607
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: 4c28773ebe2d0410a9723a93237adbc2, type: 2}
@@ -77255,7 +77255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 1157017608}
->>>>>>> .theirs--- !u!1 &1172471804
+--- !u!1 &1172471804
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: 2319f1473c0b19d498f19dc7e75e28ce, type: 2}
@@ -89005,7 +89005,7 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
-<<<<<<< .mine=======--- !u!1 &1470617331
+--- !u!1 &1470617331
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: 56319cdc21b3d487e9a14b87b471c438, type: 2}
@@ -89135,7 +89135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 1470617333}
->>>>>>> .theirs--- !u!1 &1470745150
+--- !u!1 &1470745150
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100016, guid: 2319f1473c0b19d498f19dc7e75e28ce, type: 2}
