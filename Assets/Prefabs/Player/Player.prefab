@@ -1878,7 +1878,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!54 &5400004
 Rigidbody:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100018}
@@ -1893,7 +1893,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!54 &5400006
 Rigidbody:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
@@ -1908,7 +1908,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!54 &5400008
 Rigidbody:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100022}
@@ -2051,10 +2051,10 @@ MonoBehaviour:
   StaminaToSprint: 3
   RanOutOfStamina: 0
   FinalMoveSpeed: 0
-  Mass: 10
+  Mass: 30
   IsAttackReady: 0
   IsSkillShotActive: 0
-  PlayerAnimation: {fileID: 0}
+  PlayerAnimation: {fileID: 11100006}
   IsMoving: 0
   IsHit: 0
 --- !u!114 &11400002
