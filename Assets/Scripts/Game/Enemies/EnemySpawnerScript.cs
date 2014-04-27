@@ -52,12 +52,14 @@ public class EnemySpawnerScript : EnemyBaseScript {
 			// Spawn enemies in circle
 			float deg = 0f; 
 			for(int i = MaxSpawns; i>0; i=i-1){
-				GameObject enemy = Instantiate(EnemySpawn) as GameObject;
+				//GameObject enemy = Instantiate(EnemySpawn) as GameObject;
 				deg = deg + (360f/MaxSpawns);
 				float enemyx = transform.position.x + SpawnRadius*Mathf.Cos(deg*Mathf.Deg2Rad);
 				float enemyz = transform.position.z + SpawnRadius*Mathf.Sin(deg*Mathf.Deg2Rad);
-				enemy.transform.position = new Vector3(enemyx,1,enemyz);
-				enemy.GetComponent<EnemyBaseScript>().SetSpawner(this.gameObject);
+				EnemyChaserScript enemy = ObjectFactory.CreateEnemyChaser(
+					new Vector3(enemyx, 1, enemyz), 
+					WaveSystem.ChaserUpgrade);
+				enemy.SetSpawner(this.gameObject);
 				CurrentSpawns = CurrentSpawns+1;
 			}
 

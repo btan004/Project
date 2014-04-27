@@ -25,20 +25,35 @@ public class EnemyBaseScript : MonoBehaviour {
 	public bool IsMoving;
 	public bool IsAttacking;
 	public bool IsHit;
+	public bool IsDead;
 
-	public void Animate()
+	public void ClearAnimationInfo()
 	{
-		if (IsHit && !EnemyAnimation.IsPlaying ("gethit"))
-						EnemyAnimation.Play ("gethit");
-				else if (IsAttacking && !EnemyAnimation.IsPlaying ("attack"))
-						EnemyAnimation.Play ("attack");
-				else if (IsMoving && !EnemyAnimation.IsPlaying ("run"))
-						EnemyAnimation.Play ("run");
-
-
 		IsMoving = false;
 		IsAttacking = false;
 		IsHit = false;
+	}
+
+	public void AnimateSkeleton(bool isHit, bool isAttacking, bool isMoving)
+	{
+
+		if (IsHit)
+		{
+			EnemyAnimation.Play("gethit");
+		}
+		else if (IsAttacking && !EnemyAnimation.IsPlaying("attack"))
+		{
+			EnemyAnimation.Play("attack");
+		}
+		else if (IsMoving && !EnemyAnimation.IsPlaying("run") && !EnemyAnimation.IsPlaying("attack"))
+		{
+			EnemyAnimation.Play("run");
+		}
+		else if (!EnemyAnimation.isPlaying)
+		{
+			EnemyAnimation.Play("idle");
+		}
+
 	}
 
 	public static PlayerScript player;

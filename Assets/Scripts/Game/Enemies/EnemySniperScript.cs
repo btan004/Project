@@ -41,13 +41,16 @@ public class EnemySniperScript : EnemyBaseScript {
 	
 	// Update is called once per frame
 	public override void Update () {
+		// Reset animation info
+		ClearAnimationInfo();
+
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 		
 		// Move Enemy
 		MoveEnemy ();
 
-		//
+		//apply knockback
 		ApplyKnockback();
 
 		// Rotate enemy towards player
@@ -57,7 +60,7 @@ public class EnemySniperScript : EnemyBaseScript {
 		StopAndAttack ();
 
 		// Animate
-		Animate ();
+		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	// Figure out if enemy within range of player
