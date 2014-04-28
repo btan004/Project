@@ -59,6 +59,8 @@ public class EnemySpawnerScript : EnemyBaseScript {
 				EnemyChaserScript enemy = ObjectFactory.CreateEnemyChaser(
 					new Vector3(enemyx, 1, enemyz), 
 					WaveSystem.ChaserUpgrade);
+
+				enemy.renderer.material.color = Color.red;
 				enemy.SetSpawner(this.gameObject);
 				CurrentSpawns = CurrentSpawns+1;
 			}
