@@ -8,6 +8,7 @@ public class MapInfo
 	public static float MinimumZ = -50;
 	public static float MaximumZ = 50;
 	public static float MinimumY = 1;
+	public static float Buffer = 2;
 
 	/// <summary>
 	/// Returns a random point on the map
@@ -19,6 +20,6 @@ public class MapInfo
 	/// <returns></returns>
 	public static Vector3 GetRandomPointOnMap()
 	{
-		return new Vector3(Random.Range(MinimumX, MaximumX), MinimumY, Random.Range(MinimumZ, MaximumZ));
+		return new Vector3(Random.Range(MinimumX + Buffer, MaximumX - Buffer), MinimumY, Random.Range(MinimumZ + Buffer, MaximumZ - Buffer));
 	}
 }

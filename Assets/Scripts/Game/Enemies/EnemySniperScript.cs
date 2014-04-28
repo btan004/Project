@@ -125,7 +125,9 @@ public class EnemySniperScript : EnemyBaseScript {
 			if(NextAttack <=0){
 
 				// Create Bullet
-				GameObject bullet = Instantiate(EnemyBulletPrefab,this.transform.position,Quaternion.identity) as GameObject;
+				Transform bulletPosition = this.transform;
+				bulletPosition.SetPositionY(1);
+				GameObject bullet = Instantiate(EnemyBulletPrefab, bulletPosition.position,Quaternion.identity) as GameObject;
 				bullet.GetComponent<EnemyBulletScript>().SetDamage(Damage);
 				NextAttack = AttackRate;
 			}
