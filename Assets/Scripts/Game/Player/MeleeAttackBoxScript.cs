@@ -30,7 +30,7 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
 
-		this.renderer.enabled = PlayerScript.IsAttacking;
+		//this.renderer.enabled = PlayerScript.IsAttacking;
 	}
 	
 	void LateUpdate()
