@@ -796,7 +796,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.4136677, y: .5, z: -17.6323738}
+  m_LocalPosition: {x: 2.42773438, y: .5, z: -16.549612}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -1634,7 +1634,7 @@ MonoBehaviour:
   Damage: 10
   AttackRate: 2
   Experience: 1
-  EnemyAnimation: {fileID: 0}
+  EnemyAnimation: {fileID: 11100006}
   IsMoving: 0
   IsAttacking: 0
   IsHit: 0

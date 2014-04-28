@@ -25,6 +25,7 @@ public class ObjectFactory : MonoBehaviour {
 	public GameObject EnemyHealerPrefab;
 	public GameObject EnemySpawnerPrefab;
 	public GameObject EnemyBouncerPrefab;
+	public GameObject EnemyChargerPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -164,6 +165,19 @@ public class ObjectFactory : MonoBehaviour {
 		//Instanciate our enemy
 		GameObject enemyObject = Instantiate(instance.EnemyBouncerPrefab, position, Quaternion.identity) as GameObject;
 		EnemyChaserScript enemy = enemyObject.GetComponent<EnemyChaserScript>();
+		
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+		
+		//return the enemy
+		return enemy;
+	}
+
+	public static EnemyChargerScript CreateEnemyCharger(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemyChargerPrefab, position, Quaternion.identity) as GameObject;
+		EnemyChargerScript enemy = enemyObject.GetComponent<EnemyChargerScript>();
 		
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);

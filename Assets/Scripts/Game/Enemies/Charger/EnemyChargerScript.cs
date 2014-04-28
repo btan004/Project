@@ -73,11 +73,16 @@ public class EnemyChargerScript : EnemyBaseScript {
 	
 	// Update is called once per frame
 	public override void Update () {
+		// Reset animation info
+		ClearAnimationInfo();
 
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 
 		AIDecision ();
+
+		// Animate
+		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	public void AIDecision()
@@ -98,6 +103,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 					RotateEnemy();
 					IsGettingReadyToCharge = true;
 					ChargeReady = false;
+					IsMoving = true;
 				}
 			}
 			else if( IsGettingReadyToCharge || IsCharging )
@@ -155,6 +161,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
 			playerDir = new Vector3(playerDir.x,0,playerDir.z);
 			this.transform.rotation = Quaternion.LookRotation(playerDir);
+			EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
 		}
 	}
 
@@ -169,6 +176,8 @@ public class EnemyChargerScript : EnemyBaseScript {
 
 			// Move towards player
 			this.transform.position = Vector3.MoveTowards(this.transform.position,playerLocation,moveStep);
+
+			IsMoving = true;
 
 			//make sure the enemy stays on the ground plane
 			//this.transform.SetPositionY(1);
