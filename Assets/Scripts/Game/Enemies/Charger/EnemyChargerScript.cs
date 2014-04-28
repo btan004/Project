@@ -4,11 +4,11 @@ using System.Collections;
 public class EnemyChargerScript : EnemyBaseScript {
 
 	//Enemy Movement
-	public bool IsMoving;
+	public bool MovingEnabled;
 	public float TurnVelocity;
 	
 	//Enemy Attack
-	public bool IsAttacking;
+	public bool EnemyIsAttacking;
 	public float Force;
 	public float NextAttack;
 	public float AttackDistance;
@@ -41,11 +41,11 @@ public class EnemyChargerScript : EnemyBaseScript {
 		}
 
 		// Movement
-		IsMoving = true;
+		MovingEnabled = true;
 		TurnVelocity = 5f;
 
 		// Attack
-		IsAttacking = false;
+		EnemyIsAttacking = false;
 		AttackDistance = 2;
 		NextAttack = AttackRate;
 
@@ -160,7 +160,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 
 	public void MoveEnemy() {
 		// Find player in game
-		if (player && IsMoving && !IsWithinAttackRange()) {
+		if (player && MovingEnabled && !IsWithinAttackRange()) {
 			// Get player location
 			Vector3 playerLocation = player.transform.position;
 
