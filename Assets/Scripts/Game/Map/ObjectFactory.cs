@@ -158,6 +158,11 @@ public class ObjectFactory : MonoBehaviour {
 		return enemy;
 	}
 
+	public static void CreateEnemyBigChaser(Vector3 position, EnemyUpgrade upgrade)
+	{
+		return;
+	}
+
 	public static EnemySniperScript CreateEnemySniper(Vector3 position, EnemyUpgrade upgrade)
 	{
 		//Instanciate our enemy
@@ -183,4 +188,18 @@ public class ObjectFactory : MonoBehaviour {
 		//return the enemy
 		return enemy;
 	}
+
+	public static EnemySpawnerScript CreateEnemySpawner(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemySpawnerPrefab, position, Quaternion.identity) as GameObject;
+		EnemySpawnerScript enemy = enemyObject.GetComponent<EnemySpawnerScript>();
+		
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+		
+		//return the enemy
+		return enemy;
+	}
+
 }

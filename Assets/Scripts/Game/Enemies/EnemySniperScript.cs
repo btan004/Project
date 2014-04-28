@@ -4,11 +4,9 @@ using System.Collections;
 public class EnemySniperScript : EnemyBaseScript {
 
 	//Enemy Movement
-	public bool IsMoving;
 	public float TurnVelocity;
 	
 	//Enemy Attack
-	public bool IsAttacking;
 	public float NextAttack;
 	public float AttackDistance;
 	public GameObject EnemyBulletPrefab;
@@ -43,13 +41,16 @@ public class EnemySniperScript : EnemyBaseScript {
 	
 	// Update is called once per frame
 	public override void Update () {
+		// Reset animation info
+		ClearAnimationInfo();
+
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 		
 		// Move Enemy
 		MoveEnemy ();
 
-		//
+		//apply knockback
 		ApplyKnockback();
 
 		// Rotate enemy towards player
@@ -57,6 +58,9 @@ public class EnemySniperScript : EnemyBaseScript {
 		
 		// If within a certain distance stop and attack player
 		StopAndAttack ();
+
+		// Animate
+		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	// Figure out if enemy within range of player
@@ -89,11 +93,17 @@ public class EnemySniperScript : EnemyBaseScript {
 			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
 			playerDir = new Vector3(playerDir.x,0,playerDir.z);
 			this.transform.rotation = Quaternion.LookRotation(playerDir);
+			
+			EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
 		}
 	}
 
 	public void MoveEnemy() {
 		// Find player in game
+		if (!IsWithinAttackRange ())
+			IsMoving = true;
+
+
 		if (player && IsMoving && !IsWithinAttackRange() ) {
 			// Get player location
 			Vector3 playerLocation = player.transform.position;

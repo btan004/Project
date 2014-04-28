@@ -4,14 +4,17 @@ using System.Collections;
 public class EnemyChaserScript : EnemyBaseScript {
 
 	//Enemy Movement
-	public bool IsMoving;
 	public float TurnVelocity;
 	
 	//Enemy Attack
-	public bool IsAttacking;
 	public float Force;
 	public float NextAttack;
 	public float AttackDistance;
+
+	private bool waitingForAnimationDelay;
+	public const float AttackAnimationDelay = 0.5f;
+	private float attackAnimationDelayTimer;
+
 	public GameObject EnemyAttackSphere;
 
 	// Use this for initialization
@@ -37,6 +40,8 @@ public class EnemyChaserScript : EnemyBaseScript {
 		IsAttacking = false;
 		AttackDistance = 2;
 		NextAttack = AttackRate;
+		waitingForAnimationDelay = false;
+		attackAnimationDelayTimer = AttackAnimationDelay;
 
 		//Knockback
 		Force = 5f;
@@ -48,6 +53,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 	
 	// Update is called once per frame
 	public override void Update () {
+
+		// Reset animation info
+		ClearAnimationInfo();
 
 		// Check enemy health, if <=0 die
 		CheckHealth ();
@@ -63,6 +71,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 		// If within a certain distance stop and attack player
 		StopAndAttack ();
+
+		// Animate
+		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	// Figure out if enemy within range of player
@@ -95,11 +106,15 @@ public class EnemyChaserScript : EnemyBaseScript {
 			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
 			playerDir = new Vector3(playerDir.x,0,playerDir.z);
 			this.transform.rotation = Quaternion.LookRotation(playerDir);
+			EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
 		}
 	}
 
 	public void MoveEnemy() {
 		// Find player in game
+		if (!IsWithinAttackRange ())
+						IsMoving = true;
+
 		if (player && IsMoving && !IsWithinAttackRange()) {
 			// Get player location
 			Vector3 playerLocation = player.transform.position;
@@ -117,16 +132,28 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 	public void StopAndAttack () {
 		NextAttack = NextAttack - Time.deltaTime;
-		if (IsWithinAttackRange ()) {
+		if (IsWithinAttackRange () && !waitingForAnimationDelay) {
 			if(NextAttack <= 0){
 				NextAttack = AttackRate;
+				waitingForAnimationDelay = true;
+				attackAnimationDelayTimer = AttackAnimationDelay;
+				IsAttacking = true;
+			}
+		}
 
+		if (waitingForAnimationDelay)
+		{
+			attackAnimationDelayTimer -= Time.deltaTime;
+			if (attackAnimationDelayTimer <= 0)
+			{
 				// Create sphere attack
 				Vector3 createPosition = transform.position + transform.forward;
 				GameObject attack = Instantiate(EnemyAttackSphere) as GameObject;
 				attack.transform.position = createPosition;
 				attack.GetComponent<EnemyAttackSphereScript>().SetDamage(Damage);
 				attack.GetComponent<EnemyAttackSphereScript>().SetForce(Force);
+
+				waitingForAnimationDelay = false;
 			}
 		}
 	}

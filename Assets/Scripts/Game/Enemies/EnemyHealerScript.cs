@@ -4,14 +4,12 @@ using System.Collections;
 public class EnemyHealerScript : EnemyBaseScript {
 	
 	//Enemy Movement
-	public bool IsMoving;
 	public float TurnVelocity;
 	public float MovementRadius;
 	public float MinDistanceAwayFromPlayer;
 	public float MaxDistanceAwayFromPlayer;
 	
 	//Enemy Attack
-	public bool IsAttacking;
 
 	//Healing properties
 	//Total healing is calculated by HealPerSec * HealingInterv
@@ -95,13 +93,13 @@ public class EnemyHealerScript : EnemyBaseScript {
 				HealingActiveTime = 0;
 			}
 
-			Debug.Log ("Healing for: " + Time.deltaTime*HealPerSec );
+			//Debug.Log ("Healing for: " + Time.deltaTime*HealPerSec );
 
 		}
 		else
 		{
 			HealingCurrentCooldown -= Time.deltaTime;
-			Debug.Log ("Cooling down: " + HealingCurrentCooldown);
+			//Debug.Log ("Cooling down: " + HealingCurrentCooldown);
 		}
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 		{
