@@ -13,17 +13,20 @@ public class EnemyChargerScript : EnemyBaseScript {
 	public float NextAttack;
 	public float AttackDistance;
 	public GameObject EnemyAttackSphere;
-
-	public bool ChargeReady;
-	public bool IsGettingReadyToCharge;
-	public bool IsCharging;
-	public float ChargeCooldown;
-	public float ChargeCooldownCounter;
-	public float TimeUntilCharge;
-	public float TimeUntilChargeCounter;
-	public float ChargeVelocity;
-	public float MinDistanceToCharge;
-	public Vector3 ChargeTarget;
+	
+	public bool ChargeReady;				//Ready to charge?
+	public bool IsGettingReadyToCharge;		//Preparing to charge
+	public bool IsCharging;					//Currently charging towards target
+	public bool IsResting;					//Is it resting after a charge?
+	public float ChargeCooldown;			//Time before this can charge a target again
+	public float ChargeCooldownCounter;		//Counter for above
+	public float TimeUntilCharge;			//Time to get ready for a charge
+	public float TimeUntilChargeCounter;	//Counter for above
+	public float RestingTime;				//Time to stay inactive after a charge
+	public float RestingTimeCounter;		//Counter for above
+	public float ChargeVelocity;			//Charging speed
+	public float MinDistanceToCharge;		//Minimum distance between target to initiate a charge
+	public Vector3 ChargeTarget;			//Target to charge at
 
 	// Use this for initialization
 	public override void Start () {
@@ -52,10 +55,13 @@ public class EnemyChargerScript : EnemyBaseScript {
 		ChargeReady = false;
 		IsGettingReadyToCharge = false;
 		IsCharging = false;
+		IsResting = false;
 		ChargeCooldown = 5;
 		ChargeCooldownCounter = 0;
 		TimeUntilCharge = 3;
 		TimeUntilChargeCounter = 0;
+		RestingTime = 1;
+		RestingTimeCounter = 0;
 		ChargeVelocity = 75;
 		MinDistanceToCharge = 10;
 
@@ -89,14 +95,14 @@ public class EnemyChargerScript : EnemyBaseScript {
 			// Get distance between player and enemy
 			float distance = Vector3.Distance (playerLocation, this.transform.position);
 
-			if( ChargeReady && distance >= MinDistanceToCharge && !IsGettingReadyToCharge && !IsCharging )
+			if( ChargeReady && distance >= MinDistanceToCharge && !IsGettingReadyToCharge && !IsCharging && !IsResting )
 			{
 				float ChanceToCharge = Random.Range(0.0f, 100.0f);
 				if( ChanceToCharge <= 5.0 )
 				{
+					IsGettingReadyToCharge = true;
 					ChargeAttack();
 					RotateEnemy();
-					IsGettingReadyToCharge = true;
 					ChargeReady = false;
 				}
 			}
@@ -105,12 +111,22 @@ public class EnemyChargerScript : EnemyBaseScript {
 				ChargeAttack ();
 				RotateEnemy();
 			}
+			else if( IsResting )
+			{
+				RestingTimeCounter += Time.deltaTime;
+				if( RestingTimeCounter >= RestingTime )
+				{
+					IsResting = false;
+					RestingTimeCounter = 0;
+					MovingEnabled = true;
+				}
+			}
 			else
 			{
 				MoveEnemy();
 				ApplyKnockback();
 				RotateEnemy();
-				StopAndAttack();
+				//StopAndAttack();
 
 				if( ChargeCooldownCounter >= ChargeCooldown )
 				{
@@ -167,11 +183,13 @@ public class EnemyChargerScript : EnemyBaseScript {
 			// Set movement step
 			float moveStep = Velocity*Time.deltaTime;
 
+			float y = this.transform.position.y;
+
 			// Move towards player
 			this.transform.position = Vector3.MoveTowards(this.transform.position,playerLocation,moveStep);
 
 			//make sure the enemy stays on the ground plane
-			//this.transform.SetPositionY(1);
+			this.transform.SetPositionY(y);
 		}
 	}
 
@@ -202,7 +220,9 @@ public class EnemyChargerScript : EnemyBaseScript {
 				IsCharging = true;
 				IsGettingReadyToCharge = false;
 				TimeUntilChargeCounter = 0;
-				ChargeTarget = player.transform.position;
+				ChargeTarget.x = player.transform.position.x;
+				ChargeTarget.y = this.transform.position.y;
+				ChargeTarget.z = player.transform.position.z;
 				Debug.Log("Charging to position: " + ChargeTarget.x + "," + ChargeTarget.y + "," + ChargeTarget.z);
 			}
 
@@ -216,12 +236,33 @@ public class EnemyChargerScript : EnemyBaseScript {
 		{
 			float ChargeStep = ChargeVelocity*Time.deltaTime;
 			this.transform.position = Vector3.MoveTowards( this.transform.position, ChargeTarget, ChargeStep );
+
+			//Charge has reached it's target position
 			if( this.transform.position == ChargeTarget )
 			{
 				IsCharging = false;
+				IsResting = true;
+				MovingEnabled = false;
+				//ApplyChargeHit();
 				ChargeCooldownCounter = 0;
 			}
 		}
 	}
 
+	public void ApplyChargeHit()
+	{
+		Vector3 createPosition = transform.position + transform.forward;
+		GameObject attack = Instantiate(EnemyAttackSphere) as GameObject;
+		attack.transform.position = createPosition;
+		attack.GetComponent<EnemyAttackSphereScript>().SetDamage(40);
+		attack.GetComponent<EnemyAttackSphereScript>().SetForce(20);
+	}
+
+	public void OnCollisionEnter( Collision collision )
+	{
+		Debug.Log (collision.gameObject.name);
+	}
+
+
 }
+

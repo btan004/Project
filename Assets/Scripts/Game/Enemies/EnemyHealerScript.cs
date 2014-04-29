@@ -48,6 +48,10 @@ public class EnemyHealerScript : EnemyBaseScript {
 		{
 			mesh.material.color = Color.magenta;
 		}
+		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
+		{
+			s.enableEmission = false;
+		}
 		mass = 20;
 	}
 	
