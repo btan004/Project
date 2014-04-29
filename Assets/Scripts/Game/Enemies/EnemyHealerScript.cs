@@ -57,7 +57,9 @@ public class EnemyHealerScript : EnemyBaseScript {
 	
 	// Update is called once per frame
 	public override void Update () {
-		
+		// Reset animation info
+		ClearAnimationInfo();
+
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 		
@@ -68,6 +70,9 @@ public class EnemyHealerScript : EnemyBaseScript {
 		RotateEnemy ();
 
 		Heal ();
+
+		// Animate
+		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	public void Heal()
@@ -169,39 +174,44 @@ public class EnemyHealerScript : EnemyBaseScript {
 	
 	public void MoveEnemy() {
 		// Find player in game
+		if (IsTooFarFromPlayer() || IsTooCloseToPlayer())
+			IsMoving = true;
+
+		// Get player location
+		Vector3 playerLocation = player.transform.position;
+		
+		//Set y vector to 0 since we don't want to do anything with the y axis
+		playerLocation.y = 0;
+		
+		// Set movement step
+		float moveStep = Velocity*Time.deltaTime;
+
 		if (player && IsMoving && IsTooFarFromPlayer() )
 		{
-			// Get player location
-			Vector3 playerLocation = player.transform.position;
-
-			//Set y vector to 0 since we don't want to do anything with the y axis
-			playerLocation.y = 0;
-			
-			// Set movement step
-			float moveStep = Velocity*Time.deltaTime;
-
 			Vector3 MovingVector = Vector3.MoveTowards(this.transform.position,playerLocation, moveStep);
 			MovingVector.y = this.transform.position.y;
 			
 			// Move towards player
 			this.transform.position = MovingVector;
+
 		}
 		else if (player && IsMoving && IsTooCloseToPlayer() )
 		{
-			// Get player location
-			Vector3 playerLocation = player.transform.position;
-
-			//Set y vector to 0 since we don't want to do anything with the y axis
-			playerLocation.y = 0;
-			
-			// Set movement step
-			float moveStep = Velocity*Time.deltaTime;
-
 			Vector3 MovingVector = Vector3.MoveTowards(this.transform.position,playerLocation, -moveStep);
 			MovingVector.y = this.transform.position.y;
 
 			// Move towards player
 			this.transform.position = MovingVector;
 		}
+		
+		// Set rotation step
+		float rotationStep = TurnVelocity*Time.deltaTime;
+
+
+		// Rotate enemy towards player
+		Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
+		playerDir = new Vector3(playerDir.x,0,playerDir.z);
+		this.transform.rotation = Quaternion.LookRotation(playerDir);
+		EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
 	}
 }

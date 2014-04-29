@@ -17,7 +17,7 @@ public class WaveSystem
 	public static int EnemiesRemaining;
 
 	//wave information
-	public const float TimeBetweenWaves = 99f;
+	public const float TimeBetweenWaves = 3f;
 	public float TimeBetweenWavesTimer;
 	private bool hasFinishedWave;
 
@@ -25,7 +25,8 @@ public class WaveSystem
 	public static int WaveTypeCount = 3;
 	public static List<int> ChasersPerWave = new List<int>() { 10, 15, 18 };
 	public static List<int> SnipersPerWave = new List<int> () { 7, 12, 16 };
-	public static List<int> BigChasersPerWave = new List<int>() { 3, 5, 8 };
+	public static List<int> BouncersPerWave = new List<int>() { 3, 5, 8 };
+	public static List<int> ChargersPerWave = new List<int>() { 2, 4, 6 };
 	public static List<int> HealersPerWave = new List<int>() { 0, 3, 5 };
 	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 3 };
 
@@ -51,23 +52,41 @@ public class WaveSystem
 	public static float ChaserAttackRate;
 	public static float ChaserExperience;
 
-	//BigChaser upgrades
-	public static EnemyUpgrade BigChaserUpgrade;
-	public static List<float> BigChaserHealthUpgrade = new List<float>() { 5, 10, 20 };
-	public static List<float> BigChaserVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
-	public static List<float> BigChaserDamageUpgrade = new List<float>() { 3, 5, 7 };
-	public static List<float> BigChaserAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
-	public static List<float> BigChaserExperienceUpgrade = new List<float>() { 10, 20, 30 };
-	public const float BigChaserHealthInitial = 20f;
-	public const float BigChaserVelocityInitial = 5f;
-	public const float BigChaserDamageInitial = 5f;
-	public const float BigChaserAttackRateInitial = 2f;
-	public const float BigChaserExperienceInitial = 10f;
-	public static float BigChaserHealth;
-	public static float BigChaserVelocity;
-	public static float BigChaserDamage;
-	public static float BigChaserAttackRate;
-	public static float BigChaserExperience;
+	//Bouncer upgrades
+	public static EnemyUpgrade BouncerUpgrade;
+	public static List<float> BouncerHealthUpgrade = new List<float>() { 20, 40, 50 };
+	public static List<float> BouncerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
+	public static List<float> BouncerDamageUpgrade = new List<float>() { 6, 10, 14 };
+	public static List<float> BouncerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
+	public static List<float> BouncerExperienceUpgrade = new List<float>() { 20, 30, 40 };
+	public const float BouncerHealthInitial = 20f;
+	public const float BouncerVelocityInitial = 5f;
+	public const float BouncerDamageInitial = 5f;
+	public const float BouncerAttackRateInitial = 2f;
+	public const float BouncerExperienceInitial = 10f;
+	public static float BouncerHealth;
+	public static float BouncerVelocity;
+	public static float BouncerDamage;
+	public static float BouncerAttackRate;
+	public static float BouncerExperience;
+
+	//Charger upgrades
+	public static EnemyUpgrade ChargerUpgrade;
+	public static List<float> ChargerHealthUpgrade = new List<float>() { 20, 40, 50 };
+	public static List<float> ChargerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
+	public static List<float> ChargerDamageUpgrade = new List<float>() { 6, 10, 14 };
+	public static List<float> ChargerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
+	public static List<float> ChargerExperienceUpgrade = new List<float>() { 20, 30, 40 };
+	public const float ChargerHealthInitial = 20f;
+	public const float ChargerVelocityInitial = 5f;
+	public const float ChargerDamageInitial = 5f;
+	public const float ChargerAttackRateInitial = 2f;
+	public const float ChargerExperienceInitial = 10f;
+	public static float ChargerHealth;
+	public static float ChargerVelocity;
+	public static float ChargerDamage;
+	public static float ChargerAttackRate;
+	public static float ChargerExperience;
 
 	//sniper upgrades
 	public static EnemyUpgrade SniperUpgrade;
@@ -140,12 +159,19 @@ public class WaveSystem
 		ChaserExperience = ChaserExperienceInitial;
 		ChaserUpgrade = new EnemyUpgrade(ChaserHealth, ChaserVelocity, ChaserDamage, ChaserAttackRate, ChaserExperience);
 
-		BigChaserHealth = BigChaserHealthInitial;
-		BigChaserVelocity = BigChaserVelocityInitial;
-		BigChaserDamage = BigChaserDamageInitial;
-		BigChaserAttackRate = BigChaserAttackRateInitial;
-		BigChaserExperience = BigChaserExperienceInitial;
-		BigChaserUpgrade = new EnemyUpgrade(BigChaserHealth, BigChaserVelocity, BigChaserDamage, BigChaserAttackRate, BigChaserExperience);
+		BouncerHealth = BouncerHealthInitial;
+		BouncerVelocity = BouncerVelocityInitial;
+		BouncerDamage = BouncerDamageInitial;
+		BouncerAttackRate = BouncerAttackRateInitial;
+		BouncerExperience = BouncerExperienceInitial;
+		BouncerUpgrade = new EnemyUpgrade(BouncerHealth, BouncerVelocity, BouncerDamage, BouncerAttackRate, BouncerExperience);
+
+		ChargerHealth = ChargerHealthInitial;
+		ChargerVelocity = ChargerVelocityInitial;
+		ChargerDamage = ChargerDamageInitial;
+		ChargerAttackRate = ChargerAttackRateInitial;
+		ChargerExperience = ChargerExperienceInitial;
+		ChargerUpgrade = new EnemyUpgrade(ChargerHealth, ChargerVelocity, ChargerDamage, ChargerAttackRate, ChargerExperience);
 
 		SniperHealth = SniperHealthInitial;
 		SniperVelocity = SniperVelocityInitial;
@@ -197,8 +223,11 @@ public class WaveSystem
 		//create our chasers
 		spawnScript.SpawnEnemy (ChasersPerWave [waveType], SpawnScript.EnemyTypes.Chaser, ChaserUpgrade);
 
-		//create our big chasers
-		spawnScript.SpawnEnemy(BigChasersPerWave[waveType], SpawnScript.EnemyTypes.BigChaser, BigChaserUpgrade);
+		//create our bouncer
+		spawnScript.SpawnEnemy(BouncersPerWave[waveType], SpawnScript.EnemyTypes.Bouncer, BouncerUpgrade);
+
+		//create our charger
+		spawnScript.SpawnEnemy(ChargersPerWave[waveType], SpawnScript.EnemyTypes.Charger, ChargerUpgrade);
 
 		//create our snipers
 		spawnScript.SpawnEnemy (SnipersPerWave [waveType], SpawnScript.EnemyTypes.Sniper, SniperUpgrade);
@@ -218,11 +247,17 @@ public class WaveSystem
 			ChaserUpgrade.AttackRate *= ChaserAttackRateUpgrade[(int)GameDifficulty];
 			ChaserUpgrade.Experience += ChaserExperienceUpgrade[(int)GameDifficulty];
 
-			BigChaserUpgrade.Health += BigChaserHealthUpgrade[(int)GameDifficulty];
-			BigChaserUpgrade.Velocity += BigChaserVelocityUpgrade[(int)GameDifficulty];
-			BigChaserUpgrade.Damage += BigChaserDamageUpgrade[(int)GameDifficulty];
-			BigChaserUpgrade.AttackRate *= BigChaserAttackRateUpgrade[(int)GameDifficulty];
-			BigChaserUpgrade.Experience += BigChaserExperienceUpgrade[(int)GameDifficulty];
+			BouncerUpgrade.Health += BouncerHealthUpgrade[(int)GameDifficulty];
+			BouncerUpgrade.Velocity += BouncerVelocityUpgrade[(int)GameDifficulty];
+			BouncerUpgrade.Damage += BouncerDamageUpgrade[(int)GameDifficulty];
+			BouncerUpgrade.AttackRate *= BouncerAttackRateUpgrade[(int)GameDifficulty];
+			BouncerUpgrade.Experience += BouncerExperienceUpgrade[(int)GameDifficulty];
+
+			ChargerUpgrade.Health += ChargerHealthUpgrade[(int)GameDifficulty];
+			ChargerUpgrade.Velocity += ChargerVelocityUpgrade[(int)GameDifficulty];
+			ChargerUpgrade.Damage += ChargerDamageUpgrade[(int)GameDifficulty];
+			ChargerUpgrade.AttackRate *= ChargerAttackRateUpgrade[(int)GameDifficulty];
+			ChargerUpgrade.Experience += ChargerExperienceUpgrade[(int)GameDifficulty];
 
 			SniperUpgrade.Health += SniperHealthUpgrade[(int)GameDifficulty];
 			SniperUpgrade.Velocity += SniperVelocityUpgrade[(int)GameDifficulty];

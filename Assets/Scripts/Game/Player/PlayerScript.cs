@@ -40,7 +40,7 @@ public class PlayerScript : MonoBehaviour {
 	public static float		AttackCooldown = .25f;
 	private float				attackCooldownTimer = 0;
 	private bool				waitingForAnimationDelay;
-	public const float		AttackAnimationDelay = 0.5f;
+	public const float		AttackAnimationDelay = 0.1f;
 	private float				attackAnimationDelayTimer;
 
 
@@ -92,7 +92,12 @@ public class PlayerScript : MonoBehaviour {
 		knockback = new Vector3();
 		Mass = 10f;
 
+
+
+
 		Physics.IgnoreLayerCollision (8, 9);
+
+		PlayerAnimation.animation["attack"].speed = 2.5f;
 	}
 	
 	// Update is called once per frame
