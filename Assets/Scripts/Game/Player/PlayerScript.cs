@@ -95,7 +95,7 @@ public class PlayerScript : MonoBehaviour {
 
 
 
-		Physics.IgnoreLayerCollision (8, 9);
+		//Physics.IgnoreLayerCollision (8, 9);
 
 		PlayerAnimation.animation["attack"].speed = 2.5f;
 	}

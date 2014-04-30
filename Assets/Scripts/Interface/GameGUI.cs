@@ -70,7 +70,7 @@ public class GameGUI : MonoBehaviour {
 
 	private string skillDisplayBackPath			= "Assets/Resources/Textures/SkillDisplays/Background.png";
 	private string skillDisplayCoverPath		= "Assets/Resources/Textures/SkillDisplays/Cover.png";
-	private string skillDisplaySelectedPath	= "Assets/Resources/Textures/SkillDisplays/Selected.png";
+	private string skillDisplaySelectedPath		= "Assets/Resources/Textures/SkillDisplays/Selected.png";
 	private string skillHealthIconPath			= "Assets/Resources/Textures/SkillDisplays/HealthDisplay.png";
 	private string skillStaminaIconPath			= "Assets/Resources/Textures/SkillDisplays/StaminaDisplay.png";
 	private string skillSpeedIconPath			= "Assets/Resources/Textures/SkillDisplays/SpeedDisplay.png";

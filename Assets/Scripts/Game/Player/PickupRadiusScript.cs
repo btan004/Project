@@ -13,7 +13,7 @@ public class PickupRadiusScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.position = player.transform.position;
-		this.gameObject.GetComponent<SphereCollider>().radius = player.Radius;
+		//this.gameObject.GetComponent<SphereCollider>().radius = player.Radius;
 	}
 
 	void OnTriggerEnter(Collider other)

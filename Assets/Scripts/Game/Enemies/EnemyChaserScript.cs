@@ -112,8 +112,9 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 	public void MoveEnemy() {
 		// Find player in game
-		if (!IsWithinAttackRange ())
-						IsMoving = true;
+		if (!IsWithinAttackRange ()){
+			IsMoving = true;
+		}
 
 		if (player && IsMoving && !IsWithinAttackRange()) {
 			// Get player location
@@ -139,6 +140,10 @@ public class EnemyChaserScript : EnemyBaseScript {
 				attackAnimationDelayTimer = AttackAnimationDelay;
 				IsAttacking = true;
 			}
+
+			//Todo: Add stopping animation here when enemy is in range.
+			//This'll fix the problem where the enemy plays the moving animation,
+			//even if it is next to the player
 		}
 
 		if (waitingForAnimationDelay)

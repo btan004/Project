@@ -237,7 +237,10 @@ public class EnemyChargerScript : EnemyBaseScript {
 
 			foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 			{
-				s.enableEmission = IsGettingReadyToCharge;
+				if( s.name == "ChargeupParticles" )
+				{
+					s.enableEmission = IsGettingReadyToCharge;
+				}
 			}
 		}
 
@@ -252,8 +255,15 @@ public class EnemyChargerScript : EnemyBaseScript {
 				IsCharging = false;
 				IsResting = true;
 				MovingEnabled = false;
-				//ApplyChargeHit();
 				ChargeCooldownCounter = 0;
+			}
+
+			foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
+			{
+				if( s.name == "TrailParticles" )
+				{
+					s.enableEmission = true;
+				}
 			}
 		}
 	}
@@ -267,11 +277,16 @@ public class EnemyChargerScript : EnemyBaseScript {
 		attack.GetComponent<EnemyAttackSphereScript>().SetForce(20);
 	}
 
+
+
 	public void OnCollisionEnter( Collision collision )
 	{
-		Debug.Log (collision.gameObject.name);
+		if( collision.gameObject.layer == Globals.PLAYER_LAYER )
+		{
+			if( IsCharging )
+			{
+				ApplyChargeHit();
+			}
+		}
 	}
-
-
 }
-
