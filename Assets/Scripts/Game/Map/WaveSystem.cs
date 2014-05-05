@@ -13,22 +13,22 @@ public class WaveSystem
 {
 	//misc
 	public SpawnScript spawnScript;
+	public int RoundNumber;
 	public int WaveNumber;
 	public static int EnemiesRemaining;
 
 	//wave information
-	public const float TimeBetweenWaves = 5f;
-	public float TimeBetweenWavesTimer;
-	private bool hasFinishedWave;
+	public static bool ForceSpawnWave;
+	public static bool WaveFinished;
 
 	//wave types: 3 repeating waves of steadily increasing numbers of enemies
-	public static int WaveTypeCount = 3;
-	public static List<int> ChasersPerWave = new List<int>() { 10, 15, 18 };
-	public static List<int> SnipersPerWave = new List<int> () { 7, 12, 16 };
-	public static List<int> BouncersPerWave = new List<int>() { 3, 5, 8 };
-	public static List<int> ChargersPerWave = new List<int>() { 2, 4, 6 };
-	public static List<int> HealersPerWave = new List<int>() { 0, 3, 5 };
-	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 3 };
+	public static int WaveTypeCount = 5;
+	public static List<int> ChasersPerWave = new List<int>() { 10, 10, 10, 10, 10 };
+	public static List<int> SnipersPerWave = new List<int> () { 10, 10, 10, 10, 10 };
+	public static List<int> BouncersPerWave = new List<int>() { 0, 3, 4, 5, 5 };
+	public static List<int> ChargersPerWave = new List<int>() { 0, 0, 3, 4, 5 };
+	public static List<int> HealersPerWave = new List<int>() { 0, 2, 3, 3, 5};
+	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 0, 3, 5 };
 
 	//upgrades per difficulty
 	public static Difficulty GameDifficulty;
@@ -145,11 +145,12 @@ public class WaveSystem
 	public WaveSystem (SpawnScript spawnScript)
 	{
 		//misc wave system init
+		RoundNumber = 1;
 		WaveNumber = 0;
 		this.spawnScript = spawnScript;
 		EnemiesRemaining = 0;
-		TimeBetweenWavesTimer = 0;
-		hasFinishedWave = false;
+		ForceSpawnWave = false;
+		WaveFinished = true;
 
 		//initialize enemy data
 		ChaserHealth = ChaserHealthInitial;
@@ -198,48 +199,53 @@ public class WaveSystem
 
 	public void update()
 	{
-		if (EnemiesRemaining == 0 && !hasFinishedWave) {
-			hasFinishedWave = true;
-			TimeBetweenWavesTimer = TimeBetweenWaves;
-		}
-
-		if (hasFinishedWave)
-			TimeBetweenWavesTimer -= Time.deltaTime;
-			
-		if (hasFinishedWave && TimeBetweenWavesTimer < 0) 
+		if (EnemiesRemaining <= 0 && !WaveFinished)
 		{
-			SpawnWave();
-			WaveNumber++;
-			hasFinishedWave = false;
+			WaveFinished = true;
 		}
 
+
+
+		if (ForceSpawnWave)
+		{
+			//increment wave and round numbers
+			if (WaveNumber == WaveTypeCount)
+			{
+				WaveNumber = 1;
+				RoundNumber++;
+			}
+			else
+			{
+				WaveNumber++;
+			}
+
+			SpawnWave();
+
+		}
 	}
 
 	public void SpawnWave()
 	{
-		//determine the wave type so we know how many of each unit to spawn
-		int waveType = WaveNumber % WaveTypeCount;
-
 		//create our chasers
-		spawnScript.SpawnEnemy (ChasersPerWave [waveType], SpawnScript.EnemyTypes.Chaser, ChaserUpgrade);
+		spawnScript.SpawnEnemy (ChasersPerWave [WaveNumber - 1], SpawnScript.EnemyTypes.Chaser, ChaserUpgrade);
 
 		//create our bouncer
-		spawnScript.SpawnEnemy(BouncersPerWave[waveType], SpawnScript.EnemyTypes.Bouncer, BouncerUpgrade);
+		spawnScript.SpawnEnemy(BouncersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Bouncer, BouncerUpgrade);
 
 		//create our charger
-		spawnScript.SpawnEnemy(ChargersPerWave[waveType], SpawnScript.EnemyTypes.Charger, ChargerUpgrade);
+		spawnScript.SpawnEnemy(ChargersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Charger, ChargerUpgrade);
 
 		//create our snipers
-		spawnScript.SpawnEnemy (SnipersPerWave [waveType], SpawnScript.EnemyTypes.Sniper, SniperUpgrade);
+		spawnScript.SpawnEnemy(SnipersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Sniper, SniperUpgrade);
 
 		//create our healers
-		spawnScript.SpawnEnemy(HealersPerWave[waveType], SpawnScript.EnemyTypes.Healer, HealerUpgrade);
+		spawnScript.SpawnEnemy(HealersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Healer, HealerUpgrade);
 
 		//create our spawners
-		spawnScript.SpawnEnemy(SpawnersPerWave[waveType], SpawnScript.EnemyTypes.Spawner, SpawnerUpgrade);
+		spawnScript.SpawnEnemy(SpawnersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Spawner, SpawnerUpgrade);
 
-		//increase buffs at the end of spawning wave 3
-		if (waveType == 2)
+		//increase buffs at the end of spawning the last wave in the round
+		if (WaveNumber == WaveTypeCount)
 		{
 			ChaserUpgrade.Health += ChaserHealthUpgrade[(int)GameDifficulty];
 			ChaserUpgrade.Velocity += ChaserVelocityUpgrade[(int)GameDifficulty];
@@ -277,6 +283,11 @@ public class WaveSystem
 			SpawnerUpgrade.AttackRate *= SpawnerAttackRateUpgrade[(int)GameDifficulty];
 			SpawnerUpgrade.Experience += SpawnerExperienceUpgrade[(int)GameDifficulty];
 		}
+
+		//reset our force wave
+		ForceSpawnWave = false;
+
+		WaveFinished = false;
 	}
 }
 

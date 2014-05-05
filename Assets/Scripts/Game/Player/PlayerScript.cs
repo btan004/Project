@@ -53,7 +53,7 @@ public class PlayerScript : MonoBehaviour {
 	private static float		auraDurationTimer = 0f;
 
 	private static float		auraCooldownTimer = 0f;
-	public static float		AuraForce = 0.1f;
+	public static float		AuraForce = 1f;
 
 	//player skill shot
 	public bool					IsSkillShotActive = false;
@@ -254,8 +254,6 @@ public class PlayerScript : MonoBehaviour {
 			MapInfo.MaximumX - Radius, 
 			MapInfo.MinimumZ + Radius, 
 			MapInfo.MaximumZ - Radius);
-
-		
 	}
 
 	private void CheckForAttack()

@@ -11,6 +11,9 @@ public class SpawnScript : MonoBehaviour {
 	//enemy spawning wave system
 	public WaveSystem waveSystem;
 
+	//the portal
+	public GameObject Portal;
+
 	//Minimum range that enemies must spawn away from player
 	//E.g, if player.x = 20 and range is 5, enemy must spawn at x position > 25 or < 15
 	public float minimumSpawnRange = 6;
@@ -50,6 +53,8 @@ public class SpawnScript : MonoBehaviour {
 		//wave system
 		waveSystem.update ();
 
+		//update the portal
+		PortalScript.IsActive = WaveSystem.WaveFinished;
 	}
 
 	private void SpawnPowerups()

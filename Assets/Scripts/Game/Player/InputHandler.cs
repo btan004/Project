@@ -15,6 +15,11 @@ public class InputHandler {
 	public static bool		WantToChangeSkillLeft;
 	public static bool		WantToChangeSkillRight;
 	public const double		AnalogTolerance = 0.5;
+	public static bool		IsPaused;
+	public static float		PauseCooldown = 3.0f;
+	private float				pauseTimer;
+	private float				realTimePrevious;
+	static int temp;
 
 	//Debug variables
 	public bool		WantToSpawnEnemy;
@@ -24,6 +29,10 @@ public class InputHandler {
 		MovementVector = Vector3.zero;
 		DirectionVector = Vector3.zero;
 		WantToSprint = false;
+		IsPaused = false;
+
+		pauseTimer = 0.0f;
+		temp = 0;
 	}
 	
 	// Update is called once per frame
@@ -41,11 +50,15 @@ public class InputHandler {
 
 		CheckSpendSkillPoint();
 		CheckSkillChange();
+
+		if (Input.GetButton("Y Button")) WaveSystem.ForceSpawnWave = true;
+
+		//CheckPause();
 	}
 
 	//Supports: xbox controller and keyboard
 	private void CheckMovement()
-	{		
+	{
 		//Debug.Log("Movement Axis: (" + Input.GetAxis("Horizontal Movement") + ", " + Input.GetAxis("Vertical Movement") + ")");
 		MovementVector = new Vector3(Input.GetAxis("Horizontal Movement"), 0, Input.GetAxis("Vertical Movement"));
 		if (MovementVector.magnitude < AnalogTolerance) MovementVector = Vector3.zero;
@@ -76,20 +89,20 @@ public class InputHandler {
 	//supports: xbox controller
 	private void CheckMeleeAttack()
 	{
-		//WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
-		WantToAttack = Input.GetButton("A Button");
+		WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
+		//WantToAttack = Input.GetButton("A Button");
 	}
 
 	//supports: xbox controller
 	private void CheckAura()
 	{
-		WantToAura = Input.GetButton("X Button");
+		WantToAura = Input.GetButton("Aura");
 	}
 
 	//supports: xbox controller
 	private void CheckSkillShot()
 	{
-		WantToSkillShot = Input.GetButton("B Button");
+		WantToSkillShot = Input.GetButton("Skill Shot");
 	}
 
 	//supports: keyboard
@@ -106,8 +119,8 @@ public class InputHandler {
 	
 	private void CheckSpendSkillPoint()
 	{
-		//WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
-		WantToSpendSkillPoint = Input.GetButton("Y Button");
+		WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
+		//WantToSpendSkillPoint = Input.GetButton("Y Button");
 	}
 
 	private void CheckSkillChange()
@@ -115,11 +128,42 @@ public class InputHandler {
 		WantToChangeSkillLeft = false;
 		WantToChangeSkillRight = false;
 
-		if (Input.GetAxis("SkillSelect") < -.5)
-			WantToChangeSkillLeft = true;
-		if (Input.GetAxis("SkillSelect") > .5)
-			WantToChangeSkillRight = true;
+		//if (Input.GetAxis("SkillSelect") < -.5)
+		//	WantToChangeSkillLeft = true;
+		//if (Input.GetAxis("SkillSelect") > .5)
+		//	WantToChangeSkillRight = true;
+		WantToChangeSkillLeft = Input.GetButton("X Button") || (Input.GetAxis("SkillSelect") < -.5);
+		WantToChangeSkillRight = Input.GetButton("B Button") || (Input.GetAxis("SkillSelect") > .5);
 
 	}
 
+	/*
+	private void CheckPause()
+	{
+		temp++;
+
+		float deltaTime = Time.realtimeSinceStartup - realTimePrevious;
+
+		//Debug.Log("Pause Timer: " + pauseTimer.ToString());
+		if (pauseTimer <= 0)
+		{
+			if (Input.GetButton("Start Button"))
+			{
+				Debug.Log("Frame " + temp + ", Pause Timer 1: " + pauseTimer.ToString());
+				pauseTimer = PauseCooldown;
+				Debug.Log("Frame " + temp + ", Pause Timer 2: " + pauseTimer.ToString());
+
+				IsPaused = !IsPaused;
+				
+				if (IsPaused) Time.timeScale = 0.0f;
+				if (!IsPaused) Time.timeScale = 1.0f;
+
+				Debug.Log("Pause Status: " + IsPaused.ToString());
+			}
+		}
+		pauseTimer -= deltaTime;
+
+		realTimePrevious = Time.realtimeSinceStartup;
+	}
+	*/
 }

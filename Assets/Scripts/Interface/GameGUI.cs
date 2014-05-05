@@ -241,10 +241,10 @@ public class GameGUI : MonoBehaviour {
 
 	void DisplaySpawnInfo()
 	{
-		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Wave: " + spawnScript.waveSystem.WaveNumber);
+		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Round " + spawnScript.waveSystem.RoundNumber + " Wave " + spawnScript.waveSystem.WaveNumber);
 		if (WaveSystem.EnemiesRemaining == 0)
 		{
-			GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.waveSystem.TimeBetweenWavesTimer);
+			//GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.waveSystem.TimeBetweenWavesTimer);
 		}
 		else
 		{

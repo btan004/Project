@@ -23,6 +23,7 @@ public class EnemyHealerScript : EnemyBaseScript {
 	// Use this for initialization
 	public override void Start () {
 		if (!player) AssignPlayer();
+		WaveSystem.EnemiesRemaining++;
 		
 		// Set stats
 		MaxHealth = 100;

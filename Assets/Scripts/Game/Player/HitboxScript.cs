@@ -25,6 +25,9 @@ public class HitboxScript : MonoBehaviour {
 			case "SlimeTrap":
 				other.gameObject.GetComponent<SlimeTrapScript>().ActivateTrap(player);
 				break;
+			case "Portal":
+				if (WaveSystem.WaveFinished) WaveSystem.ForceSpawnWave = true;
+				break;
 			default:
 				break;
 		}

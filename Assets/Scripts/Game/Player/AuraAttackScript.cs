@@ -8,8 +8,6 @@ public class AuraAttackScript : MonoBehaviour {
 	public float RotateSpeed;
 	public bool Debug;
 
-	public float Force = 1f;
-
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
 	// Use this for initialization
@@ -54,8 +52,7 @@ public class AuraAttackScript : MonoBehaviour {
 			if (PlayerScript.IsAuraActive)
 			{
 				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				//UnityEngine.Debug.LogWarning("Applying Aura to enemy for " + player.Skills.GetAuraDamage());
-				enemy.ApplyDamage(player.Skills.GetAuraDamage());
+				enemy.ApplyDamage(player.Skills.GetAuraDamage() * Time.deltaTime);
 				enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
 			}
 		}
