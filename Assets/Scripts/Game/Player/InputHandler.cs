@@ -53,7 +53,7 @@ public class InputHandler {
 
 		if (Input.GetButton("Y Button")) WaveSystem.ForceSpawnWave = true;
 
-		//CheckPause();
+		CheckPause();
 	}
 
 	//Supports: xbox controller and keyboard
@@ -137,18 +137,20 @@ public class InputHandler {
 
 	}
 
-	/*
+
 	private void CheckPause()
 	{
 		temp++;
 
 		float deltaTime = Time.realtimeSinceStartup - realTimePrevious;
 
+
 		//Debug.Log("Pause Timer: " + pauseTimer.ToString());
 		if (pauseTimer <= 0)
 		{
 			if (Input.GetButton("Start Button"))
 			{
+				Debug.Log ("deltaTime: " + deltaTime);
 				Debug.Log("Frame " + temp + ", Pause Timer 1: " + pauseTimer.ToString());
 				pauseTimer = PauseCooldown;
 				Debug.Log("Frame " + temp + ", Pause Timer 2: " + pauseTimer.ToString());
@@ -165,5 +167,5 @@ public class InputHandler {
 
 		realTimePrevious = Time.realtimeSinceStartup;
 	}
-	*/
+
 }

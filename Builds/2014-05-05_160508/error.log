@@ -1,0 +1,917 @@
+Unity Player [version: Unity 4.3.4f1_e444f76e01cd]
+
+build1.exe caused an Access Violation (0xc0000005)
+  in module build1.exe at 0023:00759a7f.
+
+Error occurred at 2014-05-05_161538.
+C:\Users\Josh\Documents\Project\Project\Builds\build1.exe, run by Josh.
+61% memory in use.
+0 MB physical memory [3075 MB free].
+0 MB paging file [3658 MB free].
+0 MB user address space [30 MB free].
+Read from location eed719c8 caused an access violation.
+
+Context:
+EDI:    0xf1f36e6c  ESI: 0xeed719c4  EAX:   0x031c54a4
+EBX:    0xee970024  ECX: 0x00100008  EDX:   0xeec719b8
+EIP:    0x00759a7f  EBP: 0x0103f5c0  SegCs: 0x00000023
+EFlags: 0x00010202  ESP: 0x0103f5b4  SegSs: 0x0000002b
+
+Bytes at CS:EIP:
+8b 7e 04 83 e7 03 0b c7 89 46 04 8b 42 04 83 e0 
+
+Stack:
+0x0103f5b4: f1f36e6c eec719b8 032c54b0 0103f5e0 ln.......T,.....
+0x0103f5c4: 00759ff7 ee970024 00000004 eec719c0 ..u.$...........
+0x0103f5d4: 00d30800 c0f14d00 00100008 0103f608 .....M..........
+0x0103f5e4: 00354123 ee970024 eec719c0 00100007 #A5.$...........
+0x0103f5f4: 00d308c0 eec719c4 00d30800 77638cdc ..............cw
+0x0103f604: 00000000 0103f628 00354f4e eec719c4 ....(...NO5.....
+0x0103f614: 00100000 00000004 00100000 00000004 ................
+0x0103f624: eec719c4 0103f648 00352f87 eec719c4 ....H..../5.....
+0x0103f634: 00100000 00000004 00000004 00d2fed0 ................
+0x0103f644: eec719c4 0103f678 00352ef9 eec719c4 ....x.....5.....
+0x0103f654: 00100000 00d308c0 00000000 00000000 ................
+0x0103f664: 00b6e02c 0000014d 0103f7c8 00100000 ,...M...........
+0x0103f674: ace6b7b8 0103f69c 003531be eec719c4 .........15.....
+0x0103f684: 00100000 00000004 0000004a 00000000 ........J.......
+0x0103f694: 00b6e02c 0000014d 0103f6c8 0039c4b3 ,...M.........9.
+0x0103f6a4: eec719c4 00100000 00000004 0000004a ............J...
+0x0103f6b4: 00000000 00b6e02c 0000014d 0103f700 ....,...M.......
+0x0103f6c4: 0103f7c8 0103f6e4 0039c81a 00002000 ..........9.. ..
+0x0103f6d4: 0103f9e0 00000001 00002000 00001000 ......... ......
+0x0103f6e4: 0103f718 0039c8b7 0103f794 ace0fca0 ......9.........
+0x0103f6f4: 0103fa80 032c523c 0103f830 00000000 ....<R,.0.......
+0x0103f704: 0000004a 00000000 00000000 00000004 J...............
+0x0103f714: 0103f794 0103f744 0039a951 0103f830 ....D...Q.9.0...
+0x0103f724: 0103f788 02eb92dc 02ec505c 07d2d968 ........\P..h...
+0x0103f734: c20a2d66 413043fb 41a76b4c 00003160 f-...C0ALk.A`1..
+0x0103f744: 0103f770 0039aa6d 0103f754 032c523c p...m.9.T...<R,.
+0x0103f754: 07d2d968 00000000 00000000 0039cc00 h.............9.
+0x0103f764: 00000006 00000000 00000000 0103faac ................
+0x0103f774: 003b4000 0103f788 614e99a9 00000004 .@;.......Na....
+0x0103f784: 00000000 032ad030 00000000 00000000 ....0.*.........
+0x0103f794: 032ad03c 0000221d 0000606c 032c51f8 <.*.."..l`...Q,.
+0x0103f7a4: 00000000 00000000 032c5204 00000000 .........R,.....
+0x0103f7b4: 00000000 032c5210 00000000 00000000 .....R,.........
+0x0103f7c4: 00000000 eec719c4 0000004a 00001001 ........J.......
+0x0103f7d4: 00002000 00000000 0000004a 00000000 . ......J.......
+0x0103f7e4: 00000000 c01290d9 00000000 4066dbcc ..............f@
+0x0103f7f4: bfc5cec8 bf7b0306 00000000 00000000 ......{.........
+0x0103f804: 0000004a 00000000 00000000 00000000 J...............
+0x0103f814: 0000004a 00000000 00000000 00000000 J...............
+0x0103f824: 00000035 00000000 00000000 c20a2d66 5...........f-..
+0x0103f834: 413043fb 41a76b4c 42700000 40a00000 .C0ALk.A..pB...@
+0x0103f844: 00000300 3f4adb1b bec14f52 3ef54d69 ......J?RO..iM.>
+0x0103f854: 41ac0c7c bf4adb1b bec14f52 3ef54d69 |..A..J.RO..iM.>
+0x0103f864: c204f5ee 00000000 3ebdcf6d 3f6dc222 ........m..>".m?
+0x0103f874: c1bc298b 00000000 bf7d5b7a be12c16f .)......z[}.o...
+0x0103f884: 415e6f05 80000000 bf1e73c2 3f4911c5 .o^A.....s....I?
+0x0103f894: c11eb0df 00000000 3f1e73c2 bf4911c5 .........s.?..I.
+0x0103f8a4: 447c6790 00000000 00000000 00000000 .g|D............
+0x0103f8b4: 003c9fc1 00000000 00000000 00000000 ..<.............
+0x0103f8c4: 08b3c814 00000000 00000000 00000000 ................
+0x0103f8d4: 032e5de0 00000000 00000000 00000000 .]..............
+0x0103f8e4: dbd34640 00000006 ffffffff 447c6790 @F...........g|D
+0x0103f8f4: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f904: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f914: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f924: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f934: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f944: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f954: 447c6790 447c6790 447c6790 447c6790 .g|D.g|D.g|D.g|D
+0x0103f964: 447c6790 447c6790 447c6790 00000001 .g|D.g|D.g|D....
+0x0103f974: 3f800000 00000000 00000000 00000000 ...?............
+0x0103f984: 3fa646e1 00000000 00000000 00000000 .F.?............
+0x0103f994: 00000000 3fae2197 bf1e8c1b bf1e73c2 .....!.?.....s..
+0x0103f9a4: 00000000 3f89393e 3f4930aa 3f4911c5 ....>9.?.0I?..I?
+0x0103f9b4: 42337f64 c215b086 c123960d c119e412 d.3B......#.....
+0x0103f9c4: c20a2d66 413043fb 41a76b4c aced3ca4 f-...C0ALk.A.<..
+0x0103f9d4: ace0fca0 00000000 aced3ca4 ace0fca0 .........<......
+0x0103f9e4: 0000606c 00000000 00000000 00000000 l`..............
+0x0103f9f4: 00000000 00000000 00000000 00000000 ................
+0x0103fa04: 00000000 00000000 032c521c 00000001 .........R,.....
+0x0103fa14: 01000000 00000101 00000001 74b97ae0 .............z.t
+0x0103fa24: 0103f788 00000000 00000000 00000000 ................
+0x0103fa34: 00000000 00000000 032c521c 0000004a .........R,.J...
+0x0103fa44: 00000001 00000001 032c522c 0000004a ........,R,.J...
+0x0103fa54: 00000001 00000001 00000000 0000004a ............J...
+0x0103fa64: 00000000 00000000 00000000 0000004a ............J...
+0x0103fa74: 00000000 00000000 032c523c 00000000 ........<R,.....
+0x0103fa84: 00000000 00000000 02e9cdc4 c80ff698 ................
+0x0103fa94: c8edd028 02e9cdc4 c8edd028 c8edd028 (.......(...(...
+0x0103faa4: 00003160 02eb9248 0103fb68 004d8926 `1..H...h...&.M.
+0x0103fab4: 00000000 00000000 74b458e9 00b8d428 .........X.t(...
+0x0103fac4: 02edb7a8 00000000 00000000 00000000 ................
+0x0103fad4: 02eded01 00000000 00000000 00000001 ................
+0x0103fae4: 00000000 00000000 00000000 00000000 ................
+0x0103faf4: 00000000 00000000 00000000 00000000 ................
+0x0103fb04: 0103fadc 0103fae0 00000000 00000000 ................
+0x0103fb14: 00000000 00000000 00000000 00000000 ................
+0x0103fb24: 00000000 00000000 00000001 00000001 ................
+0x0103fb34: 00000000 00000000 00000000 00000000 ................
+0x0103fb44: 00000000 00000000 00000000 00000000 ................
+0x0103fb54: 00000002 00000001 3f800000 0491b64c ...........?L...
+0x0103fb64: 0100fb74 0103fba4 005306eb 00000000 t.........S.....
+0x0103fb74: 00000001 00000000 00000010 00000001 ................
+0x0103fb84: 000306a4 0000000f 00000000 00000000 ................
+0x0103fb94: 007aaa29 00000310 000002a0 00000548 ).z.........H...
+0x0103fba4: 0103fcbc 00531efb 00000000 00000000 ......S.........
+0x0103fbb4: fee34000 02e9d8e0 01200fd0 00000000 .@........ .....
+0x0103fbc4: 00000000 0000002e 0000002f 01200fd0 ......../..... .
+0x0103fbd4: 02e9e000 0000000f 0000000f 7fffffff ................
+0x0103fbe4: 00000000 0000000f 012016f0 6f6e6f00 .......... ..ono
+0x0103fbf4: 6374652f 0103fc00 007c5829 00000000 /etc....)X|.....
+0x0103fc04: 0000000f 0000000f 02e9e0b8 02e9e0f0 ................
+0x0103fc14: 02e9e0f0 00d0cb78 02e9d894 012005a8 ....x......... .
+0x0103fc24: 0103fc00 0db25c03 0000003a 0000003f .....\..:...?...
+0x0103fc34: 01200000 02aaa73c 02e9d978 00000004 .. .<...x.......
+0x0103fc44: 0103fb7c 76fadd84 00000049 0000004f |......vI...O...
+0x0103fc54: 49656e69 02e9e100 00000000 00000000 ineI............
+0x0103fc64: 00b6de2c 00000000 0000000f 0103fca0 ,...............
+0x0103fc74: 00000000 616e614d 00646567 007b3963 ....Managed.c9{.
+0x0103fc84: 00000000 00000007 0000000f 007b3970 ............p9{.
+0x0103fc94: 02aaa73c 6f6e6f4d 6e6f6d2f 6c642e6f <...Mono/mono.dl
+0x0103fca4: 0000006c 0000000d 0000000f 012016f0 l............. .
+0x0103fcb4: 00000000 00000000 0103fcd4 0077eb28 ............(.w.
+0x0103fcc4: 00350000 00000000 0127305c 00000001 ..5.....\0'.....
+0x0103fcd4: 0103fd64 007b0490 00350000 00000000 d.....{...5.....
+0x0103fce4: 0127305c 00000001 7d5bc245 00000000 \0'.....E.[}....
+0x0103fcf4: 00000000 fee34000 00000044 012719e2 .....@..D.....'.
+0x0103fd04: 012719c2 0127194e 00000000 00000000 ..'.N.'.........
+0x0103fd14: 00000000 00000000 00000000 00000000 ................
+0x0103fd24: 00000000 00000401 00000001 00000000 ................
+0x0103fd34: 00000000 00010001 00000000 c0000005 ................
+0x0103fd44: 00000000 00000000 0103fcec 0103efe4 ................
+0x0103fd54: 0103fda4 007b1c60 7c97a391 00000000 ....`.{....|....
+0x0103fd64: 0103fd70 74b48624 fee34000 0103fdb4 p...$..t.@......
+0x0103fd74: 76fdbf39 fee34000 0db25d9b 00000000 9..v.@...]......
+0x0103fd84: 00000000 fee34000 c0000005 fffff803 .....@..........
+0x0103fd94: 0103efc8 74f30a0a 0103fd7c 0103efc8 .......t|.......
+0x0103fda4: 0103fdc4 76f85191 7a4d4707 00000000 .....Q.v.GMz....
+0x0103fdb4: 0103fdcc 76fdbf0c 007b04e3 fee34000 .......v..{..@..
+0x0103fdc4: ffffffff 77051df7 00000000 00000000 .......w........
+0x0103fdd4: 007b04e3 fee34000 00000000 00000000 ..{..@..........
+0x0103fde4: 00000000 00000000 00000000 00000000 ................
+0x0103fdf4: 00000000 00000000 00000000 00000000 ................
+0x0103fe04: 00000000 00000000 00000000 00000000 ................
+0x0103fe14: 00000000 00000000 00000000 00000000 ................
+0x0103fe24: 00000000 00000000 00000000 00000000 ................
+0x0103fe34: 00000000 00000000 00000000 00000000 ................
+0x0103fe44: 00000000 00000000 00000000 00000000 ................
+0x0103fe54: 00000000 00000000 00000000 00000000 ................
+0x0103fe64: 00000000 00000000 00000000 00000000 ................
+0x0103fe74: 00000000 00000000 00000000 00000000 ................
+0x0103fe84: 00000000 00000000 00000000 00000000 ................
+0x0103fe94: 00000000 00000000 00000000 00000000 ................
+0x0103fea4: 00000000 00000000 00000000 00000000 ................
+0x0103feb4: 00000000 00000000 00000000 00000000 ................
+0x0103fec4: 00000000 00000000 00000000 00000000 ................
+0x0103fed4: 00000000 00000000 00000000 00000000 ................
+0x0103fee4: 00000000 00000000 00000000 00000000 ................
+0x0103fef4: 00000000 00000000 00000000 00000000 ................
+0x0103ff04: 00000000 00000000 00000000 00000000 ................
+0x0103ff14: 00000000 00000000 00000000 00000000 ................
+0x0103ff24: 00000000 00000000 00000000 00000000 ................
+0x0103ff34: 00000000 00000000 00000000 00000000 ................
+0x0103ff44: 00000000 00000000 00000000 00000000 ................
+0x0103ff54: 00000000 00000000 00000000 00000000 ................
+0x0103ff64: 00000000 00000000 00000000 00000000 ................
+0x0103ff74: 00000000 00000000 00000000 00000000 ................
+0x0103ff84: 00000000 00000000 00000000 00000000 ................
+0x0103ff94: 00000000 00000000 00000000 00000000 ................
+0x0103ffa4: 00000000 00000000 00000000 00000000 ................
+0x0103ffb4: 00000000 00000000 00000000 00000000 ................
+0x0103ffc4: 00000000 00000000 00000000 00000000 ................
+0x0103ffd4: 00000000 00000000 00000000 00000000 ................
+0x0103ffe4: 00000000 00000000 00000000 00000000 ................
+0x0103fff4: 00000000 00000000 00000000          ............
+
+Module 1
+C:\Users\Josh\Documents\Project\Project\Builds\build1.exe
+Image Base: 0x00350000  Image Size: 0x00b65000
+File Size:  11288064    File Time:  2014-01-23_152148
+Version:
+   Company:    
+   Product:    
+   FileDesc:   
+   FileVer:    4.3.4.31067
+   ProdVer:    4.3.4.31067
+
+Module 2
+C:\Windows\SYSTEM32\ntmarta.dll
+Image Base: 0x03380000  Image Size: 0x00026000
+File Size:  142336      File Time:  2012-07-25_201938
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows NT MARTA provider
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 3
+C:\Program Files (x86)\Samsung\Settings\CmdServer\WinCRT.dll
+Image Base: 0x10000000  Image Size: 0x00039000
+File Size:  211064      File Time:  2012-09-05_175022
+Version:
+   Company:    
+   Product:    WinMove ?? ?? ?????
+   FileDesc:   WinMove DLL
+   FileVer:    0.0.0.1
+   ProdVer:    0.0.0.1
+
+Module 4
+C:\Windows\SYSTEM32\xinput1_3.dll
+Image Base: 0x00400000  Image Size: 0x00016000
+File Size:  81768       File Time:  2007-04-04_195342
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® DirectX for Windows®
+   FileDesc:   Microsoft Common Controller API
+   FileVer:    9.18.944.0
+   ProdVer:    9.18.944.0
+
+Module 5
+C:\Users\Josh\Documents\Project\Project\Builds\build1_Data\Mono\mono.dll
+Image Base: 0x10000000  Image Size: 0x0022e000
+File Size:  2100224     File Time:  2014-01-23_152146
+Version:
+   Company:    
+   Product:    
+   FileDesc:   
+   FileVer:    0.0.0.0
+   ProdVer:    0.0.0.0
+
+Module 6
+C:\Windows\SYSTEM32\WINHTTP.dll
+Image Base: 0x6cce0000  Image Size: 0x00082000
+File Size:  516608      File Time:  2012-11-05_212020
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows HTTP Services
+   FileVer:    6.2.9200.16451
+   ProdVer:    6.2.9200.16451
+
+Module 7
+C:\Windows\SYSTEM32\igdumd32.dll
+Image Base: 0x6cd70000  Image Size: 0x00a9b000
+File Size:  11040256    File Time:  2012-10-10_032218
+Version:
+   Company:    Intel Corporation
+   Product:    Intel Graphics Accelerator Drivers for Windows 8(R)
+   FileDesc:   LDDM User Mode Driver for Intel(R) Graphics Technology
+   FileVer:    9.17.10.2867
+   ProdVer:    9.17.10.2867
+
+Module 8
+C:\Windows\SYSTEM32\d3d9.dll
+Image Base: 0x6d810000  Image Size: 0x001b5000
+File Size:  1762304     File Time:  2012-07-25_201814
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Direct3D 9 Runtime
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 9
+C:\Windows\SYSTEM32\DXGIDebug.dll
+Image Base: 0x6d9f0000  Image Size: 0x0001c000
+File Size:  112744      File Time:  2013-08-21_230322
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® DirectX for Windows®
+   FileDesc:   DXGI Debug Binary
+   FileVer:    9.30.9600.16384
+   ProdVer:    9.30.9600.16384
+
+Module 10
+C:\Windows\SYSTEM32\dsound.dll
+Image Base: 0x6da70000  Image Size: 0x00084000
+File Size:  523776      File Time:  2012-07-25_201824
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   DirectSound
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 11
+C:\Windows\SYSTEM32\midimap.dll
+Image Base: 0x6db00000  Image Size: 0x00008000
+File Size:  17920       File Time:  2012-07-25_201902
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft MIDI Mapper
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 12
+C:\Windows\SYSTEM32\msacm32.drv
+Image Base: 0x6db10000  Image Size: 0x00009000
+File Size:  21504       File Time:  2012-07-25_201746
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft Sound Mapper
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 13
+C:\Windows\SYSTEM32\AVRT.dll
+Image Base: 0x6db20000  Image Size: 0x00008000
+File Size:  23656       File Time:  2012-09-19_231334
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Multimedia Realtime Runtime
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 14
+C:\Windows\SYSTEM32\ksuser.dll
+Image Base: 0x6db30000  Image Size: 0x00005000
+File Size:  14336       File Time:  2012-07-25_203428
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   User CSA Library
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 15
+C:\Windows\SYSTEM32\wdmaud.drv
+Image Base: 0x6db40000  Image Size: 0x00030000
+File Size:  172032      File Time:  2012-07-25_201746
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Winmm  audio system driver
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 16
+C:\Windows\SYSTEM32\DCIMAN32.dll
+Image Base: 0x6db70000  Image Size: 0x00007000
+File Size:  10752       File Time:  2012-11-07_212408
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   DCI Manager
+   FileVer:    6.2.9200.16453
+   ProdVer:    6.2.9200.16453
+
+Module 17
+C:\Windows\SYSTEM32\DDRAW.dll
+Image Base: 0x6e030000  Image Size: 0x000d9000
+File Size:  474624      File Time:  2012-07-25_201818
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft DirectDraw
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 18
+C:\Windows\SYSTEM32\GLU32.dll
+Image Base: 0x6e110000  Image Size: 0x00023000
+File Size:  132096      File Time:  2012-07-25_201834
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   OpenGL Utility Library DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 19
+C:\Windows\SYSTEM32\OPENGL32.dll
+Image Base: 0x71890000  Image Size: 0x000ce000
+File Size:  812544      File Time:  2012-07-25_201940
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   OpenGL Client DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 20
+C:\Windows\SYSTEM32\powrprof.dll
+Image Base: 0x72130000  Image Size: 0x0003f000
+File Size:  244736      File Time:  2012-07-25_201944
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Power Profile Helper DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 21
+C:\Windows\SYSTEM32\MSWSOCK.dll
+Image Base: 0x73180000  Image Size: 0x0004a000
+File Size:  289280      File Time:  2012-10-10_220646
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft Windows Sockets 2.0 Service Provider
+   FileVer:    6.2.9200.16433
+   ProdVer:    6.2.9200.16433
+
+Module 22
+C:\Windows\SYSTEM32\DNSAPI.dll
+Image Base: 0x731d0000  Image Size: 0x00075000
+File Size:  461824      File Time:  2012-09-19_225346
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   DNS Client API DLL
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 23
+C:\Windows\SYSTEM32\dwmapi.dll
+Image Base: 0x73520000  Image Size: 0x00019000
+File Size:  92160       File Time:  2012-07-25_201824
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft Desktop Window Manager API
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 24
+C:\Windows\SYSTEM32\WINMMBASE.dll
+Image Base: 0x73540000  Image Size: 0x0002b000
+File Size:  160256      File Time:  2013-06-18_153802
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Base Multimedia Extension API DLL
+   FileVer:    6.2.9200.16645
+   ProdVer:    6.2.9200.16645
+
+Module 25
+C:\Windows\SYSTEM32\MMDevAPI.DLL
+Image Base: 0x735f0000  Image Size: 0x0004d000
+File Size:  307192      File Time:  2012-09-19_234728
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   MMDevice API
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 26
+C:\Windows\SYSTEM32\AUDIOSES.DLL
+Image Base: 0x73640000  Image Size: 0x00054000
+File Size:  324368      File Time:  2013-04-08_163730
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Audio Session
+   FileVer:    6.2.9200.16578
+   ProdVer:    6.2.9200.16578
+
+Module 27
+C:\Windows\SYSTEM32\WINMM.dll
+Image Base: 0x736a0000  Image Size: 0x00021000
+File Size:  125440      File Time:  2013-06-18_153802
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   MCI API DLL
+   FileVer:    6.2.9200.16642
+   ProdVer:    6.2.9200.16642
+
+Module 28
+C:\Windows\SYSTEM32\VERSION.dll
+Image Base: 0x73970000  Image Size: 0x00008000
+File Size:  16384       File Time:  2012-07-25_202014
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Version Checking and File Installation Libraries
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 29
+C:\Windows\SYSTEM32\WINSPOOL.DRV
+Image Base: 0x73990000  Image Size: 0x00060000
+File Size:  379904      File Time:  2012-07-25_201746
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows Spooler Driver
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 30
+C:\Windows\system32\apphelp.dll
+Image Base: 0x73c90000  Image Size: 0x000a7000
+File Size:  675840      File Time:  2012-09-19_225334
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Application Compatibility Client Library
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 31
+C:\Windows\SYSTEM32\WINNSI.DLL
+Image Base: 0x73d80000  Image Size: 0x00008000
+File Size:  16384       File Time:  2012-07-25_222650
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Network Store Information RPC interface
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 32
+C:\Windows\system32\uxtheme.dll
+Image Base: 0x73d90000  Image Size: 0x00088000
+File Size:  534528      File Time:  2013-02-19_025302
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft UxTheme Library
+   FileVer:    6.2.9200.16537
+   ProdVer:    6.2.9200.16537
+
+Module 33
+C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9200.16579_none_8937eec6860750f5\comctl32.dll
+Image Base: 0x74080000  Image Size: 0x001f8000
+File Size:  2050560     File Time:  2013-04-05_195030
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   User Experience Controls Library
+   FileVer:    6.10.9200.16578
+   ProdVer:    6.2.9200.16578
+
+Module 34
+C:\Windows\SYSTEM32\IPHLPAPI.DLL
+Image Base: 0x742a0000  Image Size: 0x00020000
+File Size:  119808      File Time:  2012-09-19_225400
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   IP Helper API
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 35
+C:\Windows\SYSTEM32\HID.DLL
+Image Base: 0x742c0000  Image Size: 0x0000a000
+File Size:  24576       File Time:  2012-07-25_201836
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Hid User Library
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 36
+C:\Windows\SYSTEM32\MSACM32.dll
+Image Base: 0x742f0000  Image Size: 0x00014000
+File Size:  71680       File Time:  2012-07-25_201908
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft ACM Audio Filter
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 37
+C:\Windows\SYSTEM32\shcore.dll
+Image Base: 0x74470000  Image Size: 0x00073000
+File Size:  452608      File Time:  2013-10-27_210554
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   SHCORE
+   FileVer:    6.2.9200.16751
+   ProdVer:    6.2.9200.16751
+
+Module 38
+C:\Windows\SYSTEM32\bcryptPrimitives.dll
+Image Base: 0x74500000  Image Size: 0x00051000
+File Size:  331952      File Time:  2012-07-25_222648
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows Cryptographic Primitives Library
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 39
+C:\Windows\SYSTEM32\CRYPTBASE.dll
+Image Base: 0x74560000  Image Size: 0x00009000
+File Size:  21504       File Time:  2012-07-25_201810
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Base cryptographic API DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 40
+C:\Windows\SYSTEM32\SspiCli.dll
+Image Base: 0x74570000  Image Size: 0x0001c000
+File Size:  98816       File Time:  2012-09-19_211346
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Security Support Provider Interface
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 41
+C:\Windows\SYSTEM32\MSASN1.dll
+Image Base: 0x74590000  Image Size: 0x00012000
+File Size:  57344       File Time:  2012-07-25_201910
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   ASN.1 Runtime APIs
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 42
+C:\Windows\SYSTEM32\WS2_32.dll
+Image Base: 0x74640000  Image Size: 0x00050000
+File Size:  310784      File Time:  2012-07-25_202040
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows Socket 2.0 32-Bit DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 43
+C:\Windows\SYSTEM32\msvcrt.dll
+Image Base: 0x74690000  Image Size: 0x000b1000
+File Size:  709632      File Time:  2012-07-25_201918
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows NT CRT DLL
+   FileVer:    7.0.9200.16384
+   ProdVer:    6.1.8638.16384
+
+Module 44
+C:\Windows\SYSTEM32\DEVOBJ.dll
+Image Base: 0x74950000  Image Size: 0x0001e000
+File Size:  120200      File Time:  2012-07-25_203812
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Device Information Set DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 45
+C:\Windows\SYSTEM32\MSCTF.dll
+Image Base: 0x74970000  Image Size: 0x000de000
+File Size:  893952      File Time:  2013-04-09_152952
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   MSCTF Server DLL
+   FileVer:    6.2.9200.16578
+   ProdVer:    6.2.9200.16578
+
+Module 46
+C:\Windows\SYSTEM32\NSI.dll
+Image Base: 0x74a50000  Image Size: 0x00008000
+File Size:  12800       File Time:  2012-07-25_222650
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   NSI User-mode interface DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 47
+C:\Windows\SYSTEM32\SHLWAPI.dll
+Image Base: 0x74a70000  Image Size: 0x00040000
+File Size:  246784      File Time:  2012-07-25_202000
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Shell Light-weight Utility Library
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 48
+C:\Windows\SYSTEM32\cfgmgr32.dll
+Image Base: 0x74ab0000  Image Size: 0x00046000
+File Size:  284456      File Time:  2012-07-25_203812
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Configuration Manager DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 49
+C:\Windows\SYSTEM32\KERNEL32.DLL
+Image Base: 0x74b20000  Image Size: 0x00130000
+File Size:  974848      File Time:  2014-02-05_161954
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows NT BASE API Client DLL
+   FileVer:    6.2.9200.16815
+   ProdVer:    6.2.9200.16815
+
+Module 50
+C:\Windows\SYSTEM32\RPCRT4.dll
+Image Base: 0x74c50000  Image Size: 0x000ac000
+File Size:  694272      File Time:  2013-05-23_152524
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Remote Procedure Call Runtime
+   FileVer:    6.2.9200.16622
+   ProdVer:    6.2.9200.16622
+
+Module 51
+C:\Windows\SYSTEM32\PSAPI.DLL
+Image Base: 0x74d00000  Image Size: 0x00006000
+File Size:  7168        File Time:  2012-07-25_201948
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Process Status Helper
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 52
+C:\Windows\SYSTEM32\CRYPT32.dll
+Image Base: 0x74d10000  Image Size: 0x00182000
+File Size:  1569280     File Time:  2013-10-01_163758
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Crypto API32
+   FileVer:    6.2.9200.16727
+   ProdVer:    6.2.9200.16727
+
+Module 53
+C:\Windows\SYSTEM32\KERNELBASE.dll
+Image Base: 0x74ea0000  Image Size: 0x000a6000
+File Size:  666112      File Time:  2014-02-05_162602
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows NT BASE API Client DLL
+   FileVer:    6.2.9200.16815
+   ProdVer:    6.2.9200.16815
+
+Module 54
+C:\Windows\SYSTEM32\OLEAUT32.dll
+Image Base: 0x75130000  Image Size: 0x0008b000
+File Size:  551424      File Time:  2013-09-27_205846
+Version:
+   Company:    Microsoft Corporation
+   Product:    
+   FileDesc:   
+   FileVer:    6.2.9200.16726
+   ProdVer:    6.2.9200.16726
+
+Module 55
+C:\Windows\SYSTEM32\ADVAPI32.dll
+Image Base: 0x751c0000  Image Size: 0x000ae000
+File Size:  702464      File Time:  2012-07-25_201750
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Advanced Windows 32 Base API
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 56
+C:\Windows\SYSTEM32\GDI32.dll
+Image Base: 0x75270000  Image Size: 0x000fd000
+File Size:  1022976     File Time:  2013-10-01_152220
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   GDI Client DLL
+   FileVer:    6.2.9200.16728
+   ProdVer:    6.2.9200.16728
+
+Module 57
+C:\Windows\SYSTEM32\ole32.dll
+Image Base: 0x75400000  Image Size: 0x00119000
+File Size:  1150160     File Time:  2012-11-05_214828
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft OLE for Windows
+   FileVer:    6.2.9200.16451
+   ProdVer:    6.2.9200.16451
+
+Module 58
+C:\Windows\SYSTEM32\combase.dll
+Image Base: 0x75520000  Image Size: 0x00136000
+File Size:  1247232     File Time:  2012-09-19_225340
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft COM for Windows
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 59
+C:\Windows\SYSTEM32\USER32.dll
+Image Base: 0x75660000  Image Size: 0x00116000
+File Size:  1126912     File Time:  2012-09-19_211010
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Multi-User Windows USER API Client DLL
+   FileVer:    6.2.9200.16420
+   ProdVer:    6.2.9200.16420
+
+Module 60
+C:\Windows\SYSTEM32\IMM32.dll
+Image Base: 0x75790000  Image Size: 0x00020000
+File Size:  121344      File Time:  2012-07-25_192730
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Multi-User Windows IMM32 API Client DLL
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 61
+C:\Windows\SYSTEM32\SHELL32.dll
+Image Base: 0x759a0000  Image Size: 0x010c6000
+File Size:  17561088    File Time:  2014-01-26_175222
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows Shell Common Dll
+   FileVer:    6.2.9200.16807
+   ProdVer:    6.2.9200.16807
+
+Module 62
+C:\Windows\SYSTEM32\clbcatq.dll
+Image Base: 0x76ba0000  Image Size: 0x00074000
+File Size:  454656      File Time:  2012-07-25_201806
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   COM+ Configuration Catalog
+   FileVer:    2001.12.10130.16384
+   ProdVer:    6.2.9200.16384
+
+Module 63
+C:\Windows\SYSTEM32\WINTRUST.dll
+Image Base: 0x76c20000  Image Size: 0x00042000
+File Size:  261120      File Time:  2013-07-12_212500
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Microsoft Trust Verification APIs
+   FileVer:    6.2.9200.16666
+   ProdVer:    6.2.9200.16666
+
+Module 64
+C:\Windows\SYSTEM32\SETUPAPI.dll
+Image Base: 0x76c70000  Image Size: 0x001af000
+File Size:  1752064     File Time:  2013-01-09_162624
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Windows Setup API
+   FileVer:    6.2.9200.16496
+   ProdVer:    6.2.9200.16496
+
+Module 65
+C:\Windows\SYSTEM32\sechost.dll
+Image Base: 0x76e80000  Image Size: 0x00034000
+File Size:  199168      File Time:  2012-07-25_201954
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   Host for SCM/SDDL/LSA Lookup APIs
+   FileVer:    6.2.9200.16384
+   ProdVer:    6.2.9200.16384
+
+Module 66
+C:\Windows\SYSTEM32\ntdll.dll
+Image Base: 0x76f80000  Image Size: 0x00157000
+File Size:  1408896     File Time:  2013-04-08_163916
+Version:
+   Company:    Microsoft Corporation
+   Product:    Microsoft® Windows® Operating System
+   FileDesc:   NT Layer DLL
+   FileVer:    6.2.9200.16578
+   ProdVer:    6.2.9200.16578
+
+
+== [end of error.log] ==

@@ -251,6 +251,10 @@ public class GameGUI : MonoBehaviour {
 			GUI.Label(new Rect ((Screen.width / 2) - 35, 35, 200, 20), "Enemies Remaining: " + WaveSystem.EnemiesRemaining);
 		}
 		GUI.Label(new Rect((Screen.width / 2) - 35, 55, 200, 20), "Score: " + PlayerScript.Score.ToString("F0"));
+
+		if (PortalScript.IsActive) {
+			GUI.Label(new Rect((Screen.width / 2) - 35, 80, 200, 20), "Wave Finished!");
+				}
 	}
 
 	// Update is called once per frame

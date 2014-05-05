@@ -95,7 +95,7 @@ public class PlayerScript : MonoBehaviour {
 
 
 
-		//Physics.IgnoreLayerCollision (8, 9);
+		Physics.IgnoreLayerCollision (9, 9);
 
 		PlayerAnimation.animation["attack"].speed = 2.5f;
 	}
@@ -234,7 +234,8 @@ public class PlayerScript : MonoBehaviour {
 		//make our player movement
 		if (newMovement != Vector3.zero)
 		{
-			this.transform.position = (this.transform.position + newMovement);
+			//this.transform.position = (this.transform.position + newMovement);
+			this.GetComponent<CharacterController>().Move(newMovement);
 			IsMoving = true;
 		}
 
@@ -416,7 +417,9 @@ public class PlayerScript : MonoBehaviour {
 
 	protected void ApplyKnockback()
 	{
-		this.transform.position = this.transform.position + knockback;
+		//this.transform.position = this.transform.position + knockback;
+		this.GetComponent<CharacterController>().Move(knockback);
+
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
 	}
