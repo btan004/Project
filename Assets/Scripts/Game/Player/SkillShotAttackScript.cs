@@ -8,6 +8,9 @@ public class SkillShotAttackScript : MonoBehaviour {
 	public CursorScript cursor;
 	private Vector3 directionToOffset;
 	public float Force = 10f;
+	public float ParticleDuration = 0.5f;
+	private float particleDurationTimer;
+	ParticleSystem particleSystem;
 
 	private List<GameObject> enemiesInRange = new List<GameObject>();
 
@@ -16,6 +19,10 @@ public class SkillShotAttackScript : MonoBehaviour {
 		renderer.material.color = Color.green;
 
 		directionToOffset = new Vector3();
+
+		particleSystem = this.GetComponentInChildren<ParticleSystem>();
+		particleSystem.enableEmission = false;
+		particleDurationTimer = ParticleDuration;
 	}
 	
 	// Update is called once per frame
@@ -29,7 +36,22 @@ public class SkillShotAttackScript : MonoBehaviour {
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
 
-		this.renderer.enabled = cursor.player.IsSkillShotActive;
+		//this.renderer.enabled = cursor.player.IsSkillShotActive;
+
+		if (cursor.player.IsSkillShotActive)
+		{
+			particleSystem.enableEmission = true;
+			particleDurationTimer = ParticleDuration;
+		}
+
+		if (particleSystem.enableEmission)
+		{
+			particleDurationTimer -= Time.deltaTime;
+			if (particleDurationTimer <= 0)
+			{
+				particleSystem.enableEmission = false;
+			}
+		}
 	}
 	
 	public void ApplySkillShotAttack(EnemyBaseScript enemy)

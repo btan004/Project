@@ -243,6 +243,7 @@ public class PlayerScript : MonoBehaviour {
 
 		//turn the player to the cursor
 		PlayerAnimation.transform.rotation = Quaternion.LookRotation(cursor.transform.position - transform.position);
+		
 
 		//make sure our player stays on the ground plan
 		this.transform.SetPositionY(1);

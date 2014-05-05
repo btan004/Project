@@ -13,7 +13,9 @@ public class CursorScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (InputHandler.DirectionVector != Vector3.zero)
-			this.transform.position = player.transform.position + (InputHandler.DirectionVector * player.Radius);
+		//if (InputHandler.DirectionVector != Vector3.zero)
+			//this.transform.position = player.transform.position + (InputHandler.DirectionVector * player.Radius);
+		if (InputHandler.MovementVector != Vector3.zero)
+			this.transform.position = player.transform.position + (InputHandler.MovementVector * player.Radius);
 	}
 }

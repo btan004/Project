@@ -14,6 +14,7 @@ public class InputHandler {
 	public static bool		WantToSpendSkillPoint;
 	public static bool		WantToChangeSkillLeft;
 	public static bool		WantToChangeSkillRight;
+	public const double		AnalogTolerance = 0.5;
 
 	//Debug variables
 	public bool		WantToSpawnEnemy;
@@ -45,24 +46,9 @@ public class InputHandler {
 	//Supports: xbox controller and keyboard
 	private void CheckMovement()
 	{		
-		//check for changes in our movement
-		MovementVector = Vector3.zero;
-		
-		if (Input.GetAxis("Horizontal Movement") < -.5		|| Input.GetAxis("Horizontal Movement KB") < 0)
-			MovementVector += Vector3.left;
-		if (Input.GetAxis("Horizontal Movement") > .5		|| Input.GetAxis("Horizontal Movement KB") > 0)
-			MovementVector += Vector3.right;
-		if (Input.GetAxis("Vertical Movement") < -.5		|| Input.GetAxis("Vertical Movement KB") > 0)
-			MovementVector += Vector3.forward;
-		if (Input.GetAxis("Vertical Movement") > .5			|| Input.GetAxis("Vertical Movement KB") < 0)
-			MovementVector += Vector3.back;
-
-		/*
-		if (Input.GetAxis("Horizontal Movement") < -.5 || Input.GetAxis("Horizontal Movement") > .5)
-			MovementVector.x = Input.GetAxis("Horizontal Movement");
-		if (Input.GetAxis("Vertical Movement") < -.5 || Input.GetAxis("Vertical Movement") > .5)
-			MovementVector.z = -1 * Input.GetAxis ("Vertical Movement");
-		*/
+		//Debug.Log("Movement Axis: (" + Input.GetAxis("Horizontal Movement") + ", " + Input.GetAxis("Vertical Movement") + ")");
+		MovementVector = new Vector3(Input.GetAxis("Horizontal Movement"), 0, Input.GetAxis("Vertical Movement"));
+		if (MovementVector.magnitude < AnalogTolerance) MovementVector = Vector3.zero;
 		MovementVector.Normalize();
 	}
 
@@ -71,9 +57,9 @@ public class InputHandler {
 	{
 		//check for changes in our direction
 		DirectionVector = Vector3.zero;
-		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > .3)
+		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > AnalogTolerance)
 			DirectionVector.x = Input.GetAxis ("Horizontal Direction");
-		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > .3)
+		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > AnalogTolerance)
 			DirectionVector.z = -1 * Input.GetAxis ("Vertical Direction");
 		DirectionVector.Normalize();
 	}
@@ -90,19 +76,20 @@ public class InputHandler {
 	//supports: xbox controller
 	private void CheckMeleeAttack()
 	{
-		WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
+		//WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
+		WantToAttack = Input.GetButton("A Button");
 	}
 
 	//supports: xbox controller
 	private void CheckAura()
 	{
-		WantToAura = Input.GetButton("Aura");
+		WantToAura = Input.GetButton("X Button");
 	}
 
 	//supports: xbox controller
 	private void CheckSkillShot()
 	{
-		WantToSkillShot = Input.GetButton("Skill Shot");
+		WantToSkillShot = Input.GetButton("B Button");
 	}
 
 	//supports: keyboard
@@ -119,7 +106,8 @@ public class InputHandler {
 	
 	private void CheckSpendSkillPoint()
 	{
-		WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
+		//WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
+		WantToSpendSkillPoint = Input.GetButton("Y Button");
 	}
 
 	private void CheckSkillChange()

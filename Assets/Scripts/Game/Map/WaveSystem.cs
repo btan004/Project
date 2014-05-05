@@ -17,7 +17,7 @@ public class WaveSystem
 	public static int EnemiesRemaining;
 
 	//wave information
-	public const float TimeBetweenWaves = 225f;
+	public const float TimeBetweenWaves = 5f;
 	public float TimeBetweenWavesTimer;
 	private bool hasFinishedWave;
 
