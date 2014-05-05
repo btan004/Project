@@ -15,6 +15,7 @@ TagManager:
   - PlayerMeleeAttackHitbox
   - PlayerSkillShotAttackHitbox
   - Portal
+  - Stage
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
