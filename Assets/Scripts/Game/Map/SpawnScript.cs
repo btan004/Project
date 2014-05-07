@@ -13,7 +13,6 @@ public class SpawnScript : MonoBehaviour {
 
 	//the portal
 	public GameObject Portal;
-	public GameObject portal;
 
 	//Minimum range that enemies must spawn away from player
 	//E.g, if player.x = 20 and range is 5, enemy must spawn at x position > 25 or < 15

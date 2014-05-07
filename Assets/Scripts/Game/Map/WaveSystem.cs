@@ -30,7 +30,7 @@ public class WaveSystem
 	public static List<int> HealersPerWave = new List<int>() { 0, 2, 3, 3, 5};
 	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 0, 3, 5 };
 
-	//upgrades per difficulty
+	//lives per difficulty
 	public static Difficulty GameDifficulty;
 	public static List<int> LivesPerDifficulty = new List<int>() { 5, 3, 1 };
 	
@@ -203,8 +203,6 @@ public class WaveSystem
 		{
 			WaveFinished = true;
 		}
-
-
 
 		if (ForceSpawnWave)
 		{

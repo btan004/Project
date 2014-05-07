@@ -159,8 +159,8 @@ public class InputHandler {
 				
 				if (IsPaused) Time.timeScale = 0.0f;
 				if (!IsPaused) Time.timeScale = 1.0f;
-
 				Debug.Log("Pause Status: " + IsPaused.ToString());
+				pauseTimer = 3.0f;
 			}
 		}
 		pauseTimer -= deltaTime;
