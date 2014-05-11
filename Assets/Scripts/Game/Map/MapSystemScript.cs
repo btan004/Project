@@ -1,0 +1,79 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class MapSystemScript : MonoBehaviour {
+
+	public GameObject[] Levels;
+	public GameObject Player;
+
+	public int HomeLevel;
+	public int BossLevel;
+	public int WaveLevelStart;
+	public int WaveLevelEnd;
+	public int StartLevel;
+	public int CurrentLevel;
+
+	// Use this for initialization
+	void Start () {
+		//disable all levels
+		foreach (GameObject level in Levels)
+			level.SetActive(false);
+
+		//start the player in the home level
+		TransitionToLevel(HomeLevel);
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+
+	public GameObject GetLevel(int level)
+	{
+		return Levels[level];
+	}
+
+	public GameObject GetHomeLevel()
+	{
+		return Levels[HomeLevel];
+	}
+
+	public GameObject GetBossLevel()
+	{
+		return Levels[BossLevel];
+	}
+
+	public GameObject GetCurrentLevel()
+	{
+		return Levels[CurrentLevel];
+	}
+
+	public GameObject GetRandomWaveLevel()
+	{
+		return Levels[Random.Range(WaveLevelStart, WaveLevelEnd)];
+	}
+
+	public Rect GetLevelBounds()
+	{
+		return GetCurrentLevel().GetComponent<LevelScript>().LevelBounds;
+	}
+
+	//responsible for camera fade out, moving player to the new level, then camera fade in
+	public void TransitionToLevel(int level)
+	{
+		//fade out
+
+		//disable the current level
+		GetCurrentLevel().SetActive(false);
+
+		//set our new level and activate it
+		CurrentLevel = level;
+		GetCurrentLevel().SetActive(true);
+
+		//move the player
+		Player.transform.position = GetCurrentLevel().GetComponent<LevelScript>().PlayerSpawnPoint.transform.position;
+
+		//fade in
+		
+	}
+}
