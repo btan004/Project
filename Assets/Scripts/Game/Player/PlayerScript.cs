@@ -248,13 +248,6 @@ public class PlayerScript : MonoBehaviour {
 
 		//make sure our player stays on the ground plan
 		this.transform.SetPositionY(1);
-
-		//Keep the Player within the map bounds
-		transform.BindToArea(
-			MapInfo.MinimumX + Radius, 
-			MapInfo.MaximumX - Radius, 
-			MapInfo.MinimumZ + Radius, 
-			MapInfo.MaximumZ - Radius);
 	}
 
 	private void CheckForAttack()

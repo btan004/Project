@@ -252,7 +252,8 @@ public class GameGUI : MonoBehaviour {
 		}
 		GUI.Label(new Rect((Screen.width / 2) - 35, 55, 200, 20), "Score: " + PlayerScript.Score.ToString("F0"));
 
-		if (PortalScript.IsActive && (spawnScript.waveSystem.RoundNumber > 1 || spawnScript.waveSystem.WaveNumber >= 1)) {
+		if (MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive
+			&& (spawnScript.waveSystem.RoundNumber > 1 || spawnScript.waveSystem.WaveNumber >= 1)) {
 			GUI.Label(new Rect((Screen.width / 2) - 35, 80, 200, 20), "Wave Finished!");
 				}
 	}

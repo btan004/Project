@@ -52,8 +52,11 @@ public class AuraAttackScript : MonoBehaviour {
 			if (PlayerScript.IsAuraActive)
 			{
 				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(player.Skills.GetAuraDamage() * Time.deltaTime);
-				enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+				if (enemy)
+				{
+					enemy.ApplyDamage(player.Skills.GetAuraDamage() * Time.deltaTime);
+					enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+				}
 			}
 		}
 	}

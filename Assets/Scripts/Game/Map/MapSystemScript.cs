@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MapSystemScript : MonoBehaviour {
 
+	public static MapSystemScript instance;
+
 	public GameObject[] Levels;
 	public GameObject Player;
 
@@ -14,17 +16,24 @@ public class MapSystemScript : MonoBehaviour {
 	public int CurrentLevel;
 
 	// Use this for initialization
-	void Start () {
-		//disable all levels
-		foreach (GameObject level in Levels)
-			level.SetActive(false);
+	void Start () 
+	{
+		if (instance == null)
+		{
+			instance = this;
 
-		//start the player in the home level
-		TransitionToLevel(HomeLevel);
+			//disable all levels
+			foreach (GameObject level in Levels)
+				level.SetActive(false);
+
+			//start the player in the home level
+			TransitionToLevel(StartLevel);
+		}
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 	
 	}
 
@@ -48,9 +57,29 @@ public class MapSystemScript : MonoBehaviour {
 		return Levels[CurrentLevel];
 	}
 
+	public LevelType GetCurrentLevelType()
+	{
+		return GetCurrentLevel().GetComponent<LevelScript>().CurrentLevelType;
+	}
+
 	public GameObject GetRandomWaveLevel()
 	{
 		return Levels[Random.Range(WaveLevelStart, WaveLevelEnd)];
+	}
+
+	public bool TrapsEnabled()
+	{
+		return Levels[CurrentLevel].GetComponent<LevelScript>().TrapsEnabled;
+	}
+
+	public bool PowerupsEnabled()
+	{
+		return Levels[CurrentLevel].GetComponent<LevelScript>().PowerupsEnabled;
+	}
+
+	public bool EnemiesEnabled()
+	{
+		return Levels[CurrentLevel].GetComponent<LevelScript>().EnemiesEnabled;
 	}
 
 	public Rect GetLevelBounds()
@@ -73,7 +102,12 @@ public class MapSystemScript : MonoBehaviour {
 		//move the player
 		Player.transform.position = GetCurrentLevel().GetComponent<LevelScript>().PlayerSpawnPoint.transform.position;
 
+
 		//fade in
-		
+
+
+		Debug.Log("Transitioned to Level: " + GetCurrentLevel().name);
 	}
+
+
 }

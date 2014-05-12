@@ -3,19 +3,34 @@ using System.Collections;
 
 public class PortalScript : MonoBehaviour {
 
-	public static bool IsActive;
+	public bool IsActive;
 
-	private ParticleSystem particleSystem;
+	//private ParticleSystem particleSystem;
+
+	public int Destination;
+
+	public Color ActiveColor;
+	public Color InactiveColor;
 
 	// Use this for initialization
 	void Start () {
 		IsActive = true;
-		particleSystem = GetComponentInChildren<ParticleSystem>();
+
+		ActiveColor = new Color(159f / 255f, 89f / 255f, 5f / 255f, 1);
+		InactiveColor = new Color(255f / 255f, 0, 0, 1);
+
+		if (IsActive)
+			particleSystem.startColor = ActiveColor;
+		else
+			particleSystem.startColor = InactiveColor;		
 	}
 
 	void Update()
 	{
-		particleSystem.enableEmission = IsActive;
+		if (IsActive)
+			particleSystem.startColor = ActiveColor;
+		else
+			particleSystem.startColor = InactiveColor;		
 	}
 
 }

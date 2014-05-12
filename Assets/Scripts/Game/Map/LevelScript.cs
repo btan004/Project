@@ -1,7 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum LevelType
+{
+	Home,
+	Boss,
+	Level
+};
+
+
 public class LevelScript : MonoBehaviour {
+
+
+	public LevelType CurrentLevelType;
 
 	public GameObject Boundaries;
 	public GameObject Lighting;
@@ -14,6 +25,7 @@ public class LevelScript : MonoBehaviour {
 
 	public bool TrapsEnabled;
 	public bool EnemiesEnabled;
+	public bool PowerupsEnabled;
 
 	// Use this for initialization
 	void Start () {
@@ -24,8 +36,8 @@ public class LevelScript : MonoBehaviour {
 			if (c.name == "Ground Plane")
 			{
 				LevelBounds.Set(
-					c.transform.position.x,
-					c.transform.position.z,
+					c.transform.position.x - 0.5f * c.transform.localScale.x,
+					c.transform.position.z - 0.5f * c.transform.localScale.z,
 					c.transform.localScale.x,
 					c.transform.localScale.z);
 			}

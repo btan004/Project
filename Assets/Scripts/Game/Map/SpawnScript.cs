@@ -32,11 +32,19 @@ public class SpawnScript : MonoBehaviour {
 	public float TrapSpawnRateMax = 5f;
 	private float timeUntilNextTrapSpawn;
 
+	//spawn data
+	public static bool SpawnWave;
+	public float timeUntilSpawnWave = 5f;
+	private float timeUntilSpawnWaveTimer;
+
 	// Use this for initialization
 	void Start () 
 	{
 		inputHandler = new InputHandler ();
 		waveSystem = new WaveSystem (this);
+
+		SpawnWave = false;
+		timeUntilSpawnWaveTimer = timeUntilSpawnWave;
 	}
 	
 	// Update is called once per frame
@@ -51,127 +59,148 @@ public class SpawnScript : MonoBehaviour {
 		SpawnTraps();
 
 		//wave system
+		if (SpawnWave)
+		{
+			timeUntilSpawnWaveTimer -= Time.deltaTime;
+			if (timeUntilSpawnWaveTimer <= 0)
+			{
+				WaveSystem.ForceSpawnWave = true;
+				SpawnWave = false;
+				timeUntilSpawnWaveTimer = timeUntilSpawnWave;
+			}
+		}
+
 		waveSystem.update ();
 
-		//update the portal
-		PortalScript.IsActive = WaveSystem.WaveFinished;
+		//update the level portal
+		if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level && WaveSystem.WaveFinished)
+			MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive = WaveSystem.WaveFinished;
 	}
 
 	private void SpawnPowerups()
 	{
-		//if we have room for more powerups on the map
-		if (NumberOfPowerups < MaxNumberOfPowerups)
+		if (MapSystemScript.instance.PowerupsEnabled())
 		{
-			//if we are ready to spawn the next one
-			if (timeUntilNextPowerupSpawn <= 0)
+			//if we have room for more powerups on the map
+			if (NumberOfPowerups < MaxNumberOfPowerups)
 			{
-				//decide which powerup to spawn
-				float probability = Random.value;
-				if (probability < 0.25)
+				//if we are ready to spawn the next one
+				if (timeUntilNextPowerupSpawn <= 0)
 				{
-					if (probability < 0.125) ObjectFactory.CreateHealthPowerup();
-					else ObjectFactory.CreateHealthRegenPowerup();
-				}
-				else if (probability < 0.50)
-				{
-					if (probability < 0.375) ObjectFactory.CreateStaminaPowerup();
-					else ObjectFactory.CreateStaminaRegenPowerup();
-				}
-				else if (probability < 0.75)
-				{
-					ObjectFactory.CreateMovementSpeedPowerup();
+					//decide which powerup to spawn
+					float probability = Random.value;
+					if (probability < 0.25)
+					{
+						if (probability < 0.125) ObjectFactory.CreateHealthPowerup();
+						else ObjectFactory.CreateHealthRegenPowerup();
+					}
+					else if (probability < 0.50)
+					{
+						if (probability < 0.375) ObjectFactory.CreateStaminaPowerup();
+						else ObjectFactory.CreateStaminaRegenPowerup();
+					}
+					else if (probability < 0.75)
+					{
+						ObjectFactory.CreateMovementSpeedPowerup();
+					}
+					else
+					{
+						ObjectFactory.CreateExperiencePowerup();
+					}
+
+					//pick a random amount of time before spawning the next one
+					timeUntilNextPowerupSpawn = Random.Range(PowerupSpawnRateMin, PowerupSpawnRateMax);
 				}
 				else
 				{
-					ObjectFactory.CreateExperiencePowerup();
+					//we are not ready to spawn another powerup
+					//so we need to decrement the timer
+					timeUntilNextPowerupSpawn -= Time.deltaTime;
 				}
-				
-				//pick a random amount of time before spawning the next one
-				timeUntilNextPowerupSpawn = Random.Range(PowerupSpawnRateMin, PowerupSpawnRateMax);
-			}
-			else
-			{
-				//we are not ready to spawn another powerup
-				//so we need to decrement the timer
-				timeUntilNextPowerupSpawn -= Time.deltaTime;
 			}
 		}
 	}
 
 	private void SpawnTraps()
 	{
-		//if we are ready to spawn the next trap
-		if (timeUntilNextTrapSpawn <= 0)
+		if (MapSystemScript.instance.TrapsEnabled())
 		{
-			//spawn our trap
-			TrapType type;
-			float probability = Random.value;
-			if (probability < .5) type = TrapType.Landmine;
-			else type = TrapType.SlimeTrap;
-
-			switch(type)
+			//if we are ready to spawn the next trap
+			if (timeUntilNextTrapSpawn <= 0)
 			{
-				case (TrapType.SlimeTrap):
-					ObjectFactory.CreateSlimeTrap(Random.Range(0.5f, 2), MapInfo.GetRandomPointOnMap());
-					break;
-				case (TrapType.Landmine):
-					ObjectFactory.CreateLandmine(Random.Range(10, 30), MapInfo.GetRandomPointOnMap());
-					break;
-				default:
-					break;
-			}
+				//spawn our trap
+				TrapType type;
+				float probability = Random.value;
+				if (probability < .5) type = TrapType.Landmine;
+				else type = TrapType.SlimeTrap;
 
-			//pick a random amount of time before spawning the next trap
-			timeUntilNextTrapSpawn = Random.Range(TrapSpawnRateMin, TrapSpawnRateMax);
-		}
-		else
-		{
-			//we are not ready to spawn another trap
-			//so we decrement the timer
-			timeUntilNextTrapSpawn -= Time.deltaTime;
+				switch (type)
+				{
+					case (TrapType.SlimeTrap):
+						ObjectFactory.CreateSlimeTrap(Random.Range(0.5f, 2), MapInfo.GetRandomPointOnMap());
+						break;
+					case (TrapType.Landmine):
+						ObjectFactory.CreateLandmine(Random.Range(10, 30), MapInfo.GetRandomPointOnMap());
+						break;
+					default:
+						break;
+				}
+
+				//pick a random amount of time before spawning the next trap
+				timeUntilNextTrapSpawn = Random.Range(TrapSpawnRateMin, TrapSpawnRateMax);
+			}
+			else
+			{
+				//we are not ready to spawn another trap
+				//so we decrement the timer
+				timeUntilNextTrapSpawn -= Time.deltaTime;
+			}
 		}
 	}
 
 	public void SpawnEnemy( int count, EnemyTypes type, EnemyUpgrade upgrade)
 	{
-		GameObject player = GameObject.Find ("Player");
-		Vector3 playerPos = player.transform.position;
-
-		for( int i = 0; i < count; ++i )
+		if (MapSystemScript.instance.EnemiesEnabled())
 		{
-			Vector3 spawnPos = MapInfo.GetRandomPointOnMap ();
+			GameObject player = GameObject.Find("Player");
+			Vector3 playerPos = player.transform.position;
 
-			while( Mathf.Abs(playerPos.x - spawnPos.x) <= minimumSpawnRange || Mathf.Abs(playerPos.z - spawnPos.z) <= minimumSpawnRange )
+			for (int i = 0; i < count; ++i)
 			{
-				spawnPos = MapInfo.GetRandomPointOnMap();
+				Vector3 spawnPos = MapInfo.GetRandomPointOnMap();
+
+				while (Mathf.Abs(playerPos.x - spawnPos.x) <= minimumSpawnRange || Mathf.Abs(playerPos.z - spawnPos.z) <= minimumSpawnRange)
+				{
+					spawnPos = MapInfo.GetRandomPointOnMap();
+				}
+				switch (type)
+				{
+					case (EnemyTypes.Debugging):
+						ObjectFactory.CreateDebugEnemy(spawnPos);
+						break;
+					case (EnemyTypes.Chaser):
+						ObjectFactory.CreateEnemyChaser(spawnPos, upgrade);
+						break;
+					case (EnemyTypes.Bouncer):
+						ObjectFactory.CreateEnemyBouncer(spawnPos, upgrade);
+						break;
+					case (EnemyTypes.Charger):
+						ObjectFactory.CreateEnemyCharger(spawnPos, upgrade);
+						break;
+					case (EnemyTypes.Sniper):
+						ObjectFactory.CreateEnemySniper(spawnPos, upgrade);
+						break;
+					case (EnemyTypes.Healer):
+						ObjectFactory.CreateEnemyHealer(spawnPos, upgrade);
+						break;
+					case (EnemyTypes.Spawner):
+						ObjectFactory.CreateEnemySpawner(spawnPos, upgrade);
+						break;
+					default:
+						break;
+				}
+
 			}
-			switch(type)
-			{
-				case (EnemyTypes.Debugging):
-					ObjectFactory.CreateDebugEnemy(spawnPos);
-					break;
-				case (EnemyTypes.Chaser):
-					ObjectFactory.CreateEnemyChaser(spawnPos, upgrade);
-					break;
-				case (EnemyTypes.Bouncer):
-					ObjectFactory.CreateEnemyBouncer(spawnPos, upgrade);
-					break;
-				case (EnemyTypes.Charger):
-					ObjectFactory.CreateEnemyCharger(spawnPos, upgrade);
-					break;
-				case (EnemyTypes.Sniper):
-					ObjectFactory.CreateEnemySniper(spawnPos, upgrade);
-					break;
-				case (EnemyTypes.Healer):
-					ObjectFactory.CreateEnemyHealer(spawnPos, upgrade);
-					break;
-				case (EnemyTypes.Spawner):
-					ObjectFactory.CreateEnemySpawner(spawnPos, upgrade);
-					break;
-				default:
-					break;
-			}
-			
 		}
 	}
 

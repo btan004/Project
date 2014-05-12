@@ -26,7 +26,34 @@ public class HitboxScript : MonoBehaviour {
 				other.gameObject.GetComponent<SlimeTrapScript>().ActivateTrap(player);
 				break;
 			case "Portal":
-				if (WaveSystem.WaveFinished) WaveSystem.ForceSpawnWave = true;
+				if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Home)
+				{
+					if (other.GetComponent<PortalScript>().IsActive)
+					{
+						MapSystemScript.instance.TransitionToLevel(other.GetComponent<PortalScript>().Destination);
+						other.GetComponent<PortalScript>().IsActive = false;
+
+						if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level)
+						{
+							SpawnScript.SpawnWave = true;
+						}
+					}
+				}
+				else if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level)
+				{
+					if (other.GetComponent<PortalScript>().IsActive && WaveSystem.WaveFinished)
+					{
+						MapSystemScript.instance.TransitionToLevel(other.GetComponent<PortalScript>().Destination);
+					}
+				}
+				else if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Boss)
+				{
+					if (other.GetComponent<PortalScript>().IsActive)
+					{
+						MapSystemScript.instance.GetHomeLevel().GetComponent<HomeScript>().ResetHome();
+						MapSystemScript.instance.TransitionToLevel(other.GetComponent<PortalScript>().Destination);
+					}
+				}
 				break;
 			default:
 				break;

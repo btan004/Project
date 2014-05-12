@@ -3,10 +3,6 @@ using System.Collections;
 
 public class MapInfo
 {
-	public static float MinimumX = -50;
-	public static float MaximumX = 50;
-	public static float MinimumZ = -50;
-	public static float MaximumZ = 50;
 	public static float MinimumY = 1;
 	public static float Buffer = 2;
 
@@ -20,6 +16,14 @@ public class MapInfo
 	/// <returns></returns>
 	public static Vector3 GetRandomPointOnMap()
 	{
-		return new Vector3(Random.Range(MinimumX + Buffer, MaximumX - Buffer), MinimumY, Random.Range(MinimumZ + Buffer, MaximumZ - Buffer));
+		float minimumX = MapSystemScript.instance.GetLevelBounds().left;
+		float maximumX = MapSystemScript.instance.GetLevelBounds().right;
+		float minimumZ = MapSystemScript.instance.GetLevelBounds().bottom;
+		float maximumZ = MapSystemScript.instance.GetLevelBounds().top;
+
+		return new Vector3(
+			Random.Range(minimumX + Buffer, maximumX - Buffer), 
+			MinimumY, 
+			Random.Range(minimumZ + Buffer, maximumZ - Buffer));
 	}
 }

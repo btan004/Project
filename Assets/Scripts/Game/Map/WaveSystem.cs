@@ -202,6 +202,15 @@ public class WaveSystem
 		if (EnemiesRemaining <= 0 && !WaveFinished)
 		{
 			WaveFinished = true;
+			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
+			{
+				if (c.name == "Portal")
+				{
+					c.GetComponent<PortalScript>().IsActive = true;					
+				}
+				else continue;
+			}
+
 		}
 
 		if (ForceSpawnWave)
