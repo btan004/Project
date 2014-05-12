@@ -132,9 +132,6 @@ public class PlayerScript : MonoBehaviour {
 		//Check if the player wants to end the game
 		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
 
-		//increase the score
-		Score += (Time.deltaTime * 10);
-
 		//animate the player
 		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}

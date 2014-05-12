@@ -36,6 +36,18 @@ public class HitboxScript : MonoBehaviour {
 						if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level)
 						{
 							SpawnScript.SpawnWave = true;
+
+							Debug.Log("Current Level: " + MapSystemScript.instance.GetCurrentLevel().name);
+							foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponentsInChildren<Component>())
+							{
+								//Debug.Log("Found: " + c.name);
+								if (c.name == "Portal")
+								{
+									Debug.Log("FOUND PORTAL");
+									c.GetComponent<PortalScript>().IsActive = false;
+									
+								}
+							}
 						}
 					}
 				}

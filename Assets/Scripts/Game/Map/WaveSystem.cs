@@ -206,7 +206,7 @@ public class WaveSystem
 			{
 				if (c.name == "Portal")
 				{
-					c.GetComponent<PortalScript>().IsActive = true;					
+					c.GetComponent<PortalScript>().IsActive = true;
 				}
 				else continue;
 			}
