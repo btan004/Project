@@ -48,6 +48,12 @@ public class HitboxScript : MonoBehaviour {
 									
 								}
 							}
+							AudioManagerScript.instance.StartLevelMusic();
+						}
+						else
+						{
+							//boss level
+							AudioManagerScript.instance.StartBossMusic();
 						}
 					}
 				}
@@ -56,6 +62,7 @@ public class HitboxScript : MonoBehaviour {
 					if (other.GetComponent<PortalScript>().IsActive && WaveSystem.WaveFinished)
 					{
 						MapSystemScript.instance.TransitionToLevel(other.GetComponent<PortalScript>().Destination);
+						AudioManagerScript.instance.StartHomeMusic();
 					}
 				}
 				else if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Boss)
@@ -64,6 +71,7 @@ public class HitboxScript : MonoBehaviour {
 					{
 						MapSystemScript.instance.GetHomeLevel().GetComponent<HomeScript>().ResetHome();
 						MapSystemScript.instance.TransitionToLevel(other.GetComponent<PortalScript>().Destination);
+						AudioManagerScript.instance.StartHomeMusic();
 					}
 				}
 				break;
