@@ -14,6 +14,12 @@ public class InputHandler {
 	public static bool		WantToSpendSkillPoint;
 	public static bool		WantToChangeSkillLeft;
 	public static bool		WantToChangeSkillRight;
+	public const double		AnalogTolerance = 0.5;
+	public static bool		IsPaused;
+	public static float		PauseCooldown = 3.0f;
+	private float				pauseTimer;
+	private float				realTimePrevious;
+	static int temp;
 
 	//Debug variables
 	public bool		WantToSpawnEnemy;
@@ -23,6 +29,10 @@ public class InputHandler {
 		MovementVector = Vector3.zero;
 		DirectionVector = Vector3.zero;
 		WantToSprint = false;
+		IsPaused = false;
+
+		pauseTimer = 0.0f;
+		temp = 0;
 	}
 	
 	// Update is called once per frame
@@ -40,29 +50,18 @@ public class InputHandler {
 
 		CheckSpendSkillPoint();
 		CheckSkillChange();
+
+		if (Input.GetButton("Y Button")) WaveSystem.ForceSpawnWave = true;
+
+		CheckPause();
 	}
 
 	//Supports: xbox controller and keyboard
 	private void CheckMovement()
-	{		
-		//check for changes in our movement
-		MovementVector = Vector3.zero;
-		
-		if (Input.GetAxis("Horizontal Movement") < -.5		|| Input.GetAxis("Horizontal Movement KB") < 0)
-			MovementVector += Vector3.left;
-		if (Input.GetAxis("Horizontal Movement") > .5		|| Input.GetAxis("Horizontal Movement KB") > 0)
-			MovementVector += Vector3.right;
-		if (Input.GetAxis("Vertical Movement") < -.5		|| Input.GetAxis("Vertical Movement KB") > 0)
-			MovementVector += Vector3.forward;
-		if (Input.GetAxis("Vertical Movement") > .5			|| Input.GetAxis("Vertical Movement KB") < 0)
-			MovementVector += Vector3.back;
-
-		/*
-		if (Input.GetAxis("Horizontal Movement") < -.5 || Input.GetAxis("Horizontal Movement") > .5)
-			MovementVector.x = Input.GetAxis("Horizontal Movement");
-		if (Input.GetAxis("Vertical Movement") < -.5 || Input.GetAxis("Vertical Movement") > .5)
-			MovementVector.z = -1 * Input.GetAxis ("Vertical Movement");
-		*/
+	{
+		//Debug.Log("Movement Axis: (" + Input.GetAxis("Horizontal Movement") + ", " + Input.GetAxis("Vertical Movement") + ")");
+		MovementVector = new Vector3(Input.GetAxis("Horizontal Movement"), 0, Input.GetAxis("Vertical Movement"));
+		if (MovementVector.magnitude < AnalogTolerance) MovementVector = Vector3.zero;
 		MovementVector.Normalize();
 	}
 
@@ -71,9 +70,9 @@ public class InputHandler {
 	{
 		//check for changes in our direction
 		DirectionVector = Vector3.zero;
-		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > .3)
+		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > AnalogTolerance)
 			DirectionVector.x = Input.GetAxis ("Horizontal Direction");
-		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > .3)
+		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > AnalogTolerance)
 			DirectionVector.z = -1 * Input.GetAxis ("Vertical Direction");
 		DirectionVector.Normalize();
 	}
@@ -91,6 +90,7 @@ public class InputHandler {
 	private void CheckMeleeAttack()
 	{
 		WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
+		//WantToAttack = Input.GetButton("A Button");
 	}
 
 	//supports: xbox controller
@@ -120,6 +120,7 @@ public class InputHandler {
 	private void CheckSpendSkillPoint()
 	{
 		WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
+		//WantToSpendSkillPoint = Input.GetButton("Y Button");
 	}
 
 	private void CheckSkillChange()
@@ -127,11 +128,44 @@ public class InputHandler {
 		WantToChangeSkillLeft = false;
 		WantToChangeSkillRight = false;
 
-		if (Input.GetAxis("SkillSelect") < -.5)
-			WantToChangeSkillLeft = true;
-		if (Input.GetAxis("SkillSelect") > .5)
-			WantToChangeSkillRight = true;
+		//if (Input.GetAxis("SkillSelect") < -.5)
+		//	WantToChangeSkillLeft = true;
+		//if (Input.GetAxis("SkillSelect") > .5)
+		//	WantToChangeSkillRight = true;
+		WantToChangeSkillLeft = Input.GetButton("X Button") || (Input.GetAxis("SkillSelect") < -.5);
+		WantToChangeSkillRight = Input.GetButton("B Button") || (Input.GetAxis("SkillSelect") > .5);
 
+	}
+
+
+	private void CheckPause()
+	{
+		temp++;
+
+		float deltaTime = Time.realtimeSinceStartup - realTimePrevious;
+
+
+		//Debug.Log("Pause Timer: " + pauseTimer.ToString());
+		if (pauseTimer <= 0)
+		{
+			if (Input.GetButton("Start Button"))
+			{
+				Debug.Log ("deltaTime: " + deltaTime);
+				Debug.Log("Frame " + temp + ", Pause Timer 1: " + pauseTimer.ToString());
+				pauseTimer = PauseCooldown;
+				Debug.Log("Frame " + temp + ", Pause Timer 2: " + pauseTimer.ToString());
+
+				IsPaused = !IsPaused;
+				
+				if (IsPaused) Time.timeScale = 0.0f;
+				if (!IsPaused) Time.timeScale = 1.0f;
+				Debug.Log("Pause Status: " + IsPaused.ToString());
+				pauseTimer = 3.0f;
+			}
+		}
+		pauseTimer -= deltaTime;
+
+		realTimePrevious = Time.realtimeSinceStartup;
 	}
 
 }

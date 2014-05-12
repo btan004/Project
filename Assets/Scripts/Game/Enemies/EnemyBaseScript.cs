@@ -20,6 +20,42 @@ public class EnemyBaseScript : MonoBehaviour {
 	protected float mass = 10;
 	protected Vector3 knockback;
 
+	// Animations
+	public Animation EnemyAnimation;
+	public bool IsMoving;
+	public bool IsAttacking;
+	public bool IsHit;
+	public bool IsDead;
+
+	public void ClearAnimationInfo()
+	{
+		IsMoving = false;
+		IsAttacking = false;
+		IsHit = false;
+	}
+
+	public void AnimateSkeleton(bool isHit, bool isAttacking, bool isMoving)
+	{
+
+		if (IsHit)
+		{
+			EnemyAnimation.Play("gethit");
+		}
+		else if (IsAttacking && !EnemyAnimation.IsPlaying("attack"))
+		{
+			EnemyAnimation.Play("attack");
+		}
+		else if (IsMoving && !EnemyAnimation.IsPlaying("run") && !EnemyAnimation.IsPlaying("attack"))
+		{
+			EnemyAnimation.Play("run");
+		}
+		else if (!EnemyAnimation.isPlaying)
+		{
+			EnemyAnimation.Play("idle");
+		}
+
+	}
+
 	public static PlayerScript player;
 
 	// Use this for initialization

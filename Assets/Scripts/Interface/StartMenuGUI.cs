@@ -32,4 +32,5 @@ public class StartMenuGUI : MonoBehaviour {
 		Application.Quit();
 	}
 	
+
 }

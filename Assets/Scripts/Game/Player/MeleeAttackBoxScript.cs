@@ -30,7 +30,7 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
 
-		this.renderer.enabled = PlayerScript.IsAttacking;
+		//this.renderer.enabled = PlayerScript.IsAttacking;
 	}
 	
 	void LateUpdate()
@@ -39,9 +39,15 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		{
 			foreach (GameObject other in enemiesInRange)
 			{
-				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(player.Skills.GetPlayerDamage());
-				enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+				if (other)
+				{
+					EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
+					if (enemy)
+					{
+						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
+						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+					}
+				}
 			}
 		}
 

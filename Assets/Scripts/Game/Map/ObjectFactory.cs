@@ -24,6 +24,8 @@ public class ObjectFactory : MonoBehaviour {
 	public GameObject EnemySniperPrefab;
 	public GameObject EnemyHealerPrefab;
 	public GameObject EnemySpawnerPrefab;
+	public GameObject EnemyBouncerPrefab;
+	public GameObject EnemyChargerPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -158,6 +160,32 @@ public class ObjectFactory : MonoBehaviour {
 		return enemy;
 	}
 
+	public static EnemyChaserScript CreateEnemyBouncer(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemyBouncerPrefab, position, Quaternion.identity) as GameObject;
+		EnemyChaserScript enemy = enemyObject.GetComponent<EnemyChaserScript>();
+		
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+		
+		//return the enemy
+		return enemy;
+	}
+
+	public static EnemyChargerScript CreateEnemyCharger(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemyChargerPrefab, position, Quaternion.identity) as GameObject;
+		EnemyChargerScript enemy = enemyObject.GetComponent<EnemyChargerScript>();
+		
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+		
+		//return the enemy
+		return enemy;
+	}
+
 	public static EnemySniperScript CreateEnemySniper(Vector3 position, EnemyUpgrade upgrade)
 	{
 		//Instanciate our enemy
@@ -183,4 +211,18 @@ public class ObjectFactory : MonoBehaviour {
 		//return the enemy
 		return enemy;
 	}
+
+	public static EnemySpawnerScript CreateEnemySpawner(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemySpawnerPrefab, position, Quaternion.identity) as GameObject;
+		EnemySpawnerScript enemy = enemyObject.GetComponent<EnemySpawnerScript>();
+		
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+		
+		//return the enemy
+		return enemy;
+	}
+
 }

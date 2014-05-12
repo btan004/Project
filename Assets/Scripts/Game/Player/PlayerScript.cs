@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour {
 
 	//player input
 	public InputHandler		inputHandler;
+	public CursorScript		cursor;
 
 	//player skills and leveling
 	public PlayerSkills Skills;
@@ -32,12 +33,16 @@ public class PlayerScript : MonoBehaviour {
 	private Vector3			knockback;
 
 	//player attack
-	
-	public static bool		IsAttacking = false;
+	public static bool		IsStartingToAttack = false;	//when the animation starts playing
+	public static bool		IsAttacking = false;				//when the damage is dealt
 	public bool					IsAttackReady = false;
 	public static float		StaminaToAttack = .5f;
 	public static float		AttackCooldown = .25f;
 	private float				attackCooldownTimer = 0;
+	private bool				waitingForAnimationDelay;
+	public const float		AttackAnimationDelay = 0.1f;
+	private float				attackAnimationDelayTimer;
+
 
 	//player aura
 	public static bool		IsAuraActive = false;
@@ -48,7 +53,7 @@ public class PlayerScript : MonoBehaviour {
 	private static float		auraDurationTimer = 0f;
 
 	private static float		auraCooldownTimer = 0f;
-	public static float		AuraForce = 0.1f;
+	public static float		AuraForce = 1f;
 
 	//player skill shot
 	public bool					IsSkillShotActive = false;
@@ -62,7 +67,12 @@ public class PlayerScript : MonoBehaviour {
 	private float healthFromPowerups = 0;
 	private float staminaFromPowerups = 0;
 	private float movespeedFromPowerups = 1;
-	
+
+	// Animations
+	public Animation PlayerAnimation;
+	public bool IsMoving;
+	public bool IsHit;
+
 	// Use this for initialization
 	void Start () {
 		INVULNERABLE = true;
@@ -74,12 +84,6 @@ public class PlayerScript : MonoBehaviour {
 		LevelSystem = new LevelSystem();
 		Skills = LevelSystem.GetPlayerSkills();
 		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
 
 		//get the proper amount of lives
 		Lives = WaveSystem.LivesPerDifficulty[(int)WaveSystem.GameDifficulty];
@@ -88,13 +92,21 @@ public class PlayerScript : MonoBehaviour {
 		knockback = new Vector3();
 		Mass = 10f;
 
-		Physics.IgnoreLayerCollision (8, 9);
+
+
+
+		Physics.IgnoreLayerCollision (9, 9);
+
+		PlayerAnimation.animation["attack"].speed = 2.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//check for death
 		CheckForDeath();
+
+		//Clear animation variables
+		ClearAnimationInfo();
 
 		//Check for user input
 		inputHandler.Update();
@@ -111,20 +123,17 @@ public class PlayerScript : MonoBehaviour {
 		CheckForSkillShot();
 
 		//Regen stamina based on time
-		//Stamina = Mathf.Clamp(Stamina + Time.deltaTime, 0, TotalStamina);
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + Time.deltaTime, 0, Skills.GetPlayerStaminaMax());
 
 		//Health + Stamina from powerup
-		//Health = Mathf.Clamp(Health + healthFromPowerups, 0, TotalHealth);
 		Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthFromPowerups, 0, Skills.GetPlayerHealthMax());
-		//Stamina = Mathf.Clamp(Stamina + staminaFromPowerups, 0, TotalStamina);
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaFromPowerups, 0, Skills.GetPlayerStaminaMax());
 
 		//Check if the player wants to end the game
 		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
 
-		//increase the score
-		Score += (Time.deltaTime * 10);
+		//animate the player
+		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	private void UpdateActivePowerups()
@@ -220,23 +229,22 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		//make our player movement
-		this.transform.position = (this.transform.position + newMovement);
-		
+		if (newMovement != Vector3.zero)
+		{
+			//this.transform.position = (this.transform.position + newMovement);
+			this.GetComponent<CharacterController>().Move(newMovement);
+			IsMoving = true;
+		}
 
-		//
+		//apply knockback
 		ApplyKnockback();
+
+		//turn the player to the cursor
+		PlayerAnimation.transform.rotation = Quaternion.LookRotation(cursor.transform.position - transform.position);
+		
 
 		//make sure our player stays on the ground plan
 		this.transform.SetPositionY(1);
-
-		//Keep the Player within the map bounds
-		transform.BindToArea(
-			MapInfo.MinimumX + Radius, 
-			MapInfo.MaximumX - Radius, 
-			MapInfo.MinimumZ + Radius, 
-			MapInfo.MaximumZ - Radius);
-
-		
 	}
 
 	private void CheckForAttack()
@@ -245,11 +253,15 @@ public class PlayerScript : MonoBehaviour {
 
 		IsAttackReady = (!IsAttacking && attackCooldownTimer <= 0 && Skills.GetPlayerStamina() > StaminaToAttack);
 
-		if (InputHandler.WantToAttack && IsAttackReady)
+		if (InputHandler.WantToAttack && IsAttackReady && !waitingForAnimationDelay)
 		{
-			IsAttacking = true;
+			//IsAttacking = true;
 			Skills.StaminaSkill.CurrentAmount -= StaminaToAttack;
 			attackCooldownTimer = AttackCooldown;
+
+			waitingForAnimationDelay = true;
+			attackAnimationDelayTimer = AttackAnimationDelay;
+			IsStartingToAttack = true;
 		}
 
 		attackCooldownTimer -= Time.deltaTime;
@@ -257,6 +269,16 @@ public class PlayerScript : MonoBehaviour {
 		if (attackCooldownTimer < 0)
 		{
 			IsAttackReady = true;
+		}
+
+		if (waitingForAnimationDelay)
+		{
+			attackAnimationDelayTimer -= Time.deltaTime;
+			if (attackAnimationDelayTimer <= 0)
+			{
+				IsAttacking = true;
+				waitingForAnimationDelay = false;
+			}
 		}
 	}
 
@@ -385,7 +407,9 @@ public class PlayerScript : MonoBehaviour {
 
 	protected void ApplyKnockback()
 	{
-		this.transform.position = this.transform.position + knockback;
+		//this.transform.position = this.transform.position + knockback;
+		this.GetComponent<CharacterController>().Move(knockback);
+
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
 	}
@@ -394,5 +418,35 @@ public class PlayerScript : MonoBehaviour {
 	{
 		LevelSystem.ApplyExperience(experience);
 		Score += (experience * 10f);
+	}
+
+	public void ClearAnimationInfo()
+	{
+		IsMoving = false;
+		IsStartingToAttack = false;
+		IsAttacking = false;
+		IsHit = false;
+	}
+
+	public void AnimateSkeleton(bool isHit, bool isAttacking, bool isMoving)
+	{
+
+		if (IsHit)
+		{
+			PlayerAnimation.Play("gethit");
+		}
+		else if (IsAttacking && !PlayerAnimation.IsPlaying("attack"))
+		{
+			PlayerAnimation.Play("attack");
+		}
+		else if (IsMoving && !PlayerAnimation.IsPlaying("run") && !PlayerAnimation.IsPlaying("attack"))
+		{
+			PlayerAnimation.Play("run");
+		}
+		else if (!PlayerAnimation.isPlaying)
+		{
+			PlayerAnimation.Play("idle");
+		}
+
 	}
 }

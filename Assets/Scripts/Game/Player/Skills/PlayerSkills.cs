@@ -104,7 +104,7 @@ public class PlayerSkills
 	{
 		List<float> auraSkillAmounts = new List<float>()
 		{
-			5, 10, 20, 35, 50
+			10, 20, 30, 40, 50
 		};
 		AuraSkill = new Skill(
 			"Aura Skill",

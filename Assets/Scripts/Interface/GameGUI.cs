@@ -70,7 +70,7 @@ public class GameGUI : MonoBehaviour {
 
 	private string skillDisplayBackPath			= "Assets/Resources/Textures/SkillDisplays/Background.png";
 	private string skillDisplayCoverPath		= "Assets/Resources/Textures/SkillDisplays/Cover.png";
-	private string skillDisplaySelectedPath	= "Assets/Resources/Textures/SkillDisplays/Selected.png";
+	private string skillDisplaySelectedPath		= "Assets/Resources/Textures/SkillDisplays/Selected.png";
 	private string skillHealthIconPath			= "Assets/Resources/Textures/SkillDisplays/HealthDisplay.png";
 	private string skillStaminaIconPath			= "Assets/Resources/Textures/SkillDisplays/StaminaDisplay.png";
 	private string skillSpeedIconPath			= "Assets/Resources/Textures/SkillDisplays/SpeedDisplay.png";
@@ -241,16 +241,21 @@ public class GameGUI : MonoBehaviour {
 
 	void DisplaySpawnInfo()
 	{
-		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Wave: " + spawnScript.waveSystem.WaveNumber);
+		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Round " + spawnScript.waveSystem.RoundNumber + " Wave " + spawnScript.waveSystem.WaveNumber);
 		if (WaveSystem.EnemiesRemaining == 0)
 		{
-			GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.waveSystem.TimeBetweenWavesTimer);
+			//GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.waveSystem.TimeBetweenWavesTimer);
 		}
 		else
 		{
 			GUI.Label(new Rect ((Screen.width / 2) - 35, 35, 200, 20), "Enemies Remaining: " + WaveSystem.EnemiesRemaining);
 		}
 		GUI.Label(new Rect((Screen.width / 2) - 35, 55, 200, 20), "Score: " + PlayerScript.Score.ToString("F0"));
+
+		if (MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive
+			&& (spawnScript.waveSystem.RoundNumber > 1 || spawnScript.waveSystem.WaveNumber >= 1)) {
+			GUI.Label(new Rect((Screen.width / 2) - 35, 80, 200, 20), "Wave Finished!");
+				}
 	}
 
 	// Update is called once per frame

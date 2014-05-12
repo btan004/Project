@@ -13,7 +13,11 @@ public class CursorScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//direction from right analog stick
 		if (InputHandler.DirectionVector != Vector3.zero)
 			this.transform.position = player.transform.position + (InputHandler.DirectionVector * player.Radius);
+		//direction from movement vector
+		//if (InputHandler.MovementVector != Vector3.zero)
+		//	this.transform.position = player.transform.position + (InputHandler.MovementVector * player.Radius);
 	}
 }
