@@ -17,7 +17,7 @@ public class HomeScript : MonoBehaviour {
 		{
 			fireLinesDictionary.Add(g.name, g);
 			ActivateFireLine(g.name, false);
-			Debug.Log("Added to dictionary: " + g.name);
+			//Debug.Log("Added to dictionary: " + g.name);
 		}
 	}
 	
