@@ -8,6 +8,8 @@ public class SpawnScript : MonoBehaviour {
 	//Debugging spawning option
 	private InputHandler inputHandler;
 
+	public PlayerScript player;
+
 	//enemy spawning wave system
 	public WaveSystem waveSystem;
 
@@ -41,7 +43,7 @@ public class SpawnScript : MonoBehaviour {
 	void Start () 
 	{
 		inputHandler = new InputHandler ();
-		waveSystem = new WaveSystem (this);
+		waveSystem = new WaveSystem (this, player);
 
 		SpawnWave = false;
 		timeUntilSpawnWaveTimer = timeUntilSpawnWave;

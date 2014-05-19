@@ -414,13 +414,15 @@ public class GameGUI : MonoBehaviour {
 		);
 		
 		//display the experience bar
+		/*
 		experienceBar.OnGUI(
 			(playerScript.LevelSystem.CurrentExperience / playerScript.LevelSystem.ExperienceToNextLevel),
 			"Experience",
 			"  " + playerScript.LevelSystem.CurrentExperience.ToString("F0") + "/" + playerScript.LevelSystem.ExperienceToNextLevel,
 			playerScript.LevelSystem.CurrentLevel.ToString()
 		);
-
+		*/
+		/*
 		movementSpeedBar.OnGUI(
 			0f,
 			"Movement Speed: " + playerScript.FinalMoveSpeed.ToString("F0"),
@@ -441,7 +443,7 @@ public class GameGUI : MonoBehaviour {
 			"",
 			""
 		);
-
+*/
 		powerupBar.OnGUI(
 			0f,
 			"Powerups:",

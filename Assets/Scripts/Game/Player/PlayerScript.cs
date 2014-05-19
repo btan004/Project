@@ -12,10 +12,11 @@ public class PlayerScript : MonoBehaviour {
 
 	//player skills and leveling
 	public PlayerSkills Skills;
-	public LevelSystem LevelSystem;
+	//public LevelSystem LevelSystem;
+	public PlayerEquipmentScript EquipmentSystem;
 
 	//player stats
-	public static float		Score = 0;
+	public static float			Score = 0;
 	public static int			Lives;
 	public const int			MaxLives = 5;
 
@@ -30,17 +31,17 @@ public class PlayerScript : MonoBehaviour {
 
 	//knockback
 	public float				Mass = 10f;
-	private Vector3			knockback;
+	private Vector3				knockback;
 
 	//player attack
-	public static bool		IsStartingToAttack = false;	//when the animation starts playing
-	public static bool		IsAttacking = false;				//when the damage is dealt
+	public static bool			IsStartingToAttack = false;	//when the animation starts playing
+	public static bool			IsAttacking = false;				//when the damage is dealt
 	public bool					IsAttackReady = false;
-	public static float		StaminaToAttack = .5f;
-	public static float		AttackCooldown = .25f;
+	public static float			StaminaToAttack = .5f;
+	public static float			AttackCooldown = .25f;
 	private float				attackCooldownTimer = 0;
 	private bool				waitingForAnimationDelay;
-	public const float		AttackAnimationDelay = 0.1f;
+	public const float			AttackAnimationDelay = 0.1f;
 	private float				attackAnimationDelayTimer;
 
 
@@ -81,9 +82,11 @@ public class PlayerScript : MonoBehaviour {
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
 
-		LevelSystem = new LevelSystem();
-		Skills = LevelSystem.GetPlayerSkills();
-		Skills.AddSkillPoint();
+		//LevelSystem = new LevelSystem();
+		//Skills = LevelSystem.GetPlayerSkills();
+		//Skills.AddSkillPoint();
+		Skills = new PlayerSkills (EquipmentSystem);
+		Skills.AddSkillPoints (WaveSystem.GameDifficulty);
 
 		//get the proper amount of lives
 		Lives = WaveSystem.LivesPerDifficulty[(int)WaveSystem.GameDifficulty];
@@ -91,9 +94,6 @@ public class PlayerScript : MonoBehaviour {
 		renderer.material.color = Color.red;
 		knockback = new Vector3();
 		Mass = 10f;
-
-
-
 
 		Physics.IgnoreLayerCollision (9, 9);
 
@@ -135,6 +135,7 @@ public class PlayerScript : MonoBehaviour {
 		//animate the player
 		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
+
 
 	private void UpdateActivePowerups()
 	{
@@ -416,7 +417,7 @@ public class PlayerScript : MonoBehaviour {
 
 	public void ApplyExperience(float experience)
 	{
-		LevelSystem.ApplyExperience(experience);
+		//LevelSystem.ApplyExperience(experience);
 		Score += (experience * 10f);
 	}
 

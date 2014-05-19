@@ -23,8 +23,9 @@ public class PlayerSkills
 
 	public int PointsToSpend;
 
+	PlayerEquipmentScript EquipmentScript;
 
-	public PlayerSkills()
+	public PlayerSkills(PlayerEquipmentScript equipmentScript)
 	{
 		PointsToSpend = 0;
 
@@ -34,6 +35,24 @@ public class PlayerSkills
 		setupAttackSkill();
 		setupSkillShotSkill();
 		setupAuraSkill();
+
+		EquipmentScript = equipmentScript;
+	}
+
+	public void AddSkillPoints(Difficulty difficulty)
+	{
+		switch (difficulty) 
+		{
+			case Difficulty.Easy:
+				PointsToSpend += 3;
+				break;
+			case Difficulty.Normal:
+				PointsToSpend += 2;
+				break;
+			case Difficulty.Hard:
+				PointsToSpend += 1;
+				break;
+		}
 	}
 
 	private void setupHealthSkill()
@@ -124,6 +143,7 @@ public class PlayerSkills
 					{
 						HealthSkill.Upgrade();
 						PointsToSpend--;
+						EquipmentScript.UpgradeShield();
 					}
 					break;
 				case (SkillType.Stamina):
@@ -145,6 +165,7 @@ public class PlayerSkills
 					{
 						AttackSkill.Upgrade();
 						PointsToSpend--;
+						EquipmentScript.UpgradeWeapon();
 					}
 					break;
 				case (SkillType.SkillShot):

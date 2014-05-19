@@ -12,6 +12,7 @@ public enum Difficulty
 public class WaveSystem
 {
 	//misc
+	public PlayerScript playerScript;
 	public SpawnScript spawnScript;
 	public int RoundNumber;
 	public int WaveNumber;
@@ -142,12 +143,13 @@ public class WaveSystem
 	public static float SpawnerAttackRate;
 	public static float SpawnerExperience;
 
-	public WaveSystem (SpawnScript spawnScript)
+	public WaveSystem (SpawnScript spawnScript, PlayerScript playerScript)
 	{
 		//misc wave system init
 		RoundNumber = 1;
 		WaveNumber = 0;
 		this.spawnScript = spawnScript;
+		this.playerScript = playerScript;
 		EnemiesRemaining = 0;
 		ForceSpawnWave = false;
 		WaveFinished = true;
@@ -201,7 +203,13 @@ public class WaveSystem
 	{
 		if (EnemiesRemaining <= 0 && !WaveFinished)
 		{
+			//the wave is finished
 			WaveFinished = true;
+
+			//give the player skill points
+			playerScript.Skills.AddSkillPoints(GameDifficulty);
+
+			//
 			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
 			{
 				if (c.name == "Portal")

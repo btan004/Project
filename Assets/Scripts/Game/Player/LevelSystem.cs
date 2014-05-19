@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/*
 public class LevelSystem
 {
 	//level and experience 
@@ -22,8 +22,6 @@ public class LevelSystem
 			ExperienceRequiredPerLevel.Add(100f);
 		ExperienceToNextLevel = ExperienceRequiredPerLevel[CurrentLevel - 1];
 		playerSkills = new PlayerSkills();
-
-
 	}
 
 	public void ApplyExperience(float experience)
@@ -34,7 +32,7 @@ public class LevelSystem
 		{
 			CurrentExperience -= ExperienceToNextLevel;
 			CurrentLevel++;
-			playerSkills.AddSkillPoint();
+			//playerSkills.AddSkillPoint();
 			ExperienceToNextLevel = ExperienceRequiredPerLevel[CurrentLevel - 1];
 		}
 	}
@@ -42,3 +40,4 @@ public class LevelSystem
 	public PlayerSkills GetPlayerSkills() { return playerSkills; }
 }
 
+*/
