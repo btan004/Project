@@ -13,7 +13,8 @@ public class PlayerScript : MonoBehaviour {
 
 	//player skills and leveling
 	public PlayerSkills Skills;
-	public LevelSystem LevelSystem;
+	public PlayerEquipmentScript Equipment;
+	//public LevelSystem LevelSystem;
 
 	//player stats
 	public static float		Score = 0;
@@ -92,9 +93,11 @@ public class PlayerScript : MonoBehaviour {
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
 
-		LevelSystem = new LevelSystem();
-		Skills = LevelSystem.GetPlayerSkills();
-		Skills.AddSkillPoint();
+		//LevelSystem = new LevelSystem();
+		//Skills = LevelSystem.GetPlayerSkills();
+		//Skills.AddSkillPoint();
+		Skills = new PlayerSkills (Equipment);
+		Skills.AddSkillPoints (WaveSystem.GameDifficulty);
 
 		//get the proper amount of lives
 		Lives = WaveSystem.LivesPerDifficulty[(int)WaveSystem.GameDifficulty];
@@ -432,7 +435,7 @@ public class PlayerScript : MonoBehaviour {
 
 	public void ApplyExperience(float experience)
 	{
-		LevelSystem.ApplyExperience(experience);
+		//LevelSystem.ApplyExperience(experience);
 		Score += (experience * 10f);
 	}
 
