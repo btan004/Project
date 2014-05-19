@@ -70,8 +70,11 @@ public class SkillShotAttackScript : MonoBehaviour {
 			foreach (GameObject other in enemiesInRange)
 			{
 				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(player.Skills.GetPlayerDamage());
-				enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+				if (enemy)
+				{
+					enemy.ApplyDamage(player.Skills.GetPlayerDamage());
+					enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+				}
 			}
 		}
 

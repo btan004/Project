@@ -38,8 +38,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab2190278d94df04ea9ccb33295fad0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScript: {fileID: 0}
-  spawnScript: {fileID: 0}
+  playerScript: {fileID: 11400000, guid: b150b33370e5fe140a2251b1edac774d, type: 2}
+  spawnScript: {fileID: 11400000, guid: 902c9a2b4b98c7b4f985cef4933b7562, type: 2}
+  tooltipLine1: 
+  tooltipLine2: 
+  tooltipLine3: 
   MaxPowerupsToDisplay: 10
 --- !u!1001 &100100000
 Prefab:
