@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,32 +17,32 @@ public class PlayerScript : MonoBehaviour {
 
 	//player stats
 	public static float		Score = 0;
-	public static int			Lives;
-	public const int			MaxLives = 5;
+	public static int		Lives;
+	public const int		MaxLives = 5;
 
-	public float				Radius = 2f;
+	public float			Radius = 2f;
 
 	//player movement
-	public float				SprintCoefficient = 5.0f;
-	public float				StaminaToSprint = 3;
+	public float			SprintCoefficient = 5.0f;
+	public float			StaminaToSprint = 3;
 
-	public bool					RanOutOfStamina = false;
-	public float				FinalMoveSpeed = 0;
+	public bool				RanOutOfStamina = false;
+	public float			FinalMoveSpeed = 0;
 
 	//knockback
-	public float				Mass = 10f;
+	public float			Mass = 10f;
 	private Vector3			knockback;
 
 	//player attack
 	public static bool		IsStartingToAttack = false;	//when the animation starts playing
 	public static bool		IsAttacking = false;				//when the damage is dealt
-	public bool					IsAttackReady = false;
+	public bool				IsAttackReady = false;
 	public static float		StaminaToAttack = .5f;
 	public static float		AttackCooldown = .25f;
-	private float				attackCooldownTimer = 0;
-	private bool				waitingForAnimationDelay;
-	public const float		AttackAnimationDelay = 0.1f;
-	private float				attackAnimationDelayTimer;
+	public float			attackCooldownTimer = 0;
+	private bool			waitingForAnimationDelay;
+	public const float		AttackAnimationDelay = 0.36f;
+	private float			attackAnimationDelayTimer;
 
 
 	//player aura
@@ -69,14 +70,24 @@ public class PlayerScript : MonoBehaviour {
 	private float movespeedFromPowerups = 1;
 
 	// Animations
+	public Animator anim;
+	private static int player_attackingState = Animator.StringToHash ("AttackLayer.attacking");
+	private static int player_StateBaseLayer = 0;
+	private static int player_StateAttackLayer = 1;
+	private AnimatorStateInfo currentAtkState;
 	public Animation PlayerAnimation;
 	public bool IsMoving;
 	public bool IsHit;
+
+	public bool debugvar = false;
 
 	// Use this for initialization
 	void Start () {
 		INVULNERABLE = true;
 		WaveSystem.GameDifficulty = Difficulty.Easy;
+
+		anim = GetComponent<Animator>();
+		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
 
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
@@ -104,9 +115,10 @@ public class PlayerScript : MonoBehaviour {
 	void Update () {
 		//check for death
 		CheckForDeath();
-
 		//Clear animation variables
-		ClearAnimationInfo();
+		//ClearAnimationInfo();
+
+		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
 
 		//Check for user input
 		inputHandler.Update();
@@ -133,7 +145,7 @@ public class PlayerScript : MonoBehaviour {
 		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
 
 		//animate the player
-		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
+		//AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	private void UpdateActivePowerups()
@@ -192,6 +204,7 @@ public class PlayerScript : MonoBehaviour {
 	private void CheckForMovement()
 	{
 		//apply it to the player
+		IsMoving = false;
 		Vector3 newMovement = InputHandler.MovementVector * Skills.GetPlayerVelocity() * movespeedFromPowerups * Time.deltaTime;
 
 		FinalMoveSpeed = Skills.GetPlayerVelocity() * movespeedFromPowerups;
@@ -241,7 +254,8 @@ public class PlayerScript : MonoBehaviour {
 
 		//turn the player to the cursor
 		PlayerAnimation.transform.rotation = Quaternion.LookRotation(cursor.transform.position - transform.position);
-		
+
+		anim.SetFloat ("Speed", Mathf.Clamp(InputHandler.MovementVector.magnitude, 0, 1));
 
 		//make sure our player stays on the ground plan
 		this.transform.SetPositionY(1);
@@ -252,8 +266,8 @@ public class PlayerScript : MonoBehaviour {
 		IsAttacking = false;
 
 		IsAttackReady = (!IsAttacking && attackCooldownTimer <= 0 && Skills.GetPlayerStamina() > StaminaToAttack);
-
-		if (InputHandler.WantToAttack && IsAttackReady && !waitingForAnimationDelay)
+	
+		if (InputHandler.WantToAttack && IsAttackReady && currentAtkState.nameHash != player_attackingState )
 		{
 			//IsAttacking = true;
 			Skills.StaminaSkill.CurrentAmount -= StaminaToAttack;
@@ -261,7 +275,6 @@ public class PlayerScript : MonoBehaviour {
 
 			waitingForAnimationDelay = true;
 			attackAnimationDelayTimer = AttackAnimationDelay;
-			IsStartingToAttack = true;
 		}
 
 		attackCooldownTimer -= Time.deltaTime;
@@ -270,7 +283,8 @@ public class PlayerScript : MonoBehaviour {
 		{
 			IsAttackReady = true;
 		}
-
+		Debug.Log ( anim.IsInTransition(player_StateAttackLayer) );
+		debugvar = anim.IsInTransition (player_StateAttackLayer);
 		if (waitingForAnimationDelay)
 		{
 			attackAnimationDelayTimer -= Time.deltaTime;
@@ -280,6 +294,7 @@ public class PlayerScript : MonoBehaviour {
 				waitingForAnimationDelay = false;
 			}
 		}
+		anim.SetBool("Attacking", waitingForAnimationDelay);
 	}
 
 	private void CheckForAuraAttack()
@@ -402,13 +417,14 @@ public class PlayerScript : MonoBehaviour {
 	public void AddKnockback(Vector3 direction, float force)
 	{
 		direction = new Vector3 (direction.x,0,direction.z);
+		direction.Normalize ();
 		knockback = direction * (force / Mass);
 	}
 
 	protected void ApplyKnockback()
 	{
 		//this.transform.position = this.transform.position + knockback;
-		this.GetComponent<CharacterController>().Move(knockback);
+		this.GetComponent<CharacterController>().Move(knockback*Time.deltaTime);
 
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);

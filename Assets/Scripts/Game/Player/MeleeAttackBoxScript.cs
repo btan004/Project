@@ -42,10 +42,21 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 				if (other)
 				{
 					EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
+
+					/*REMOVE LATER
+					 **/
+					EnemyBaseCloneScript enemy2 = other.GetComponent<EnemyBaseCloneScript>();
+
+
 					if (enemy)
 					{
 						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+					}
+					if (enemy2)
+					{
+						enemy2.ApplyDamage(player.Skills.GetPlayerDamage());
+						enemy2.AddKnockback(enemy2.transform.position - player.transform.position, Force);
 					}
 				}
 			}

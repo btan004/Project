@@ -61,8 +61,8 @@ public class InputHandler {
 	{
 		//Debug.Log("Movement Axis: (" + Input.GetAxis("Horizontal Movement") + ", " + Input.GetAxis("Vertical Movement") + ")");
 		MovementVector = new Vector3(Input.GetAxis("Horizontal Movement"), 0, Input.GetAxis("Vertical Movement"));
-		if (MovementVector.magnitude < AnalogTolerance) MovementVector = Vector3.zero;
-		MovementVector.Normalize();
+		//if (MovementVector.magnitude < AnalogTolerance) MovementVector = Vector3.zero;
+		//MovementVector.Normalize();
 	}
 
 	//supports: xbox controller
