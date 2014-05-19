@@ -13,6 +13,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
+  - 95: {fileID: 9500000}
   m_Layer: 8
   m_Name: EnemySniper
   m_TagString: Enemy
@@ -1520,6 +1521,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0011f60f3fd35654fbeb3bfd50f41254, type: 3}
+  m_Controller: {fileID: 9100000, guid: f09e6cb5cc6f1624c94a3fcb50cd98e9, type: 2}
+  m_CullingMode: 0
+  m_ApplyRootMotion: 1
+  m_AnimatePhysics: 0
+  m_HasTransformHierarchy: 1
 --- !u!111 &11100000
 Animation:
   m_ObjectHideFlags: 1
@@ -1605,7 +1620,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17976e4c57b6d4e54a10e05f1a7f4222, type: 3}
+  m_Script: {fileID: 11500000, guid: 69f405edc514f914ab917fe522e1715d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSpawned: 0
@@ -1613,11 +1628,11 @@ MonoBehaviour:
   HasBeenUpgraded: 0
   Health: 100
   MaxHealth: 100
-  Velocity: 0
+  Velocity: 10
   Damage: 10
-  AttackRate: 0
+  AttackRate: 2
   Experience: 1
-  EnemyAnimation: {fileID: 11100008}
+  EnemyAnimation: {fileID: 0}
   IsMoving: 0
   IsAttacking: 0
   IsHit: 0
@@ -1626,6 +1641,7 @@ MonoBehaviour:
   NextAttack: 0
   AttackDistance: 0
   EnemyBulletPrefab: {fileID: 100000, guid: e73d9042f0e2d4952bb324c66f2be081, type: 2}
+  anim: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
