@@ -12,7 +12,7 @@ public class PowerupInfo : MonoBehaviour
 
 	/* Health Regen Powerup */
 	private static Texture2D healthRegenIcon;
-	private static string healthRegenIconPath = "Assets/Resources/Textures/Icons/RedPlusPowerup.png";
+	private static string healthRegenIconPath = "Textures/Icons/RedPlusPowerup";
 	public static Color HealthRegenParticleColor = Color.white;
 	public static float HealthRegenMinAmount = 1f;
 	public static float HealthRegenMaxAmount = 10f;
@@ -26,7 +26,7 @@ public class PowerupInfo : MonoBehaviour
 
 	/* Stamina Regen Powerup */
 	private static Texture2D staminaRegenIcon;
-	private static string staminaRegenIconPath = "Assets/Resources/Textures/Icons/YellowPlusPowerup.png";
+	private static string staminaRegenIconPath = "Textures/Icons/YellowPlusPowerup";
 	public static Color StaminaRegenParticleColor = Color.white;
 	public static float StaminaRegenMinAmount = .5f;
 	public static float StaminaRegenMaxAmount = 2f;
@@ -40,7 +40,7 @@ public class PowerupInfo : MonoBehaviour
 
 	/* Movespeed Powerup */
 	private static Texture2D movespeedIcon;
-	private static string movementSpeedIconPath = "Assets/Resources/Textures/Icons/PurplePlusPowerup.png";
+	private static string movementSpeedIconPath = "Textures/Icons/PurplePlusPowerup";
 	public static Color MovementSpeedColor = new Color(92f / 255f, 33f / 255f, 169f / 255f);
 	public static float MovementSpeedMinAmount = 1.2f;
 	public static float MovementSpeedMaxAmount = 2.0f;
@@ -107,21 +107,21 @@ public class PowerupInfo : MonoBehaviour
 	public static Texture2D GetHealthRegenIcon()
 	{
 		if (healthRegenIcon == null)
-			healthRegenIcon = Resources.LoadAssetAtPath<Texture2D>(healthRegenIconPath);
+			healthRegenIcon = Resources.Load<Texture2D>(healthRegenIconPath);
 		return healthRegenIcon;
 	}
 
 	public static Texture2D GetStaminaRegenIcon()
 	{
 		if (staminaRegenIcon == null)
-			staminaRegenIcon = Resources.LoadAssetAtPath<Texture2D>(staminaRegenIconPath);
+			staminaRegenIcon = Resources.Load<Texture2D>(staminaRegenIconPath);
 		return staminaRegenIcon;
 	}
 
 	public static Texture2D GetMovespeedIcon()
 	{
 		if (movespeedIcon == null)
-			movespeedIcon = Resources.LoadAssetAtPath<Texture2D>(movementSpeedIconPath);
+			movespeedIcon = Resources.Load<Texture2D>(movementSpeedIconPath);
 		return movespeedIcon;
 	}
 

@@ -72,8 +72,9 @@ public class PlayerSkills
 	private void setupStaminaSkill()
 	{
 		List<float> staminaSkillAmounts = new List<float>();
-		/* Stamina amounts: 5, 10, 15, ..., 190, 195, 200 */
-		for (int stamina = 5; stamina <= 200; stamina += 5)
+		/* Stamina amounts: 5, 6, 7, 8... */
+		staminaSkillAmounts.Add(5);
+		for (int stamina = 6; stamina <= 200; stamina += 1)
 			staminaSkillAmounts.Add(stamina);
 
 		StaminaSkill = new Skill(

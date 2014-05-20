@@ -132,8 +132,8 @@ Transition:
   m_Name: 
   m_SrcState: {fileID: 110228366}
   m_DstState: {fileID: 110211644}
-  m_TransitionDuration: .155727595
-  m_TransitionOffset: 0
+  m_TransitionDuration: .0549954735
+  m_TransitionOffset: .00544233341
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Attacking
@@ -148,7 +148,7 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: attacking
-  m_Speed: 1
+  m_Speed: 3
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 7400006, guid: 0011f60f3fd35654fbeb3bfd50f41254, type: 3}

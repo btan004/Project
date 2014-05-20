@@ -10,13 +10,13 @@ public class GameGUI : MonoBehaviour {
 
 	//font
 	private Font			font;
-	private string			fontPath					= "Assets/Resources/Fonts/FreePixel.ttf";
+	private string			fontPath					= "Fonts/FreePixel";
 
 	//lives
 	private Texture2D 	heartTexture;
 	private Texture2D 	greyHeartTexture;
-	private string 		heartTexturePath				= "Assets/Resources/Textures/Hearts/Heart.png";
-	private string 		greyHeartTexturePath			= "Assets/Resources/Textures/Hearts/GreyHeart.png";
+	private string 		heartTexturePath				= "Textures/Hearts/Heart";
+	private string 		greyHeartTexturePath			= "Textures/Hearts/GreyHeart";
 
 	//scroll bars
 	private GUIStyle	progressBarStyle;
@@ -59,35 +59,35 @@ public class GameGUI : MonoBehaviour {
 
 	public int				MaxPowerupsToDisplay				= 10;
 
-	private string 	progressBarBackPath 				= "Assets/Resources/Textures/ProgressBar/Back.png";
-	private string 	progressBarYellowPath 			= "Assets/Resources/Textures/ProgressBar/YellowBar.png";
-	private string 	progressBarRedPath 				= "Assets/Resources/Textures/ProgressBar/RedBar.png";
-	private string		progressBarBluePath				= "Assets/Resources/Textures/ProgressBar/BlueBar.png";
-	private string		progressBarGreenPath				= "Assets/Resources/Textures/ProgressBar/GreenBar.png";
-	private string		progressBarProgressGreyPath	= "Assets/Resources/Textures/ProgressBar/GreyBar.png";
-	private string 	progressBarCoverPath 			= "Assets/Resources/Textures/ProgressBar/Cover.png";
-	private string		progressBarDarkGreyPath			= "Assets/Resources/Textures/ProgressBar/DarkGreyBar.png";
+	private string 	progressBarBackPath 				= "Textures/ProgressBar/Back";
+	private string 	progressBarYellowPath 			= "Textures/ProgressBar/YellowBar";
+	private string 	progressBarRedPath 				= "Textures/ProgressBar/RedBar";
+	private string		progressBarBluePath				= "Textures/ProgressBar/BlueBar";
+	private string		progressBarGreenPath				= "Textures/ProgressBar/GreenBar";
+	private string		progressBarProgressGreyPath	= "Textures/ProgressBar/GreyBar";
+	private string 	progressBarCoverPath 			= "Textures/ProgressBar/Cover";
+	private string		progressBarDarkGreyPath			= "Textures/ProgressBar/DarkGreyBar";
 
-	private string skillDisplayBackPath			= "Assets/Resources/Textures/SkillDisplays/Background.png";
-	private string skillDisplayCoverPath		= "Assets/Resources/Textures/SkillDisplays/Cover.png";
-	private string skillDisplaySelectedPath		= "Assets/Resources/Textures/SkillDisplays/Selected.png";
-	private string skillHealthIconPath			= "Assets/Resources/Textures/SkillDisplays/HealthDisplay.png";
-	private string skillStaminaIconPath			= "Assets/Resources/Textures/SkillDisplays/StaminaDisplay.png";
-	private string skillSpeedIconPath			= "Assets/Resources/Textures/SkillDisplays/SpeedDisplay.png";
-	private string skillAttackIconPath			= "Assets/Resources/Textures/SkillDisplays/DamageDisplay.png";
-	private string skillSkillShotIconPath		= "Assets/Resources/Textures/SkillDisplays/SkillShotDisplay.png";
-	private string skillAuraIconPath				= "Assets/Resources/Textures/SkillDisplays/AuraDisplay.png";
+	private string skillDisplayBackPath			= "Textures/SkillDisplays/Background";
+	private string skillDisplayCoverPath		= "Textures/SkillDisplays/Cover";
+	private string skillDisplaySelectedPath		= "Textures/SkillDisplays/Selected";
+	private string skillHealthIconPath			= "Textures/SkillDisplays/HealthDisplay";
+	private string skillStaminaIconPath			= "Textures/SkillDisplays/StaminaDisplay";
+	private string skillSpeedIconPath			= "Textures/SkillDisplays/SpeedDisplay";
+	private string skillAttackIconPath			= "Textures/SkillDisplays/DamageDisplay";
+	private string skillSkillShotIconPath		= "Textures/SkillDisplays/SkillShotDisplay";
+	private string skillAuraIconPath				= "Textures/SkillDisplays/AuraDisplay";
 
-	private string skillPointAvailablePath = "Assets/Resources/Textures/SkillDisplays/SkillAvailable.png";
+	private string skillPointAvailablePath = "Textures/SkillDisplays/SkillAvailable";
 	private Texture2D skillPointAvailable;
 
-	private string tooltipBackgroundPath = "Assets/Resources/Textures/SkillDisplays/TooltipBackground.png";
+	private string tooltipBackgroundPath = "Textures/SkillDisplays/TooltipBackground";
 
 	//load resources for the gui
 	void Start()
 	{
 		//load our font
-		font = Resources.LoadAssetAtPath(fontPath, typeof(Font)) as Font; ;
+		font = Resources.Load<Font> (fontPath);
 
 		//set our text offset
 		progressBarTextOffset = 6;
@@ -108,127 +108,127 @@ public class GameGUI : MonoBehaviour {
 		tooltipStyle.fontSize = 14;
 		tooltipStyle.font = font;
 		tooltipStyle.normal.textColor = Color.black;
-		tooltipStyle.normal.background = (Texture2D) Resources.LoadAssetAtPath(tooltipBackgroundPath, typeof(Texture2D));
+		tooltipStyle.normal.background = Resources.Load<Texture2D>(tooltipBackgroundPath);
 
-		heartTexture = (Texture2D) Resources.LoadAssetAtPath(heartTexturePath, typeof(Texture2D));
-		greyHeartTexture = (Texture2D) Resources.LoadAssetAtPath(greyHeartTexturePath, typeof(Texture2D));
+		heartTexture = Resources.Load<Texture2D> (heartTexturePath);
+		greyHeartTexture = Resources.Load<Texture2D>(greyHeartTexturePath);
 
 		healthBar = new ProgressBar(new Vector2(10, 60), new Vector2(200, 30),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarRedPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarRedPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		staminaBar = new ProgressBar(new Vector2(10, 100), new Vector2(200, 30),
-			(Texture2D) Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D) Resources.LoadAssetAtPath(progressBarYellowPath, typeof(Texture2D)),
-			(Texture2D) Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D) Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarYellowPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		auraBar = new ProgressBar(new Vector2(10, 140), new Vector2(200, 30),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarBluePath, typeof(Texture2D)),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+		   Resources.Load<Texture2D>(progressBarBackPath),
+		   Resources.Load<Texture2D>(progressBarBluePath),
+		   Resources.Load<Texture2D>(progressBarProgressGreyPath),
+		   Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 		
 		skillShotBar = new ProgressBar(new Vector2(10, 180), new Vector2(200, 30),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarGreenPath, typeof(Texture2D)),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-		   (Texture2D) Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+		   Resources.Load<Texture2D>(progressBarBackPath),
+		   Resources.Load<Texture2D>(progressBarGreenPath),
+		   Resources.Load<Texture2D>(progressBarProgressGreyPath),
+		   Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		experienceBar = new ProgressBar(new Vector2(10, 220), new Vector2(200, 30),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarDarkGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarDarkGreyPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		movementSpeedBar = new ProgressBar(new Vector2(10, 260), new Vector2(200, 30),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarDarkGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarDarkGreyPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		pickupRadiusBar = new ProgressBar(new Vector2(10, 300), new Vector2(200, 30),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarDarkGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarDarkGreyPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		skillPointsBar = new ProgressBar(new Vector2(10, 340), new Vector2(200, 30),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarDarkGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarDarkGreyPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		powerupBar = new ProgressBar(new Vector2(Screen.width - 250, 10), new Vector2(200, 30),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarDarkGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarProgressGreyPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(progressBarCoverPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(progressBarBackPath),
+			Resources.Load<Texture2D>(progressBarDarkGreyPath),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
 		spawnScript = GameObject.Find ("Spawner").gameObject.GetComponent<SpawnScript> ();
 
-		skillPointAvailable = (Texture2D)Resources.LoadAssetAtPath(skillPointAvailablePath, typeof(Texture2D));
+		skillPointAvailable = Resources.Load<Texture2D>(skillPointAvailablePath);
 
 		healthSkillDisplay = new SkillDisplay(new Vector2(100, Screen.height - 100), new Vector2(50, 50),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillHealthIconPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayCoverPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplaySelectedPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(skillDisplayBackPath),
+			Resources.Load<Texture2D>(skillHealthIconPath),
+			Resources.Load<Texture2D>(skillDisplayCoverPath),
+			Resources.Load<Texture2D>(skillDisplaySelectedPath),
 			skillDisplayStyle);
 
 		staminaSkillDisplay = new SkillDisplay(new Vector2(160, Screen.height - 100), new Vector2(50, 50),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillStaminaIconPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayCoverPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplaySelectedPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(skillDisplayBackPath),
+			Resources.Load<Texture2D>(skillStaminaIconPath),
+			Resources.Load<Texture2D>(skillDisplayCoverPath),
+			Resources.Load<Texture2D>(skillDisplaySelectedPath),
 			skillDisplayStyle);
 
 		speedSkillDisplay = new SkillDisplay(new Vector2(220, Screen.height - 100), new Vector2(50, 50),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillSpeedIconPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayCoverPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplaySelectedPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(skillDisplayBackPath),
+			Resources.Load<Texture2D>(skillSpeedIconPath),
+			Resources.Load<Texture2D>(skillDisplayCoverPath),
+			Resources.Load<Texture2D>(skillDisplaySelectedPath),
 			skillDisplayStyle);
 
 		attackSkillDisplay = new SkillDisplay(new Vector2(280, Screen.height - 100), new Vector2(50, 50),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillAttackIconPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayCoverPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplaySelectedPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(skillDisplayBackPath),
+			Resources.Load<Texture2D>(skillAttackIconPath),
+			Resources.Load<Texture2D>(skillDisplayCoverPath),
+			Resources.Load<Texture2D>(skillDisplaySelectedPath),
 			skillDisplayStyle);
 
 		skillShotSkillDisplay = new SkillDisplay(new Vector2(340, Screen.height - 100), new Vector2(50, 50),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillSkillShotIconPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayCoverPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplaySelectedPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(skillDisplayBackPath),
+			Resources.Load<Texture2D>(skillSkillShotIconPath),
+			Resources.Load<Texture2D>(skillDisplayCoverPath),
+			Resources.Load<Texture2D>(skillDisplaySelectedPath),
 			skillDisplayStyle);
 
 		auraSkillDisplay = new SkillDisplay(new Vector2(400, Screen.height - 100), new Vector2(50, 50),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayBackPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillAuraIconPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplayCoverPath, typeof(Texture2D)),
-			(Texture2D)Resources.LoadAssetAtPath(skillDisplaySelectedPath, typeof(Texture2D)),
+			Resources.Load<Texture2D>(skillDisplayBackPath),
+			Resources.Load<Texture2D>(skillAuraIconPath),
+			Resources.Load<Texture2D>(skillDisplayCoverPath),
+			Resources.Load<Texture2D>(skillDisplaySelectedPath),
 			skillDisplayStyle);
 
 		skillDisplays.Add(healthSkillDisplay);
@@ -261,7 +261,7 @@ public class GameGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (playerScript.RanOutOfStamina) staminaBar.GreyOut(true);
+		if (!playerScript.CanSprint) staminaBar.GreyOut(true);
 		else staminaBar.GreyOut(false);
 
 

@@ -91,24 +91,21 @@ public class SpawnScript : MonoBehaviour {
 				{
 					//decide which powerup to spawn
 					float probability = Random.value;
-					if (probability < 0.25)
+					if (probability < 0.60)
 					{
-						if (probability < 0.125) ObjectFactory.CreateHealthPowerup();
+						if (probability < 0.3) ObjectFactory.CreateHealthPowerup();
 						else ObjectFactory.CreateHealthRegenPowerup();
 					}
-					else if (probability < 0.50)
+					else if (probability < 0.8)
 					{
-						if (probability < 0.375) ObjectFactory.CreateStaminaPowerup();
+						if (probability < 0.7) ObjectFactory.CreateStaminaPowerup();
 						else ObjectFactory.CreateStaminaRegenPowerup();
-					}
-					else if (probability < 0.75)
-					{
-						ObjectFactory.CreateMovementSpeedPowerup();
 					}
 					else
 					{
-						ObjectFactory.CreateExperiencePowerup();
+						ObjectFactory.CreateMovementSpeedPowerup();
 					}
+
 
 					//pick a random amount of time before spawning the next one
 					timeUntilNextPowerupSpawn = Random.Range(PowerupSpawnRateMin, PowerupSpawnRateMax);
