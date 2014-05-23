@@ -30,4 +30,9 @@ public class FSM<T>
 		currentState = NewState;
 		currentState.BeforeEnter ( owner );
 	}
+
+	public State<T> GetCurrentState()
+	{
+		return currentState;
+	}
 }

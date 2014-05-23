@@ -17,10 +17,17 @@ public class EnemySniperScript : EnemyBaseScript {
 	//State Machine for this enemy
 	public FSM<EnemySniperScript> StateMachine;
 	public enum StateID{ moving, attacking };
+	public StateID CurrentState;
 
 	//Function to handle statemachine
 	public void ChangeState( State<EnemySniperScript> s )
 	{
+		if(s.GetType().Name == "Sniper_AttackPlayer"){
+			CurrentState = StateID.attacking;
+		}
+		if(s.GetType().Name == "Sniper_MoveToPlayer"){
+			CurrentState = StateID.moving;
+		}
 		StateMachine.ChangeState ( s );
 	}
 	
@@ -106,18 +113,35 @@ public class EnemySniperScript : EnemyBaseScript {
 
 	public void RotateEnemy() {
 		if (player) {
-			// Get player location
-			Vector3 playerLocation = player.transform.position;
-			
-			// Set rotation step
-			float rotationStep = TurnVelocity*Time.deltaTime;
-			
-			// Rotate enemy towards player
-			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
-			playerDir = new Vector3(playerDir.x,0,playerDir.z);
-			this.transform.rotation = Quaternion.LookRotation(playerDir);
-			
-			//EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
+			switch(CurrentState){
+				case StateID.moving:
+					// Get velocity path
+					Vector3 rotateDir = this.GetComponent<NavMeshAgent>().velocity;
+				
+					// Set rotation step
+					float rotationStep = 5f*Time.deltaTime;
+				
+					// Rotate enemy towards player
+					rotateDir = new Vector3(rotateDir.x,0,rotateDir.z);
+					this.transform.rotation = Quaternion.LookRotation(rotateDir);
+					break;
+
+				case StateID.attacking:
+					// Get player location
+					Vector3 playerLocation = player.transform.position;
+				
+					// Set rotation step
+					float rStep = TurnVelocity*Time.deltaTime;
+				
+					// Rotate enemy towards player
+					Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rStep,0.0f);
+					playerDir = new Vector3(playerDir.x,0,playerDir.z);
+					this.transform.rotation = Quaternion.LookRotation(playerDir);
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
 
