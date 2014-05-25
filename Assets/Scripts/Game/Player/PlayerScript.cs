@@ -84,8 +84,24 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		INVULNERABLE = true;
-		WaveSystem.GameDifficulty = Difficulty.Easy;
+		INVULNERABLE = false;
+
+		switch (PlayerPrefs.GetString("Difficulty"))
+		{
+			case "Easy":
+				WaveSystem.GameDifficulty = Difficulty.Easy;
+				break;
+			case "Normal":
+				WaveSystem.GameDifficulty = Difficulty.Normal;
+				break;
+			case "Hard":
+				WaveSystem.GameDifficulty = Difficulty.Hard;
+				break;
+			default:
+				WaveSystem.GameDifficulty = Difficulty.Easy;
+				break;
+		}
+		
 
 		anim = GetComponent<Animator>();
 		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
@@ -106,7 +122,7 @@ public class PlayerScript : MonoBehaviour {
 		knockback = new Vector3();
 		Mass = 10f;
 
-
+		Score = 0;
 
 
 		Physics.IgnoreLayerCollision (9, 9);
@@ -145,7 +161,7 @@ public class PlayerScript : MonoBehaviour {
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaFromPowerups, 0, Skills.GetPlayerStaminaMax());
 
 		//Check if the player wants to end the game
-		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
+		//if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
 
 		//animate the player
 		//AnimateSkeleton(IsHit, IsAttacking, IsMoving);
@@ -199,7 +215,11 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else {
 				if (!INVULNERABLE)
-					Application.LoadLevel("StartMenuScene");
+				{
+					Debug.Log("Player Died!");
+					PlayerPrefs.SetFloat("Score", Score);
+					Application.LoadLevel("GameOverScene");
+				}
 			}
 		}
 	}
