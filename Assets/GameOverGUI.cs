@@ -16,7 +16,7 @@ public class GameOverGUI : MonoBehaviour {
 
 	//Style
 	private Font font;
-	private string fontPath = "Assets/Resources/Fonts/FreePixel.ttf";
+	private string fontPath = "Fonts/FreePixel";
 	private GUIStyle style;
 
 	// Use this for initialization
@@ -25,7 +25,7 @@ public class GameOverGUI : MonoBehaviour {
 		inputHandler = new InputHandler();
 
 		//load our font
-		font = Resources.LoadAssetAtPath(fontPath, typeof(Font)) as Font;
+		font = Resources.Load<Font>(fontPath);
 
 		//set up our normal style
 		style = new GUIStyle();
@@ -40,7 +40,14 @@ public class GameOverGUI : MonoBehaviour {
 			PlayerPrefs.SetFloat("HighScore", PlayerPrefs.GetFloat("Score"));
 		}
 
-		ScoreString = "Score: " + PlayerPrefs.GetFloat("Score");
+		if (newHighScore)
+		{
+			ScoreString = "New High Score: " + PlayerPrefs.GetFloat("Score");
+		}
+		else
+		{
+			ScoreString = "Score: " + PlayerPrefs.GetFloat("Score");
+		}
 		HighScoreString = "High Score: " + PlayerPrefs.GetFloat("HighScore");
 	}
 	

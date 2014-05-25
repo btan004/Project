@@ -56,13 +56,20 @@ public class InputHandler {
 		CheckSpendSkillPoint();
 		CheckSkillChange();
 
-		if (Input.GetButton("Y Button")) WaveSystem.ForceSpawnWave = true;
+		CheckForceSpawnWave();
+		
 
 		CheckWantToStartGame();
 		CheckWantToChangeDifficulty();
 		CheckWantToViewControls();
+		CheckForQuit();
 
 		//CheckPause();
+	}
+
+	private void CheckForceSpawnWave()
+	{
+		WaveSystem.ForceSpawnWave = Input.GetButton("Y Button");
 	}
 
 	private void CheckWantToStartGame()
@@ -78,6 +85,12 @@ public class InputHandler {
 	private void CheckWantToViewControls()
 	{
 		WantToViewControls = Input.GetButton("X Button");
+	}
+
+	//supports: keyboard
+	private void CheckForQuit()
+	{
+		WantToQuit = Input.GetButton("Y Button");
 	}
 
 	//Supports: xbox controller and keyboard
@@ -127,12 +140,6 @@ public class InputHandler {
 	private void CheckSkillShot()
 	{
 		WantToSkillShot = Input.GetButton("Skill Shot");
-	}
-
-	//supports: keyboard
-	private void CheckForQuit()
-	{
-		WantToQuit = (Input.GetKey("escape") || Input.GetButton("Y Button"));
 	}
 
 	//On button press, set up bool so it will spawn enemies in SpawnScript.cs

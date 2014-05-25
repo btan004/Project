@@ -15,7 +15,7 @@ public class StartMenuGUI : MonoBehaviour {
 
 	//Start Menu Style
 	private Font font;
-	private string fontPath = "Assets/Resources/Fonts/FreePixel.ttf";
+	private string fontPath = "Fonts/FreePixel";
 	private GUIStyle style;
 
 	private GUIStyle difficultyStyle;
@@ -36,7 +36,7 @@ public class StartMenuGUI : MonoBehaviour {
 	void Start()
 	{
 		//load our font
-		font = Resources.LoadAssetAtPath(fontPath, typeof(Font)) as Font;
+		font = Resources.Load<Font>(fontPath);
 
 		//set up our normal style
 		style = new GUIStyle();
@@ -124,6 +124,7 @@ public class StartMenuGUI : MonoBehaviour {
 
 	private void QuitGame()
 	{
+		Debug.Log("Quitting Game...");
 		Application.Quit();
 	}
 	
