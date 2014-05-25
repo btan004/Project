@@ -87,7 +87,11 @@ public class GameGUI : MonoBehaviour {
 	void Start()
 	{
 		//load our font
+<<<<<<< HEAD
 		font = Resources.Load<Font> (fontPath);
+=======
+		font = Resources.LoadAssetAtPath(fontPath, typeof(Font)) as Font;
+>>>>>>> 3714542cc4c44e436b3d0f8eeddf1486c219a055
 
 		//set our text offset
 		progressBarTextOffset = 6;

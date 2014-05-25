@@ -109,17 +109,15 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 	public void RotateEnemy() {
 		if (player) {
-			// Get player location
-			Vector3 playerLocation = player.transform.position;
-
+			// Get velocity path
+			Vector3 rotateDir = this.GetComponent<NavMeshAgent>().velocity;
+			
 			// Set rotation step
-			float rotationStep = TurnVelocity*Time.deltaTime;
-		
+			float rotationStep = 5f*Time.deltaTime;
+			
 			// Rotate enemy towards player
-			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
-			playerDir = new Vector3(playerDir.x,0,playerDir.z);
-			this.transform.rotation = Quaternion.LookRotation(playerDir);
-			//EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
+			rotateDir = new Vector3(rotateDir.x,0,rotateDir.z);
+			this.transform.rotation = Quaternion.LookRotation(rotateDir);
 		}
 	}
 

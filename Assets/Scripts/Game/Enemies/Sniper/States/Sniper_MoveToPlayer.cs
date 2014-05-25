@@ -28,17 +28,15 @@ public class Sniper_MoveToPlayer : State<EnemySniperScript>
 				// Get player location
 				Vector3 playerLocation = EnemyBaseScript.player.transform.position;
 				
-				// Set movement step
-				float moveStep = e.Velocity*Time.deltaTime;
+				// Move enemy using navmesh 
+				e.GetComponent<NavMeshAgent>().SetDestination(playerLocation);
 				
-				// Move towards player
-				e.transform.position = Vector3.MoveTowards(e.transform.position,playerLocation,moveStep);
-				
-				//make sure the enemy stays on the ground plane
-				//this.transform.SetPositionY(1);
+				// Make sure the enemy stays on the ground plane
+				//e.transform.SetPositionY(1);
 			}
 			else if( e.IsWithinAttackRange() )
 			{
+				e.GetComponent<NavMeshAgent>().Stop();
 				e.ChangeState(Sniper_AttackPlayer.Instance);
 			}
 			e.anim.SetFloat ("Speed", Convert.ToSingle(!e.IsWithinAttackRange()));

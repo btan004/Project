@@ -27,15 +27,12 @@ public class Chaser_MoveToPlayer : State<EnemyChaserScript>
 			if (e.IsMoving && !e.IsWithinAttackRange()) {
 				// Get player location
 				Vector3 playerLocation = EnemyBaseScript.player.transform.position;
+
+				// Move enemy using navmesh 
+				e.GetComponent<NavMeshAgent>().SetDestination(playerLocation);
 				
-				// Set movement step
-				float moveStep = e.Velocity*Time.deltaTime;
-				
-				// Move towards player
-				e.transform.position = Vector3.MoveTowards(e.transform.position,playerLocation,moveStep);
-				
-				//make sure the enemy stays on the ground plane
-				//this.transform.SetPositionY(1);
+				// Make sure the enemy stays on the ground plane
+				//e.transform.SetPositionY(1);
 			}
 			else if( e.IsWithinAttackRange() )
 			{
