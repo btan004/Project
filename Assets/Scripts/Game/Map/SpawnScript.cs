@@ -91,6 +91,7 @@ public class SpawnScript : MonoBehaviour {
 				{
 					//decide which powerup to spawn
 					float probability = Random.value;
+<<<<<<< HEAD
 					if (probability < 0.4)
 					{
 						ObjectFactory.CreateHealthPowerup();
@@ -98,6 +99,17 @@ public class SpawnScript : MonoBehaviour {
 					else if (probability < 0.8)
 					{
 						ObjectFactory.CreateStaminaPowerup();
+=======
+					if (probability < 0.60)
+					{
+						if (probability < 0.3) ObjectFactory.CreateHealthPowerup();
+						else ObjectFactory.CreateHealthRegenPowerup();
+					}
+					else if (probability < 0.8)
+					{
+						if (probability < 0.7) ObjectFactory.CreateStaminaPowerup();
+						else ObjectFactory.CreateStaminaRegenPowerup();
+>>>>>>> 2fe23481e2246faffa46d3aac0a53e02cf0e40c9
 					}
 					else
 					{

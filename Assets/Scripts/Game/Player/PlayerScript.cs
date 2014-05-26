@@ -30,7 +30,12 @@ public class PlayerScript : MonoBehaviour {
 	public float			Radius = 2f;
 
 	//player movement
+<<<<<<< HEAD
 	public float			SprintCoefficient;
+=======
+	public bool 			CanSprint;
+	public float			SprintCoefficient = 5.0f;
+>>>>>>> 2fe23481e2246faffa46d3aac0a53e02cf0e40c9
 	public float			StaminaToSprint = 3;
 
 	public bool				RanOutOfStamina = false;
@@ -238,28 +243,33 @@ public class PlayerScript : MonoBehaviour {
 
 		FinalMoveSpeed = Skills.GetPlayerVelocity() * movespeedFromPowerups;
 
-		//if the player wants to sprint
-		if (InputHandler.WantToSprint)
-		{
-			//and they run out of stamina
-			if (Skills.GetPlayerStamina() <= 0)
-			{
-				//signal that we have run out of stamina
-				RanOutOfStamina = true;
-			}
+		CanSprint = (Skills.GetPlayerStamina () >= StaminaToSprint);
 
-			//if we have run out of stamina
-			if (RanOutOfStamina)
+		//if the player wants to sprint
+		CanSprint = false;
+
+		//and they run out of stamina
+		if (Skills.GetPlayerStamina() <= 0)
+		{
+			//signal that we have run out of stamina
+			RanOutOfStamina = true;
+		}
+
+		//if we have run out of stamina
+		if (RanOutOfStamina)
+		{
+			//check if we have enough stamina to sprint again
+			if (Skills.GetPlayerStamina() > StaminaToSprint) 
 			{
-				//check if we have enough stamina to sprint again
-				if (Skills.GetPlayerStamina() > StaminaToSprint) 
-				{
-					//then disable our lock against sprinting again
-					RanOutOfStamina = false;
-				}
+				//then disable our lock against sprinting again
+				RanOutOfStamina = false;
 			}
-			//if we have not run out of stamina
-			else
+		}
+		//if we have not run out of stamina
+		else
+		{
+			CanSprint = true;
+			if (InputHandler.WantToSprint)
 			{
 				//multiply our movement by our sprint coefficient
 				newMovement *= SprintCoefficient;
