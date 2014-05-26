@@ -30,12 +30,9 @@ public class PlayerScript : MonoBehaviour {
 	public float			Radius = 2f;
 
 	//player movement
-<<<<<<< HEAD
 	public float			SprintCoefficient;
-=======
 	public bool 			CanSprint;
-	public float			SprintCoefficient = 5.0f;
->>>>>>> 2fe23481e2246faffa46d3aac0a53e02cf0e40c9
+
 	public float			StaminaToSprint = 3;
 
 	public bool				RanOutOfStamina = false;
