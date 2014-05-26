@@ -102,6 +102,9 @@ public class MapSystemScript : MonoBehaviour {
 		//move the player
 		Player.transform.position = GetCurrentLevel().GetComponent<LevelScript>().PlayerSpawnPoint.transform.position;
 
+		//if the player moved home, give him points
+		if (GetCurrentLevelType() == LevelType.Home)
+			Player.GetComponent<PlayerScript>().Skills.AddSkillPoints(WaveSystem.GameDifficulty);
 
 		//fade in
 

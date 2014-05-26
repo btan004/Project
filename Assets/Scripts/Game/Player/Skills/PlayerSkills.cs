@@ -23,10 +23,19 @@ public class PlayerSkills
 
 	public int PointsToSpend;
 
+	private AudioSource audioSource;
+	private AudioClip accept;
+	private AudioClip reject;
+
 	PlayerEquipmentScript EquipmentScript;
 
-	public PlayerSkills(PlayerEquipmentScript equipmentScript)
+	public PlayerSkills(PlayerEquipmentScript equipmentScript, AudioSource audioSource, AudioClip accept, AudioClip reject)
 	{
+		this.audioSource = audioSource;
+		this.accept = accept;
+		this.reject = reject;
+		
+
 		PointsToSpend = 0;
 
 		setupHealthSkill();
@@ -44,7 +53,7 @@ public class PlayerSkills
 		switch (difficulty) 
 		{
 			case Difficulty.Easy:
-				PointsToSpend += 3;
+				PointsToSpend += 30;
 				break;
 			case Difficulty.Normal:
 				PointsToSpend += 2;
@@ -141,52 +150,76 @@ public class PlayerSkills
 				case (SkillType.Health):
 					if (!HealthSkill.IsFullyUpgraded())
 					{
+						playAcceptSound();
 						HealthSkill.Upgrade();
 						PointsToSpend--;
 						EquipmentScript.UpgradeShield();
 					}
+					else playRejectSound();
 					break;
 				case (SkillType.Stamina):
 					if (!StaminaSkill.IsFullyUpgraded())
 					{
+						playAcceptSound();
 						StaminaSkill.Upgrade();
 						PointsToSpend--;
 					}
+					else playRejectSound();
 					break;
 				case (SkillType.Speed):
 					if (!VelocitySkill.IsFullyUpgraded())
 					{
+						playAcceptSound();
 						VelocitySkill.Upgrade();
 						PointsToSpend--;
 					}
+					else playRejectSound();
 					break;
 				case (SkillType.Attack):
 					if (!AttackSkill.IsFullyUpgraded())
 					{
+						playAcceptSound();
+						EquipmentScript.UpgradeWeapon();
 						AttackSkill.Upgrade();
 						PointsToSpend--;
-						EquipmentScript.UpgradeWeapon();
 					}
+					else playRejectSound();
 					break;
 				case (SkillType.SkillShot):
 					if (!SkillShotSkill.IsFullyUpgraded())
 					{
+						playAcceptSound();
 						SkillShotSkill.Upgrade();
 						PointsToSpend--;
 					}
+					else playRejectSound();
 					break;
 				case (SkillType.Aura):
 					if (!AuraSkill.IsFullyUpgraded())
 					{
+						playAcceptSound();
 						AuraSkill.Upgrade();
 						PointsToSpend--;
 					}
+					else playRejectSound();
 					break;
 				default:
 					break;
 			}
 			
 		}
+	}
+
+	private void playAcceptSound()
+	{
+		audioSource.clip = accept;
+		audioSource.Play();
+	}
+
+	private void playRejectSound()
+	{
+		audioSource.clip = reject;
+		audioSource.Play();
 	}
 
 	public float GetPlayerHealth() { return HealthSkill.CurrentAmount; }

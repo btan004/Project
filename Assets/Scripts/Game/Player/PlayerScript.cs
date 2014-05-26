@@ -16,6 +16,12 @@ public class PlayerScript : MonoBehaviour {
 	public PlayerEquipmentScript Equipment;
 	//public LevelSystem LevelSystem;
 
+	//sound effects
+	public AudioClip Accept;
+	public AudioClip Reject;
+	public AudioClip SkillShotEffect;
+	public AudioClip AuraEffect;
+
 	//player stats
 	public static float		Score = 0;
 	public static int		Lives;
@@ -24,7 +30,7 @@ public class PlayerScript : MonoBehaviour {
 	public float			Radius = 2f;
 
 	//player movement
-	public float			SprintCoefficient = 5.0f;
+	public float			SprintCoefficient;
 	public float			StaminaToSprint = 3;
 
 	public bool				RanOutOfStamina = false;
@@ -112,7 +118,7 @@ public class PlayerScript : MonoBehaviour {
 		//LevelSystem = new LevelSystem();
 		//Skills = LevelSystem.GetPlayerSkills();
 		//Skills.AddSkillPoint();
-		Skills = new PlayerSkills (Equipment);
+		Skills = new PlayerSkills (Equipment, audio, Accept, Reject);
 		Skills.AddSkillPoints (WaveSystem.GameDifficulty);
 
 		//get the proper amount of lives
@@ -187,7 +193,7 @@ public class PlayerScript : MonoBehaviour {
 
 			//if they are move speed powerups, add to the movespeed from powerups pool
 			if (p.Type == PowerupType.MovementSpeed)
-				movespeedFromPowerups *= p.Amount;
+				movespeedFromPowerups = SprintCoefficient;
 
 			//make sure we havent exceeded our movement speed cap
 			if (movespeedFromPowerups > PowerupInfo.MovementSpeedCap)
@@ -257,12 +263,15 @@ public class PlayerScript : MonoBehaviour {
 			{
 				//multiply our movement by our sprint coefficient
 				newMovement *= SprintCoefficient;
+				
 				FinalMoveSpeed *= SprintCoefficient;
+				
 
 				//and decrement our stamina for sprinting
 				Skills.StaminaSkill.CurrentAmount -= 2.0f * Time.deltaTime;
 			}
 		}
+		//Debug.Log("Movement Speed: " + FinalMoveSpeed + ", Coefficient: " + SprintCoefficient);
 
 		//make our player movement
 		if (newMovement != Vector3.zero)
@@ -306,7 +315,7 @@ public class PlayerScript : MonoBehaviour {
 		{
 			IsAttackReady = true;
 		}
-		Debug.Log ( anim.IsInTransition(player_StateAttackLayer) );
+		//Debug.Log ( anim.IsInTransition(player_StateAttackLayer) );
 		debugvar = anim.IsInTransition (player_StateAttackLayer);
 		if (waitingForAnimationDelay)
 		{
@@ -335,6 +344,9 @@ public class PlayerScript : MonoBehaviour {
 			IsAuraActive = true;
 			Skills.StaminaSkill.CurrentAmount -= AuraCost;
 			auraDurationTimer = AuraDuration;
+
+			audio.clip = AuraEffect;
+			audio.Play();
 		}
 
 		//if the aura is active
@@ -356,6 +368,9 @@ public class PlayerScript : MonoBehaviour {
 		{
 			//decrement the cooldown timer
 			auraCooldownTimer -= Time.deltaTime;
+
+			if (audio.clip == AuraEffect)
+				audio.Stop();
 		}
 
 	}
@@ -409,13 +424,15 @@ public class PlayerScript : MonoBehaviour {
 		switch(powerup.Type)
 		{
 			case (PowerupType.Health):
-				Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + powerup.Amount, 0, Skills.GetPlayerHealthMax());
+				float healthHealed = 0.25f * Skills.GetPlayerHealthMax();
+				Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthHealed, 0, Skills.GetPlayerHealthMax());
 				break;
 			case (PowerupType.HealthRegen):
 				ActivePowerups.Add(powerup);
 				break;
 			case (PowerupType.Stamina):
-				Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + powerup.Amount, 0, Skills.GetPlayerStaminaMax());
+				float staminaRecovered = 0.25f * Skills.GetPlayerStaminaMax();
+				Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaRecovered, 0, Skills.GetPlayerStaminaMax());
 				break;
 			case (PowerupType.StaminaRegen):
 				ActivePowerups.Add(powerup);

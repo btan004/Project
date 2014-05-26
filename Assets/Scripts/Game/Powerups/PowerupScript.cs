@@ -14,7 +14,7 @@ public class PowerupScript : MonoBehaviour {
 
 	public static float RotateSpeed = 50f;
 	public static float FloatSpeed = .5f;
-	public static float Transparency = 0.8f;
+	public static float Transparency = 1f;
 	public static float InitialHeight = 1f;
 	public static float MaxHeight = 1.5f;
 	private static bool floatUp = true;

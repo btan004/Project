@@ -23,7 +23,7 @@ public class Skill
 
 		CurrentAmount = this.amounts[Level];
 		Total = this.amounts[Level];
-		MaxUpgrades = this.amounts.Count;
+		MaxUpgrades = this.amounts.Count - 1;
 		
 		if (Level < MaxUpgrades)
 		{

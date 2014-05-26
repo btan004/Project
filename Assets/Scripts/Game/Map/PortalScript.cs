@@ -16,8 +16,8 @@ public class PortalScript : MonoBehaviour {
 	void Start () {
 		IsActive = true;
 
-		ActiveColor = new Color(159f / 255f, 89f / 255f, 5f / 255f, 1);
-		InactiveColor = new Color(255f / 255f, 0, 0, 1);
+		ActiveColor = new Color(0, 1, 0, 1);
+		InactiveColor = new Color(1, 0, 0, 1);
 
 		if (IsActive)
 			particleSystem.startColor = ActiveColor;

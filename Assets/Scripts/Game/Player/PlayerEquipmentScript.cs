@@ -39,37 +39,41 @@ public class PlayerEquipmentScript : MonoBehaviour {
 
 	public void ChangeToWeapon(int weaponNumber)
 	{
-		//deactivate the current weapon
-		Weapons[ActiveWeapon].SetActive(false);
+		if (weaponNumber < Weapons.Length)
+		{
+			//deactivate the current weapon
+			Weapons[ActiveWeapon].SetActive(false);
 
-		//set our new active index
-		ActiveWeapon = weaponNumber;
+			//set our new active index
+			ActiveWeapon = weaponNumber;
 
-		//active our new weapon
-		Weapons[ActiveWeapon].SetActive(true);
+			//active our new weapon
+			Weapons[ActiveWeapon].SetActive(true);
+		}
 	}
 
 	public void UpgradeWeapon()
 	{
-		if (ActiveWeapon < Weapons.Length)
-			ChangeToWeapon(ActiveWeapon + 1);
+		ChangeToWeapon(ActiveWeapon + 1);
 	}
 
 	public void ChangeToShield(int shieldNumber)
 	{
-		//deactive the current shield
-		Shields[ActiveShield].SetActive(false);
+		if (shieldNumber < Shields.Length)
+		{
+			//deactive the current shield
+			Shields[ActiveShield].SetActive(false);
 
-		//set our new active index
-		ActiveShield = shieldNumber;
+			//set our new active index
+			ActiveShield = shieldNumber;
 
-		//activate our new shield
-		Shields[ActiveShield].SetActive(true);
+			//activate our new shield
+			Shields[ActiveShield].SetActive(true);
+		}
 	}
 
 	public void UpgradeShield()
 	{
-		if (ActiveShield < Shields.Length)
-			ChangeToShield(ActiveShield + 1);
+		ChangeToShield(ActiveShield + 1);
 	}
 }

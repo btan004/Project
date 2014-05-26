@@ -6,7 +6,7 @@ public class PowerupInfo : MonoBehaviour
 	public static float Lifetime = 60f;
 
 	/* Health Powerup */
-	public static Color HealthColor = Color.red;
+	public static Color HealthColor = new Color(125f / 255f, 34f / 255f, 37f / 255f, 1);
 	public static float HealthMinAmount = 10f;
 	public static float HealthMaxAmount = 100f;
 
@@ -20,7 +20,7 @@ public class PowerupInfo : MonoBehaviour
 	public static float HealthRegenMaxDuration = 10f;
 
 	/* Stamina Powerup */
-	public static Color StaminaColor = Color.yellow;
+	public static Color StaminaColor = new Color(216f / 255f, 163f / 255f, 84f / 255f, 1);
 	public static float StaminaMinAmount = 1f;
 	public static float StaminaMaxAmount = 5f;
 

@@ -17,7 +17,7 @@ public class SkillShotAttackScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		renderer.material.color = Color.green;
-
+		
 		directionToOffset = new Vector3();
 
 		particleSystem = this.GetComponentInChildren<ParticleSystem>();
@@ -42,6 +42,7 @@ public class SkillShotAttackScript : MonoBehaviour {
 		{
 			particleSystem.enableEmission = true;
 			particleDurationTimer = ParticleDuration;
+			audio.Play();
 		}
 
 		if (particleSystem.enableEmission)

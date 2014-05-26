@@ -13,9 +13,9 @@ public class LandmineScript : MonoBehaviour {
 	{
 		foreach (MeshRenderer mesh in this.GetComponentsInChildren<MeshRenderer>())
 		{
-			if (mesh.name == "Base")
-				mesh.material.color = new Color(126f / 255f, 143f / 255f, 156f / 255f);
-			else if (mesh.name == "Trigger")
+			//if (mesh.name == "Base")
+				//mesh.material.color = new Color(126f / 255f, 143f / 255f, 156f / 255f);
+			if (mesh.name == "Trigger")
 				mesh.material.color = new Color(186f / 255f, 93f / 255f, 104f / 255f);
 		}
 		exploding = false;

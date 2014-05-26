@@ -12,8 +12,8 @@ public class InputHandler {
 	public static bool		WantToSkillShot;
 	public static bool		WantToQuit;
 	public static bool		WantToSpendSkillPoint;
-	public static bool		WantToChangeSkillLeft;
-	public static bool		WantToChangeSkillRight;
+	public static bool		WantToChangeSkillUp;
+	public static bool		WantToChangeSkillDown;
 
 	public static bool		WantToStartGame;
 	public static bool		WantToChangeDifficulty;
@@ -156,15 +156,15 @@ public class InputHandler {
 
 	private void CheckSkillChange()
 	{
-		WantToChangeSkillLeft = false;
-		WantToChangeSkillRight = false;
+		WantToChangeSkillUp = false;
+		WantToChangeSkillDown = false;
 
 		//if (Input.GetAxis("SkillSelect") < -.5)
 		//	WantToChangeSkillLeft = true;
 		//if (Input.GetAxis("SkillSelect") > .5)
 		//	WantToChangeSkillRight = true;
-		WantToChangeSkillLeft = Input.GetButton("X Button") || (Input.GetAxis("SkillSelect") < -.5);
-		WantToChangeSkillRight = Input.GetButton("B Button") || (Input.GetAxis("SkillSelect") > .5);
+		WantToChangeSkillUp = (Input.GetAxis("SkillSelect") < -.5);
+		WantToChangeSkillDown = (Input.GetAxis("SkillSelect") > .5);
 
 	}
 

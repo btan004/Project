@@ -25,28 +25,21 @@ public class GameGUI : MonoBehaviour {
 	private ProgressBar	staminaBar;
 	private ProgressBar	auraBar;
 	private ProgressBar	skillShotBar;
+	private ProgressBar attackDamageBar;
+	private ProgressBar skillAvailableBar;
 
-	private ProgressBar	experienceBar;
-	private ProgressBar	movementSpeedBar;
-	private ProgressBar	pickupRadiusBar;
-	private ProgressBar	powerupBar;
-	private ProgressBar	skillPointsBar;
+	private string acceptUpgradeCoverPath = "Textures/ProgressBar/GreenCover";
+	private Texture2D acceptUpgradeCover;
+	private string denyUpgradeCoverPath = "Textures/ProgressBar/RedCover";
+	private Texture2D denyUpgradeCover;
 
-	//skill displays
-	private GUIStyle skillDisplayStyle;
-	private List<SkillDisplay> skillDisplays = new List<SkillDisplay>();
-	private static int skillsToDisplay = 6;
-	private static int selectedSkill = 1;
+	//skill upgrades
+	private static int skillsToDisplay = 5;
+	private static int selectedSkill = 0;
 	private float skillSelectCooldownTimer = 0f;
 	public static float SkillSelectCooldown = 0.2f;
 	private float spendSkillTimer = 0f;
 	public static float SpendSkillCooldown = 0.2f;
-	private SkillDisplay healthSkillDisplay;
-	private SkillDisplay staminaSkillDisplay;
-	private SkillDisplay speedSkillDisplay;
-	private SkillDisplay attackSkillDisplay;
-	private SkillDisplay skillShotSkillDisplay;
-	private SkillDisplay auraSkillDisplay;
 
 	//skill tooltip display
 	private bool displayTooltip;
@@ -65,6 +58,7 @@ public class GameGUI : MonoBehaviour {
 	private string		progressBarBluePath				= "Textures/ProgressBar/BlueBar";
 	private string		progressBarGreenPath				= "Textures/ProgressBar/GreenBar";
 	private string		progressBarProgressGreyPath	= "Textures/ProgressBar/GreyBar";
+	private string		progressBarSkillUpPath			= "Textures/ProgressBar/SkillUpBar";
 	private string 	progressBarCoverPath 			= "Textures/ProgressBar/Cover";
 	private string		progressBarDarkGreyPath			= "Textures/ProgressBar/DarkGreyBar";
 
@@ -98,12 +92,6 @@ public class GameGUI : MonoBehaviour {
 		progressBarStyle.font = font;
 		progressBarStyle.normal.textColor = Color.black;
 
-		//create the style for the skill displays
-		skillDisplayStyle = new GUIStyle();
-		skillDisplayStyle.fontSize = 14;
-		skillDisplayStyle.font = font;
-		skillDisplayStyle.normal.textColor = Color.black;
-
 		tooltipStyle = new GUIStyle();
 		tooltipStyle.fontSize = 14;
 		tooltipStyle.font = font;
@@ -112,6 +100,9 @@ public class GameGUI : MonoBehaviour {
 
 		heartTexture = Resources.Load<Texture2D>(heartTexturePath);
 		greyHeartTexture = Resources.Load<Texture2D>(greyHeartTexturePath);
+
+		acceptUpgradeCover = Resources.Load<Texture2D>(acceptUpgradeCoverPath);
+		denyUpgradeCover = Resources.Load<Texture2D>(denyUpgradeCoverPath);
 
 		healthBar = new ProgressBar(new Vector2(10, 60), new Vector2(200, 30),
 			Resources.Load<Texture2D>(progressBarBackPath),
@@ -145,42 +136,18 @@ public class GameGUI : MonoBehaviour {
 			progressBarStyle,
 			progressBarTextOffset);
 
-		experienceBar = new ProgressBar(new Vector2(10, 220), new Vector2(200, 30),
-			Resources.Load<Texture2D>(progressBarBackPath),
+		attackDamageBar = new ProgressBar(new Vector2(10, 220), new Vector2(200, 30),
+			Resources.Load<Texture2D>(progressBarProgressGreyPath),
 			Resources.Load<Texture2D>(progressBarDarkGreyPath),
 			Resources.Load<Texture2D>(progressBarProgressGreyPath),
 			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
 
-		movementSpeedBar = new ProgressBar(new Vector2(10, 260), new Vector2(200, 30),
-			Resources.Load<Texture2D>(progressBarBackPath),
+		skillAvailableBar = new ProgressBar(new Vector2(10, 260), new Vector2(200, 30),
+			Resources.Load<Texture2D>(progressBarSkillUpPath),
 			Resources.Load<Texture2D>(progressBarDarkGreyPath),
-			Resources.Load<Texture2D>(progressBarProgressGreyPath),
-			Resources.Load<Texture2D>(progressBarCoverPath),
-			progressBarStyle,
-			progressBarTextOffset);
-
-		pickupRadiusBar = new ProgressBar(new Vector2(10, 300), new Vector2(200, 30),
-			Resources.Load<Texture2D>(progressBarBackPath),
-			Resources.Load<Texture2D>(progressBarDarkGreyPath),
-			Resources.Load<Texture2D>(progressBarProgressGreyPath),
-			Resources.Load<Texture2D>(progressBarCoverPath),
-			progressBarStyle,
-			progressBarTextOffset);
-
-		skillPointsBar = new ProgressBar(new Vector2(10, 340), new Vector2(200, 30),
-			Resources.Load<Texture2D>(progressBarBackPath),
-			Resources.Load<Texture2D>(progressBarDarkGreyPath),
-			Resources.Load<Texture2D>(progressBarProgressGreyPath),
-			Resources.Load<Texture2D>(progressBarCoverPath),
-			progressBarStyle,
-			progressBarTextOffset);
-
-		powerupBar = new ProgressBar(new Vector2(Screen.width - 250, 10), new Vector2(200, 30),
-			Resources.Load<Texture2D>(progressBarBackPath),
-			Resources.Load<Texture2D>(progressBarDarkGreyPath),
-			Resources.Load<Texture2D>(progressBarProgressGreyPath),
+			Resources.Load<Texture2D>(progressBarSkillUpPath),
 			Resources.Load<Texture2D>(progressBarCoverPath),
 			progressBarStyle,
 			progressBarTextOffset);
@@ -189,54 +156,6 @@ public class GameGUI : MonoBehaviour {
 
 		skillPointAvailable = Resources.Load<Texture2D>(skillPointAvailablePath);
 
-		healthSkillDisplay = new SkillDisplay(new Vector2(100, Screen.height - 100), new Vector2(50, 50),
-			Resources.Load<Texture2D>(skillDisplayBackPath),
-			Resources.Load<Texture2D>(skillHealthIconPath),
-			Resources.Load<Texture2D>(skillDisplayCoverPath),
-			Resources.Load<Texture2D>(skillDisplaySelectedPath),
-			skillDisplayStyle);
-
-		staminaSkillDisplay = new SkillDisplay(new Vector2(160, Screen.height - 100), new Vector2(50, 50),
-			Resources.Load<Texture2D>(skillDisplayBackPath),
-			Resources.Load<Texture2D>(skillStaminaIconPath),
-			Resources.Load<Texture2D>(skillDisplayCoverPath),
-			Resources.Load<Texture2D>(skillDisplaySelectedPath),
-			skillDisplayStyle);
-
-		speedSkillDisplay = new SkillDisplay(new Vector2(220, Screen.height - 100), new Vector2(50, 50),
-			Resources.Load<Texture2D>(skillDisplayBackPath),
-			Resources.Load<Texture2D>(skillSpeedIconPath),
-			Resources.Load<Texture2D>(skillDisplayCoverPath),
-			Resources.Load<Texture2D>(skillDisplaySelectedPath),
-			skillDisplayStyle);
-
-		attackSkillDisplay = new SkillDisplay(new Vector2(280, Screen.height - 100), new Vector2(50, 50),
-			Resources.Load<Texture2D>(skillDisplayBackPath),
-			Resources.Load<Texture2D>(skillAttackIconPath),
-			Resources.Load<Texture2D>(skillDisplayCoverPath),
-			Resources.Load<Texture2D>(skillDisplaySelectedPath),
-			skillDisplayStyle);
-
-		skillShotSkillDisplay = new SkillDisplay(new Vector2(340, Screen.height - 100), new Vector2(50, 50),
-			Resources.Load<Texture2D>(skillDisplayBackPath),
-			Resources.Load<Texture2D>(skillSkillShotIconPath),
-			Resources.Load<Texture2D>(skillDisplayCoverPath),
-			Resources.Load<Texture2D>(skillDisplaySelectedPath),
-			skillDisplayStyle);
-
-		auraSkillDisplay = new SkillDisplay(new Vector2(400, Screen.height - 100), new Vector2(50, 50),
-			Resources.Load<Texture2D>(skillDisplayBackPath),
-			Resources.Load<Texture2D>(skillAuraIconPath),
-			Resources.Load<Texture2D>(skillDisplayCoverPath),
-			Resources.Load<Texture2D>(skillDisplaySelectedPath),
-			skillDisplayStyle);
-
-		skillDisplays.Add(healthSkillDisplay);
-		skillDisplays.Add(staminaSkillDisplay);
-		skillDisplays.Add(speedSkillDisplay);
-		skillDisplays.Add(attackSkillDisplay);
-		skillDisplays.Add(skillShotSkillDisplay);
-		skillDisplays.Add(auraSkillDisplay);
 	}
 
 	void DisplaySpawnInfo()
@@ -264,23 +183,15 @@ public class GameGUI : MonoBehaviour {
 		if (playerScript.RanOutOfStamina) staminaBar.GreyOut(true);
 		else staminaBar.GreyOut(false);
 
-
-		healthSkillDisplay.Update(playerScript.Skills.HealthSkill.Level);
-		staminaSkillDisplay.Update(playerScript.Skills.StaminaSkill.Level);
-		speedSkillDisplay.Update(playerScript.Skills.VelocitySkill.Level);
-		attackSkillDisplay.Update(playerScript.Skills.AttackSkill.Level);
-		skillShotSkillDisplay.Update(playerScript.Skills.SkillShotSkill.Level);
-		auraSkillDisplay.Update(playerScript.Skills.AuraSkill.Level);
-
 		skillSelectCooldownTimer -= Time.deltaTime;
 		skillShowTooltipTimer -= Time.deltaTime;
-		if (InputHandler.WantToChangeSkillLeft && skillSelectCooldownTimer < 0)
+		if (InputHandler.WantToChangeSkillUp && skillSelectCooldownTimer < 0)
 		{
 			selectedSkill = Mathf.Clamp(selectedSkill - 1, 0, skillsToDisplay - 1);
 			skillSelectCooldownTimer = SkillSelectCooldown;
 			skillShowTooltipTimer = SkillShowTooltipCooldown;
 		}
-		if (InputHandler.WantToChangeSkillRight && skillSelectCooldownTimer < 0)
+		if (InputHandler.WantToChangeSkillDown && skillSelectCooldownTimer < 0)
 		{
 			selectedSkill = Mathf.Clamp(selectedSkill + 1, 0, skillsToDisplay - 1);
 			skillSelectCooldownTimer = SkillSelectCooldown;
@@ -299,58 +210,18 @@ public class GameGUI : MonoBehaviour {
 					playerScript.Skills.UpdgradeSkill(SkillType.Stamina);
 					break;
 				case 2:
-					playerScript.Skills.UpdgradeSkill(SkillType.Speed);
+					playerScript.Skills.UpdgradeSkill(SkillType.Aura);
 					break;
 				case 3:
-					playerScript.Skills.UpdgradeSkill(SkillType.Attack);
-					break;
-				case 4:
 					playerScript.Skills.UpdgradeSkill(SkillType.SkillShot);
 					break;
-				case 5:
-					playerScript.Skills.UpdgradeSkill(SkillType.Aura);
+				case 4:
+					playerScript.Skills.UpdgradeSkill(SkillType.Attack);
 					break;
 				default:
 					break;
 			}
 			spendSkillTimer = SpendSkillCooldown;
-		}
-
-		//update tooltip
-		switch (selectedSkill)
-		{
-			case 0:
-				tooltipLine1 = playerScript.Skills.HealthSkill.Name;
-				tooltipLine2 = playerScript.Skills.HealthSkill.Description;
-				tooltipLine3 = "Current Amount: " + playerScript.Skills.HealthSkill.Total + ", Next Amount: " + playerScript.Skills.HealthSkill.NextTotal;
-				break;
-			case 1:
-				tooltipLine1 = playerScript.Skills.StaminaSkill.Name;
-				tooltipLine2 = playerScript.Skills.StaminaSkill.Description;
-				tooltipLine3 = "Current Amount: " + playerScript.Skills.StaminaSkill.Total + ", Next Amount: " + playerScript.Skills.StaminaSkill.NextTotal;
-				break;
-			case 2:
-				tooltipLine1 = playerScript.Skills.VelocitySkill.Name;
-				tooltipLine2 = playerScript.Skills.VelocitySkill.Description;
-				tooltipLine3 = "Current Amount: " + playerScript.Skills.VelocitySkill.Total + ", Next Amount: " + playerScript.Skills.VelocitySkill.NextTotal;
-				break;
-			case 3:
-				tooltipLine1 = playerScript.Skills.AttackSkill.Name;
-				tooltipLine2 = playerScript.Skills.AttackSkill.Description;
-				tooltipLine3 = "Current Amount: " + playerScript.Skills.AttackSkill.Total + ", Next Amount: " + playerScript.Skills.AttackSkill.NextTotal;
-				break;
-			case 4:
-				tooltipLine1 = playerScript.Skills.SkillShotSkill.Name;
-				tooltipLine2 = playerScript.Skills.SkillShotSkill.Description;
-				tooltipLine3 = "Current Amount: " + playerScript.Skills.SkillShotSkill.Total + ", Next Amount: " + playerScript.Skills.SkillShotSkill.NextTotal;
-				break;
-			case 5:
-				tooltipLine1 = playerScript.Skills.AuraSkill.Name;
-				tooltipLine2 = playerScript.Skills.AuraSkill.Description;
-				tooltipLine3 = "Current Amount: " + playerScript.Skills.AuraSkill.Total + ", Next Amount: " + playerScript.Skills.AuraSkill.NextTotal;
-				break;
-			default:
-				break;
 		}
 	}
 
@@ -371,16 +242,15 @@ public class GameGUI : MonoBehaviour {
 			(playerScript.Skills.GetPlayerHealth() / playerScript.Skills.GetPlayerHealthMax()),
 			"Health",
 			" " + playerScript.Skills.GetPlayerHealth().ToString("F0") + "/" + playerScript.Skills.GetPlayerHealthMax().ToString("F0"),
-			(100 * (playerScript.Skills.GetPlayerHealth() / playerScript.Skills.GetPlayerHealthMax())).ToString("F0") + "%"
+			""
 		);
 
 		//display stamina bar
-		
 		staminaBar.OnGUI(
 			(playerScript.Skills.GetPlayerStamina() / playerScript.Skills.GetPlayerStaminaMax()),
 			"Stamina",
 			"  " + playerScript.Skills.GetPlayerStamina().ToString("F0") + "/" + playerScript.Skills.GetPlayerStaminaMax().ToString("F0"),
-			(100 * (playerScript.Skills.GetPlayerStamina() / playerScript.Skills.GetPlayerStaminaMax())).ToString("F0") + "%"
+			""
 		);
 		
 		//display aura bar
@@ -390,102 +260,79 @@ public class GameGUI : MonoBehaviour {
 			if (PlayerScript.IsAuraReady) percent = 1;
 			auraBar.OnGUI(
 				percent,
-				"Aura",
+				"Aura Level " + (playerScript.Skills.AuraSkill.Level + 1),
 				"",
-				PlayerScript.IsAuraReady ? "100%" : (100 * playerScript.GetAuraDurationPercentage()).ToString("F0") + "%"
+				""
 			);
 		}
 		else
 		{
 			auraBar.OnGUI(
 				playerScript.GetAuraCooldownPercentage(),
-				"Aura",
+				"Aura Level " + (playerScript.Skills.AuraSkill.Level + 1),
 				"",
-				(100 * playerScript.GetAuraCooldownPercentage()).ToString("F0") + "%"
+				""
 			);
 		}
 
 		//display skill shot bar
 		skillShotBar.OnGUI(
 			playerScript.GetSkillShotCooldownPercentage(),
-			"Skill Shot",
-			"",
-			(100 * playerScript.GetSkillShotCooldownPercentage()).ToString("F0") + "%"
-		);
-		
-		//display the experience bar
-		/*
-		experienceBar.OnGUI(
-			(playerScript.LevelSystem.CurrentExperience / playerScript.LevelSystem.ExperienceToNextLevel),
-			"Experience",
-			"  " + playerScript.LevelSystem.CurrentExperience.ToString("F0") + "/" + playerScript.LevelSystem.ExperienceToNextLevel,
-			playerScript.LevelSystem.CurrentLevel.ToString()
-		);
-		*/
-		/*
-		movementSpeedBar.OnGUI(
-			0f,
-			"Movement Speed: " + playerScript.FinalMoveSpeed.ToString("F0"),
+			"Skill Shot Level " + (playerScript.Skills.SkillShotSkill.Level + 1),
 			"",
 			""
 		);
 
-		pickupRadiusBar.OnGUI(
+		attackDamageBar.OnGUI(
 			0f,
-			"Pickup Radius: " + playerScript.Radius.ToString("F0"),
+			"Attack Damage: " + playerScript.Skills.GetPlayerDamage(),
 			"",
 			""
 		);
 
-		skillPointsBar.OnGUI(
-			0f,
-			"Skill Points: " + playerScript.Skills.PointsToSpend.ToString("F0"),
-			"",
-			""
-		);
-*/
-		powerupBar.OnGUI(
-			0f,
-			"Powerups:",
-			"",
-			""
-		);
-
-		DisplaySpawnInfo ();
-		
-		//display powerups
-		int powerupsToDisplay = Mathf.Min(playerScript.ActivePowerups.Count, MaxPowerupsToDisplay);
-		Rect powerupDisplayRect = new Rect(Screen.width - 250, 50, 60, 60);
-		Rect powerupTextDisplayRect = new Rect(powerupDisplayRect.x + 70, powerupDisplayRect.y, 200, 60);
-		for (int i = 0; i < powerupsToDisplay; i++)
-		{
-			Powerup powerup = playerScript.ActivePowerups[i];
-			
-			GUI.DrawTexture(powerupDisplayRect, PowerupInfo.GetIcon(powerup.Type));
-			GUI.Label(powerupTextDisplayRect, "+" + powerup.Amount.ToString("F1") + " for " + powerup.Duration.ToString("F2") + " seconds");
-			powerupDisplayRect.y += 68;
-			powerupTextDisplayRect.y += 68;
-		}
-
-		//display skills
 		if (playerScript.Skills.PointsToSpend > 0)
 		{
-			GUI.DrawTexture(new Rect(40, Screen.height - 100, 50, 50), skillPointAvailable);
-		}
+			//highlight selected skill
+			switch (selectedSkill)
+			{
+				case 0: /* Health */
+					GUI.Label(healthBar.GetRect(), acceptUpgradeCover, progressBarStyle);
+					break;
+				case 1: /* Stamina */
+					GUI.Label(staminaBar.GetRect(), acceptUpgradeCover, progressBarStyle);
+					break;
+				case 2: /* Aura */
+					if (playerScript.Skills.AuraSkill.IsFullyUpgraded())
+						GUI.Label(auraBar.GetRect(), denyUpgradeCover, progressBarStyle);
+					else
+						GUI.Label(auraBar.GetRect(), acceptUpgradeCover, progressBarStyle);
+					break;
+				case 3: /* Skill Shot */
+					if (playerScript.Skills.SkillShotSkill.IsFullyUpgraded())
+						GUI.Label(skillShotBar.GetRect(), denyUpgradeCover, progressBarStyle);
+					else
+						GUI.Label(skillShotBar.GetRect(), acceptUpgradeCover, progressBarStyle);
+					break;
+				case 4: /* Attack */
+					if (playerScript.Skills.AttackSkill.IsFullyUpgraded())
+						GUI.Label(attackDamageBar.GetRect(), denyUpgradeCover, progressBarStyle);
+					else
+						GUI.Label(attackDamageBar.GetRect(), acceptUpgradeCover, progressBarStyle);
+					break;
+			}
 
-		for (int i = 0; i < skillsToDisplay; i++)
-		{
-			skillDisplays[i].OnGUI(selectedSkill == i);
-		}
+			//skill bar
+			skillAvailableBar.OnGUI(
+				0f,
+				"     Skill Points: " + playerScript.Skills.PointsToSpend,
+				"",
+				""
+			);
 
-		//display tooltip for skills
-		if (skillShowTooltipTimer > 0)
-		{
-			Rect tooltipRect = new Rect(100, Screen.height - 160, 350, 50);
-			GUI.Box(tooltipRect, "", tooltipStyle);
-			GUI.Label(new Rect(tooltipRect.left + 5, tooltipRect.top + 3, tooltipRect.width - 10, 10), tooltipLine1, skillDisplayStyle);
-			GUI.Label(new Rect(tooltipRect.left + 5, tooltipRect.top + 17, tooltipRect.width - 10, 10), tooltipLine2, skillDisplayStyle);
-			GUI.Label(new Rect(tooltipRect.left + 5, tooltipRect.top + 32, tooltipRect.width - 10, 10), tooltipLine3, skillDisplayStyle);
+
 		}
+		DisplaySpawnInfo ();
+	
+
 	}
 }

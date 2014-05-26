@@ -206,9 +206,6 @@ public class WaveSystem
 			//the wave is finished
 			WaveFinished = true;
 
-			//give the player skill points
-			playerScript.Skills.AddSkillPoints(GameDifficulty);
-
 			//
 			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
 			{
