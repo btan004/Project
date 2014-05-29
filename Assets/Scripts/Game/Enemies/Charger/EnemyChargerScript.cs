@@ -4,11 +4,9 @@ using System.Collections;
 public class EnemyChargerScript : EnemyBaseScript {
 
 	//Enemy Movement
-	public bool MovingEnabled;
 	public float TurnVelocity;
 	
 	//Enemy Attack
-	public bool EnemyIsAttacking;
 	public float Force;
 	public float NextAttack;
 	public float AttackDistance;
@@ -28,10 +26,29 @@ public class EnemyChargerScript : EnemyBaseScript {
 	public float MinDistanceToCharge;		//Minimum distance between target to initiate a charge
 	public Vector3 ChargeTarget;			//Target to charge at
 
+	public bool waitingForAnimationDelay;
+	public const float AttackAnimationDelay = 0.3f;
+	public float attackAnimationDelayTimer;
+
+	//Animations
+	public Animator anim;
+
+	//Our statemachine
+	public FSM<EnemyChargerScript> StateMachine;
+	public enum StateID{ moving, attacking };
+	
+	public void ChangeState( State<EnemyChargerScript> s )
+	{
+		StateMachine.ChangeState ( s );
+	}
+
 	// Use this for initialization
 	public override void Start () {
 		if (!player) AssignPlayer();
 		WaveSystem.EnemiesRemaining++;
+
+		StateMachine = new FSM<EnemyChargerScript> ( this, Charger_MoveToPlayer.Instance );
+		anim = GetComponent<Animator>();	
 
 		// Set initial stats (should ovaeride by applying an upgrade)
 		if (!HasBeenUpgraded)
@@ -44,13 +61,15 @@ public class EnemyChargerScript : EnemyBaseScript {
 		}
 
 		// Movement
-		MovingEnabled = true;
+		IsMoving = true;
 		TurnVelocity = 5f;
 
 		// Attack
-		EnemyIsAttacking = false;
-		AttackDistance = 2;
+		IsAttacking = false;
+		AttackDistance = 3;
 		NextAttack = AttackRate;
+		waitingForAnimationDelay = false;
+		attackAnimationDelayTimer = AttackAnimationDelay;
 
 		ChargeReady = false;
 		IsGettingReadyToCharge = false;
@@ -80,15 +99,34 @@ public class EnemyChargerScript : EnemyBaseScript {
 	// Update is called once per frame
 	public override void Update () {
 		// Reset animation info
-		ClearAnimationInfo();
+		//ClearAnimationInfo();
 
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 
-		AIDecision ();
+		//apply knockback
+		ApplyKnockback();
+		
+		// Rotate enemy towards player
+		RotateEnemy ();
+		
+		//Update anything that needs a cooldown
+		NextAttack = NextAttack - Time.deltaTime;
+		ChargeCooldownCounter += Time.deltaTime;
+
+		if( ChargeCooldownCounter >= ChargeCooldown )
+		{
+			ChargeCooldownCounter = ChargeCooldown;
+			ChargeReady = true;
+		}
+
+		//Run through this.StateMachine
+		StateMachine.Update ();
+
+		//AIDecision ();
 
 		// Animate
-		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
+		//AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	public void AIDecision()
@@ -103,7 +141,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 			if( ChargeReady && distance >= MinDistanceToCharge && !IsGettingReadyToCharge && !IsCharging && !IsResting )
 			{
 				float ChanceToCharge = Random.Range(0.0f, 100.0f);
-				if( ChanceToCharge <= 5.0 )
+				if( ChanceToCharge <= 2.0 )
 				{
 					IsGettingReadyToCharge = true;
 					ChargeAttack();
@@ -124,7 +162,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 				{
 					IsResting = false;
 					RestingTimeCounter = 0;
-					MovingEnabled = true;
+					IsMoving = true;
 				}
 			}
 			else
@@ -167,23 +205,21 @@ public class EnemyChargerScript : EnemyBaseScript {
 
 	public void RotateEnemy() {
 		if (player) {
-			// Get player location
-			Vector3 playerLocation = player.transform.position;
-
+			// Get velocity path
+			Vector3 rotateDir = this.GetComponent<NavMeshAgent>().velocity;
+			
 			// Set rotation step
-			float rotationStep = TurnVelocity*Time.deltaTime;
-		
+			float rotationStep = 5f*Time.deltaTime;
+			
 			// Rotate enemy towards player
-			Vector3 playerDir = Vector3.RotateTowards(this.transform.forward,playerLocation-this.transform.position,rotationStep,0.0f);
-			playerDir = new Vector3(playerDir.x,0,playerDir.z);
-			this.transform.rotation = Quaternion.LookRotation(playerDir);
-			EnemyAnimation.transform.rotation = Quaternion.LookRotation(playerDir);
+			rotateDir = new Vector3(rotateDir.x,0,rotateDir.z);
+			this.transform.rotation = Quaternion.LookRotation(rotateDir);
 		}
 	}
 
 	public void MoveEnemy() {
 		// Find player in game
-		if (player && MovingEnabled && !IsWithinAttackRange()) {
+		if (player && IsMoving && !IsWithinAttackRange()) {
 			// Get player location
 			Vector3 playerLocation = player.transform.position;
 
@@ -254,7 +290,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 			{
 				IsCharging = false;
 				IsResting = true;
-				MovingEnabled = false;
+				IsMoving = false;
 				ChargeCooldownCounter = 0;
 			}
 
