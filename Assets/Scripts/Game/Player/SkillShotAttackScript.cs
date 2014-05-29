@@ -12,6 +12,8 @@ public class SkillShotAttackScript : MonoBehaviour {
 	private float particleDurationTimer;
 	ParticleSystem particleSystem;
 
+	ParticleSystem[] particleSystems;
+
 	private List<GameObject> enemiesInRange = new List<GameObject>();
 
 	// Use this for initialization
@@ -20,8 +22,9 @@ public class SkillShotAttackScript : MonoBehaviour {
 		
 		directionToOffset = new Vector3();
 
-		particleSystem = this.GetComponentInChildren<ParticleSystem>();
-		particleSystem.enableEmission = false;
+		particleSystems = this.GetComponentsInChildren<ParticleSystem>();
+		foreach (ParticleSystem ps in particleSystems)
+			ps.enableEmission = false;
 		particleDurationTimer = ParticleDuration;
 	}
 	
@@ -40,17 +43,22 @@ public class SkillShotAttackScript : MonoBehaviour {
 
 		if (cursor.player.IsSkillShotActive)
 		{
-			particleSystem.enableEmission = true;
+			foreach (ParticleSystem ps in particleSystems)
+				ps.enableEmission = true;
+
 			particleDurationTimer = ParticleDuration;
 			audio.Play();
 		}
 
-		if (particleSystem.enableEmission)
+		foreach (ParticleSystem ps in particleSystems)
 		{
-			particleDurationTimer -= Time.deltaTime;
-			if (particleDurationTimer <= 0)
+			if (ps.enableEmission)
 			{
-				particleSystem.enableEmission = false;
+				particleDurationTimer -= (Time.deltaTime / particleSystems.Length);
+				if (particleDurationTimer <= 0)
+				{
+					ps.enableEmission = false;
+				}
 			}
 		}
 	}
