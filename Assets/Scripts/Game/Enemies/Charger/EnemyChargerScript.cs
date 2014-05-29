@@ -112,7 +112,14 @@ public class EnemyChargerScript : EnemyBaseScript {
 		
 		//Update anything that needs a cooldown
 		NextAttack = NextAttack - Time.deltaTime;
-		
+		ChargeCooldownCounter += Time.deltaTime;
+
+		if( ChargeCooldownCounter >= ChargeCooldown )
+		{
+			ChargeCooldownCounter = ChargeCooldown;
+			ChargeReady = true;
+		}
+
 		//Run through this.StateMachine
 		StateMachine.Update ();
 
@@ -134,7 +141,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 			if( ChargeReady && distance >= MinDistanceToCharge && !IsGettingReadyToCharge && !IsCharging && !IsResting )
 			{
 				float ChanceToCharge = Random.Range(0.0f, 100.0f);
-				if( ChanceToCharge <= 5.0 )
+				if( ChanceToCharge <= 2.0 )
 				{
 					IsGettingReadyToCharge = true;
 					ChargeAttack();

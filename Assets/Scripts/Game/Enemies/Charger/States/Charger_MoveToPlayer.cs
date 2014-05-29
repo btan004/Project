@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System;
 
 public class Charger_MoveToPlayer : State<EnemyChargerScript>
 {
@@ -24,7 +23,18 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 	{
 		if( EnemyBaseScript.player )
 		{
-			if (e.IsMoving && !e.IsWithinAttackRange()) {
+			if ( e.ChargeReady && !e.IsWithinAttackRange() )
+			{
+				float ChanceToCharge = Random.Range(0.0f, 100.0f);
+				if( ChanceToCharge <= 2.0 )
+				{
+					//e.ChargeAttack();
+					//e.RotateEnemy();
+					e.ChargeReady = false;
+					e.ChangeState(Charger_ChargingUp.Instance);
+				}
+			}
+			else if (e.IsMoving && !e.IsWithinAttackRange() && !e.ChargeReady) {
 				// Get player location
 				Vector3 playerLocation = EnemyBaseScript.player.transform.position;
 
@@ -45,7 +55,7 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 			{
 				e.ChangeState(Charger_AttackPlayer.Instance);
 			}
-			e.anim.SetFloat ("Speed", Convert.ToSingle(!e.IsWithinAttackRange()));
+			e.anim.SetFloat ("Speed", System.Convert.ToSingle(!e.IsWithinAttackRange()));
 		}
 		else
 		{
