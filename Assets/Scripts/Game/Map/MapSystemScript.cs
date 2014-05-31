@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapSystemScript : MonoBehaviour {
+public class MapSystemScript : MonoBehaviour
+{
 
 	public static MapSystemScript instance;
 
@@ -16,7 +17,7 @@ public class MapSystemScript : MonoBehaviour {
 	public int CurrentLevel;
 
 	// Use this for initialization
-	void Start () 
+	void Start()
 	{
 		if (instance == null)
 		{
@@ -30,11 +31,11 @@ public class MapSystemScript : MonoBehaviour {
 			TransitionToLevel(StartLevel);
 		}
 	}
-	
+
 	// Update is called once per frame
-	void Update () 
+	void Update()
 	{
-	
+
 	}
 
 	public GameObject GetLevel(int level)
@@ -103,7 +104,7 @@ public class MapSystemScript : MonoBehaviour {
 		Player.transform.position = GetCurrentLevel().GetComponent<LevelScript>().PlayerSpawnPoint.transform.position;
 
 		//if the player moved home, give him points
-		if (GetCurrentLevelType() == LevelType.Home)
+		if (GetCurrentLevelType() == LevelType.Home && Player.GetComponent<PlayerScript>().Skills != null)
 			Player.GetComponent<PlayerScript>().Skills.AddSkillPoints(WaveSystem.GameDifficulty);
 
 		//fade in
