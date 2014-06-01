@@ -29,7 +29,7 @@ public class Sniper_AttackPlayer : State<EnemySniperScript>
 				// Create Bullet
 				Transform bulletPosition = e.transform;
 				bulletPosition.SetPositionY(1);
-				GameObject bullet = Instantiate(e.EnemyBulletPrefab, bulletPosition.position,Quaternion.identity) as GameObject;
+				GameObject bullet = GameObject.Instantiate(e.EnemyBulletPrefab, bulletPosition.position,Quaternion.identity) as GameObject;
 				bullet.GetComponent<EnemyBulletScript>().SetDamage(e.Damage);
 				e.NextAttack = e.AttackRate;
 			}

@@ -58,7 +58,7 @@ public class Charger_AttackPlayer : State<EnemyChargerScript>
 				// Create sphere attack
 				
 				Vector3 createPosition = e.transform.position + e.transform.forward;
-				GameObject attack = Instantiate(e.EnemyAttackSphere) as GameObject;
+				GameObject attack = GameObject.Instantiate(e.EnemyAttackSphere) as GameObject;
 				attack.transform.position = createPosition;
 				attack.GetComponent<EnemyAttackSphereScript>().SetDamage(e.Damage);
 				attack.GetComponent<EnemyAttackSphereScript>().SetForce(e.Force);

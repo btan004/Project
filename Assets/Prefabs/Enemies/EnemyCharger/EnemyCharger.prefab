@@ -69,37 +69,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &100008
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400006}
-  m_Layer: 0
-  m_Name: Cape
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &100010
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 400048}
-  - 111: {fileID: 11100000}
-  m_Layer: 0
-  m_Name: cape
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &100012
 GameObject:
   m_ObjectHideFlags: 1
@@ -699,7 +668,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.06744075, y: 1.625, z: -28.9121323}
+  m_LocalPosition: {x: -4.32390261, y: 1.625, z: -28.8433247}
   m_LocalScale: {x: 2.25, y: 2.25, z: 2.25}
   m_Children:
   - {fileID: 400088}
@@ -728,17 +697,6 @@ Transform:
   m_LocalScale: {x: 1.00000012, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400046}
---- !u!4 &400006
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_LocalRotation: {x: .998523831, y: 0, z: 0, w: -.0543153249}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .43135494, y: .418866277, z: .455865681}
-  m_Children: []
-  m_Father: {fileID: 400048}
 --- !u!4 &400008
 Transform:
   m_ObjectHideFlags: 1
@@ -977,18 +935,6 @@ Transform:
   m_Children:
   - {fileID: 400004}
   m_Father: {fileID: 400054}
---- !u!4 &400048
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100010}
-  m_LocalRotation: {x: -.526289284, y: .472249448, z: .526289344, w: .472249538}
-  m_LocalPosition: {x: .0111641958, y: .000466108642, z: -.00121636351}
-  m_LocalScale: {x: .0389882959, y: .0389882773, z: .038988322}
-  m_Children:
-  - {fileID: 400006}
-  m_Father: {fileID: 400054}
 --- !u!4 &400050
 Transform:
   m_ObjectHideFlags: 1
@@ -1025,7 +971,6 @@ Transform:
   m_Children:
   - {fileID: 400052}
   - {fileID: 400050}
-  - {fileID: 400048}
   - {fileID: 400046}
   m_Father: {fileID: 400072}
 --- !u!4 &400056
@@ -1316,20 +1261,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
---- !u!111 &11100000
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100010}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 1
 --- !u!111 &11100002
 Animation:
   m_ObjectHideFlags: 1
@@ -1390,6 +1321,9 @@ MonoBehaviour:
   IsAttacking: 0
   IsHit: 0
   IsDead: 0
+  renderers:
+  - {fileID: 2300002}
+  - {fileID: 13700000}
   TurnVelocity: 0
   Force: 0
   NextAttack: 0

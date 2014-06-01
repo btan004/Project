@@ -43,6 +43,7 @@ public class Chaser_MoveToPlayer : State<EnemyChaserScript>
 			}
 			else if( e.IsWithinAttackRange() )
 			{
+				e.GetComponent<NavMeshAgent>().Stop();
 				e.ChangeState(Chaser_AttackPlayer.Instance);
 			}
 			e.anim.SetFloat ("Speed", Convert.ToSingle(!e.IsWithinAttackRange()));

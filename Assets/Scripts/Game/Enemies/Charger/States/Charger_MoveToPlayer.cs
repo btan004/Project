@@ -31,6 +31,7 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 					//e.ChargeAttack();
 					//e.RotateEnemy();
 					e.ChargeReady = false;
+					e.GetComponent<NavMeshAgent>().Stop();
 					e.ChangeState(Charger_ChargingUp.Instance);
 				}
 			}
@@ -53,6 +54,7 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 			}
 			else if( e.IsWithinAttackRange() )
 			{
+				e.GetComponent<NavMeshAgent>().Stop ();
 				e.ChangeState(Charger_AttackPlayer.Instance);
 			}
 			e.anim.SetFloat ("Speed", System.Convert.ToSingle(!e.IsWithinAttackRange()));

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyBaseScript : MonoBehaviour {
 	
@@ -26,6 +27,11 @@ public class EnemyBaseScript : MonoBehaviour {
 	public bool IsAttacking;
 	public bool IsHit;
 	public bool IsDead;
+
+	// GameObjects with Renderers
+	// Used for flashing an enemy when they are hit.
+	// THIS MUST BE SET IN THE INSPECTOR IN ORDER FOR IT TO WORK.
+	public Renderer[] renderers;
 
 	public void ClearAnimationInfo()
 	{
@@ -142,5 +148,50 @@ public class EnemyBaseScript : MonoBehaviour {
 		this.AttackRate = upgrade.AttackRate;
 		this.Experience = upgrade.Experience;
 		this.HasBeenUpgraded = true;
+	}
+
+	/// <summary>
+	/// Flashes this enemy when they are hit with a color
+	/// </summary>
+	/// <param name="time">How long the given color persists on the enemy</param>
+	/// <param name="color">Color to flash</param>
+	/// <returns>
+	/// IEnumerator back to the function for yield
+	/// </returns>
+	/// <remarks>
+	/// This function should be called within scripts that are applying damage to the enemy.
+	/// E.g, when this enemy is damaged by a melee attack, this function is called within MeleeAttackBoxScript.cs
+	/// </remarks>
+	public IEnumerator Flash( float time, Color color )
+	{
+		Dictionary<Material, Color> colorDefs = new Dictionary<Material, Color> ();
+		Dictionary<Material, Shader> shaderDefs = new Dictionary<Material, Shader> ();
+		foreach ( Renderer r in renderers )
+		{
+			foreach ( Material m in r.materials )
+			{
+				Debug.Log ( "Material is: " + m.name );
+				if( m.HasProperty("_Color") && m.color != color )
+				{
+					colorDefs.Add( m, m.color );
+					m.color = color;
+				}
+				if( m.shader != Shader.Find ("Transparent/Diffuse") )
+				{
+					shaderDefs.Add ( m, m.shader );
+					m.shader = Shader.Find("Transparent/Diffuse");
+				}
+			}
+		}
+		yield return new WaitForSeconds (time);
+		
+		foreach ( KeyValuePair<Material, Color> entry in colorDefs )
+		{
+			entry.Key.color = entry.Value;
+		}
+		foreach ( KeyValuePair<Material, Shader> entry in shaderDefs )
+		{
+			entry.Key.shader = entry.Value;
+		}
 	}
 }

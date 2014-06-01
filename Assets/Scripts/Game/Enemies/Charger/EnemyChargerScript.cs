@@ -88,6 +88,12 @@ public class EnemyChargerScript : EnemyBaseScript {
 		Force = 5f;
 		mass = 20;
 
+		//Checking if there are any renderers to flash when this enemy is hit
+		if( renderers.Length <= 0 )
+		{
+			Debug.LogWarning("[EnemyChargerScript]: No renderers are set in order to flash this enemy when they are hit. If this is intentional, ignore");
+		}
+
 		//misc
 		renderer.material.color = Color.green;
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
