@@ -59,6 +59,12 @@ public class EnemySniperScript : EnemyBaseScript {
 		NextAttack = AttackRate;
 		AttackDistance = 10;
 
+		//Checking if there are any renderers to flash when this enemy is hit
+		if( renderers.Length <= 0 )
+		{
+			Debug.LogWarning("[EnemySniperScript]: No renderers are set in order to flash this enemy when they are hit. If this is intentional, ignore");
+		}
+
 		//misc
 		renderer.material.color = new Color(1f, 165f / 255f, 0f);
 	}

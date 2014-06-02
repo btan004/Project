@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StartMenuGUI : MonoBehaviour {
+public class StartMenuGUI : MonoBehaviour
+{
 
 	private string GameTitle = "The Arena";
 	private static int GameTitleWidth = 200;
@@ -72,7 +73,7 @@ public class StartMenuGUI : MonoBehaviour {
 		difficultyToggleTimer -= Time.deltaTime;
 	}
 
-	
+
 
 	private void toggleDifficulty()
 	{
@@ -107,7 +108,7 @@ public class StartMenuGUI : MonoBehaviour {
 		GUI.Label(new Rect((Screen.width / 2) - (GameTitleWidth / 2), 50, GameTitleWidth, GameTitleHeight), GameTitle, style);
 
 		//Display the Difficulty
-		GUI.Label(new Rect((Screen.width / 2) - (DifficultyWidth / 2), 250, DifficultyWidth, DifficultyHeight), DifficultyString, difficultyStyle); 
+		GUI.Label(new Rect((Screen.width / 2) - (DifficultyWidth / 2), 250, DifficultyWidth, DifficultyHeight), DifficultyString, difficultyStyle);
 
 		//Display Controls
 		GUI.Label(new Rect(Screen.width - 600, 500, controlStringWidth, controlStringHeight), controlStringStartGame, style);
@@ -120,6 +121,7 @@ public class StartMenuGUI : MonoBehaviour {
 	private void StartGame()
 	{
 		Application.LoadLevel("GameScene");
+		InputHandler.DisableInput();
 	}
 
 	private void QuitGame()
@@ -127,7 +129,7 @@ public class StartMenuGUI : MonoBehaviour {
 		Debug.Log("Quitting Game...");
 		Application.Quit();
 	}
-	
+
 
 }
 

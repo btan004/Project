@@ -62,7 +62,7 @@ public class EnemyBulletScript : MonoBehaviour {
 			float zpositive = sizeOfMap.z/2 + centerOfMap.z;
 			float znegative = centerOfMap.z - sizeOfMap.z/2;
 			if(currentPosition.z > zpositive || currentPosition.z < znegative){
-				if (this.gameObject) DestroyImmediate(this.gameObject);
+				if (this) DestroyImmediate(this.gameObject);
 			}
 		}
 	}

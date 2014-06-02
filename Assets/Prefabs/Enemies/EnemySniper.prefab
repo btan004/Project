@@ -52,7 +52,7 @@ GameObject:
   - 111: {fileID: 11100000}
   m_Layer: 0
   m_Name: hatr
-  m_TagString: Untagged
+  m_TagString: Flashable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ GameObject:
   - 111: {fileID: 11100002}
   m_Layer: 0
   m_Name: elementstaff
-  m_TagString: Untagged
+  m_TagString: Flashable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,7 +88,7 @@ GameObject:
   - 33: {fileID: 3300006}
   m_Layer: 0
   m_Name: cape
-  m_TagString: Untagged
+  m_TagString: Flashable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -736,7 +736,7 @@ GameObject:
   - 137: {fileID: 13700002}
   m_Layer: 0
   m_Name: skeleton
-  m_TagString: Untagged
+  m_TagString: Flashable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -779,7 +779,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.77980852, y: 7.47199106, z: -5.51538944}
+  m_LocalPosition: {x: -3.97088718, y: .501802683, z: -31.8459206}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -792,7 +792,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: .53667742, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -1252,7 +1252,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100080}
-  m_LocalRotation: {x: -.573230326, y: -.264842302, z: .774871826, w: -.0289667118}
+  m_LocalRotation: {x: -.573230386, y: -.264842331, z: .774871886, w: -.0289667137}
   m_LocalPosition: {x: -.00672981236, y: .017950248, z: .0132561848}
   m_LocalScale: {x: 1.00000012, y: 1, z: 1}
   m_Children:
@@ -1509,7 +1509,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: .53667742, z: 0}
 --- !u!65 &6500002
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1638,6 +1638,11 @@ MonoBehaviour:
   IsAttacking: 0
   IsHit: 0
   IsDead: 0
+  renderers:
+  - {fileID: 2300002}
+  - {fileID: 2300004}
+  - {fileID: 13700002}
+  - {fileID: 2300006}
   TurnVelocity: 0
   NextAttack: 0
   AttackDistance: 0
@@ -1771,7 +1776,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: .5
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1001 &100100000

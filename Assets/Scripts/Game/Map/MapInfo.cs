@@ -16,14 +16,22 @@ public class MapInfo
 	/// <returns></returns>
 	public static Vector3 GetRandomPointOnMap()
 	{
+		
+
 		float minimumX = MapSystemScript.instance.GetLevelBounds().left;
 		float maximumX = MapSystemScript.instance.GetLevelBounds().right;
 		float minimumZ = MapSystemScript.instance.GetLevelBounds().bottom;
 		float maximumZ = MapSystemScript.instance.GetLevelBounds().top;
 
-		return new Vector3(
+		NavMeshHit hit;
+
+		Vector3 position = new Vector3(
 			Random.Range(minimumX + Buffer, maximumX - Buffer), 
 			MinimumY, 
 			Random.Range(minimumZ + Buffer, maximumZ - Buffer));
+
+		NavMesh.SamplePosition(position, out hit, 10, 1);
+
+		return hit.position;
 	}
 }

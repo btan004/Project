@@ -13,6 +13,8 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
+  - 95: {fileID: 9500000}
+  - 195: {fileID: 19500000}
   m_Layer: 8
   m_Name: EnemyBouncer
   m_TagString: Enemy
@@ -1168,7 +1170,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100084}
-  m_LocalRotation: {x: 0, y: -.965210259, z: 0, w: .261475176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
@@ -1298,6 +1300,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0011f60f3fd35654fbeb3bfd50f41254, type: 3}
+  m_Controller: {fileID: 9100000, guid: f09e6cb5cc6f1624c94a3fcb50cd98e9, type: 2}
+  m_CullingMode: 0
+  m_ApplyRootMotion: 1
+  m_AnimatePhysics: 0
+  m_HasTransformHierarchy: 1
 --- !u!111 &11100000
 Animation:
   m_ObjectHideFlags: 1
@@ -1355,27 +1371,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a2da0d26dcff4b4fb8a85b627680700, type: 3}
+  m_Script: {fileID: 11500000, guid: d2e3c7b13a3ada44886b9100c22288e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSpawned: 0
   ParentSpawner: {fileID: 0}
   HasBeenUpgraded: 0
   Health: 200
-  MaxHealth: 100
-  Velocity: 0
-  Damage: 10
-  AttackRate: 0
+  MaxHealth: 200
+  Velocity: 5
+  Damage: 20
+  AttackRate: 2
   Experience: 1
-  EnemyAnimation: {fileID: 11100004}
+  EnemyAnimation: {fileID: 0}
   IsMoving: 0
   IsAttacking: 0
   IsHit: 0
   IsDead: 0
   TurnVelocity: 0
-  Force: 2
+  Force: 0
   NextAttack: 0
   AttackDistance: 0
+  waitingForAnimationDelay: 0
+  attackAnimationDelayTimer: 0
+  anim: {fileID: 0}
   EnemyAttackSphere: {fileID: 100000, guid: 019fd4ee6839d45e793f5b406f11f8c3, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -1452,6 +1471,26 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: .360303998}
     m_Extent: {x: .464718431, y: .562316179, z: .439942956}
   m_DirtyAABB: 0
+--- !u!195 &19500000
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Radius: .5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: .5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

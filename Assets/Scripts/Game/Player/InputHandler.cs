@@ -1,36 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InputHandler {
+public class InputHandler
+{
 
 	//Input
 	public static Vector3 MovementVector;
 	public static Vector3 DirectionVector;
-	public static bool		WantToSprint;
-	public static bool		WantToAttack;
-	public static bool		WantToAura;
-	public static bool		WantToSkillShot;
-	public static bool		WantToQuit;
-	public static bool		WantToSpendSkillPoint;
-	public static bool		WantToChangeSkillUp;
-	public static bool		WantToChangeSkillDown;
+	public static bool WantToSprint;
+	public static bool WantToAttack;
+	public static bool WantToAura;
+	public static bool WantToSkillShot;
+	public static bool WantToQuit;
+	public static bool WantToSpendSkillPoint;
+	public static bool WantToChangeSkillUp;
+	public static bool WantToChangeSkillDown;
 
-	public static bool		WantToStartGame;
-	public static bool		WantToChangeDifficulty;
-	public static bool		WantToViewControls;
+	public static bool WantToStartGame;
+	public static bool WantToChangeDifficulty;
+	public static bool WantToViewControls;
 
-	public const double		AnalogTolerance = 0.5;
-	public static bool		IsPaused;
-	public static float		PauseCooldown = 3.0f;
-	private float				pauseTimer;
-	private float				realTimePrevious;
+	public const double AnalogTolerance = 0.5;
+	public static bool IsPaused;
+	public static float PauseCooldown = 3.0f;
+	private float pauseTimer;
+	private float realTimePrevious;
 	static int temp;
 
+	private static double disabledTimer;
+	public static double disabledTimerCooldown = 2.0;
+
+
 	//Debug variables
-	public bool		WantToSpawnEnemy;
+	public bool WantToSpawnEnemy;
 
 	// Use this for initialization
-	public InputHandler () {
+	public InputHandler()
+	{
 		MovementVector = Vector3.zero;
 		DirectionVector = Vector3.zero;
 		WantToSprint = false;
@@ -38,33 +44,74 @@ public class InputHandler {
 
 		pauseTimer = 0.0f;
 		temp = 0;
+
+		disabledTimer = 0;
 	}
-	
-	// Update is called once per frame
-	public void Update () 
+
+	public static void DisableInput()
 	{
-		//Check for user input for the player actions
-		CheckMovement();
-		CheckDirection();
-		CheckSprint();
-		CheckMeleeAttack();
-		CheckAura();
-		CheckSkillShot();
+		Debug.LogError("Disabling Input for 2.0 seconds...");
 
-		CheckForSpawningButton();
+		disabledTimer = disabledTimerCooldown;
+		//while input it disabled, make sure values are all false
+		MovementVector = Vector3.zero;
+		DirectionVector = Vector3.zero;
+		WantToSprint = false;
+		WantToAttack = false;
+		WantToAura = false;
+		WantToQuit = false;
+		WantToSpendSkillPoint = false;
+		WantToChangeSkillUp = false;
+		WantToChangeSkillDown = false;
+		WantToStartGame = false;
+		WantToChangeDifficulty = false;
+		WantToViewControls = false;
+	}
 
-		CheckSpendSkillPoint();
-		CheckSkillChange();
+	// Update is called once per frame
+	public void Update()
+	{
+		disabledTimer -= Time.deltaTime;
 
-		CheckForceSpawnWave();
-		
+		if (disabledTimer <= 0)
+		{
+			//Check for user input for the player actions
+			CheckMovement();
+			CheckDirection();
+			CheckSprint();
+			CheckMeleeAttack();
+			CheckAura();
+			CheckSkillShot();
 
-		CheckWantToStartGame();
-		CheckWantToChangeDifficulty();
-		CheckWantToViewControls();
-		CheckForQuit();
+			CheckForSpawningButton();
 
-		//CheckPause();
+			CheckSpendSkillPoint();
+			CheckSkillChange();
+
+			CheckForceSpawnWave();
+
+
+			CheckWantToStartGame();
+			CheckWantToChangeDifficulty();
+			CheckWantToViewControls();
+			CheckForQuit();
+		}
+		else
+		{
+			//while input it disabled, make sure values are all false
+			MovementVector = Vector3.zero;
+			DirectionVector = Vector3.zero;
+			WantToSprint = false;
+			WantToAttack = false;
+			WantToAura = false;
+			WantToQuit = false;
+			WantToSpendSkillPoint = false;
+			WantToChangeSkillUp = false;
+			WantToChangeSkillDown = false;
+			WantToStartGame = false;
+			WantToChangeDifficulty = false;
+			WantToViewControls = false;
+		}
 	}
 
 	private void CheckForceSpawnWave()
@@ -108,9 +155,9 @@ public class InputHandler {
 		//check for changes in our direction
 		DirectionVector = Vector3.zero;
 		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > AnalogTolerance)
-			DirectionVector.x = Input.GetAxis ("Horizontal Direction");
+			DirectionVector.x = Input.GetAxis("Horizontal Direction");
 		if (Mathf.Abs(Input.GetAxis("Vertical Direction")) > AnalogTolerance)
-			DirectionVector.z = -1 * Input.GetAxis ("Vertical Direction");
+			DirectionVector.z = -1 * Input.GetAxis("Vertical Direction");
 		DirectionVector.Normalize();
 	}
 
@@ -126,7 +173,7 @@ public class InputHandler {
 	//supports: xbox controller
 	private void CheckMeleeAttack()
 	{
-		WantToAttack = (Input.GetAxis("Attack") < -0.5f); 
+		WantToAttack = (Input.GetAxis("Attack") < -0.5f);
 		//WantToAttack = Input.GetButton("A Button");
 	}
 
@@ -147,7 +194,7 @@ public class InputHandler {
 	{
 		WantToSpawnEnemy = Input.GetButton("Spawn Debug");
 	}
-	
+
 	private void CheckSpendSkillPoint()
 	{
 		WantToSpendSkillPoint = Input.GetButton("SpendSkillPoint");
@@ -181,13 +228,13 @@ public class InputHandler {
 		{
 			if (Input.GetButton("Start Button"))
 			{
-				Debug.Log ("deltaTime: " + deltaTime);
+				Debug.Log("deltaTime: " + deltaTime);
 				Debug.Log("Frame " + temp + ", Pause Timer 1: " + pauseTimer.ToString());
 				pauseTimer = PauseCooldown;
 				Debug.Log("Frame " + temp + ", Pause Timer 2: " + pauseTimer.ToString());
 
 				IsPaused = !IsPaused;
-				
+
 				if (IsPaused) Time.timeScale = 0.0f;
 				if (!IsPaused) Time.timeScale = 1.0f;
 				Debug.Log("Pause Status: " + IsPaused.ToString());

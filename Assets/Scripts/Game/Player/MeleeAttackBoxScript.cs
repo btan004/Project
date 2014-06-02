@@ -32,7 +32,7 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 
 		//this.renderer.enabled = PlayerScript.IsAttacking;
 	}
-	
+
 	void LateUpdate()
 	{
 		if (PlayerScript.IsAttacking)
@@ -52,6 +52,7 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 					{
 						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+						StartCoroutine(enemy.Flash(0.2f, Color.red));
 					}
 					if (enemy2)
 					{

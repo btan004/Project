@@ -61,6 +61,12 @@ public class EnemyChaserScript : EnemyBaseScript {
 		Force = 5f;
 		mass = 20;
 
+		//Checking if there are any renderers to flash when this enemy is hit
+		if( renderers.Length <= 0 )
+		{
+			Debug.LogWarning("[EnemyChaserScript]: No renderers are set in order to flash this enemy when they are hit. If this is intentional, ignore");
+		}
+		
 		//misc
 		renderer.material.color = Color.green;
 	}
@@ -109,8 +115,25 @@ public class EnemyChaserScript : EnemyBaseScript {
 
 	public void RotateEnemy() {
 		if (player) {
+			// Get player location
+			Vector3 playerLocation = player.transform.position;
+			
+			// Set rotation step
+			float rotationStep = TurnVelocity*Time.deltaTime;
+			
+			// Rotate enemy towards player
+			Vector3 playerDir = Vector3.RotateTowards( this.transform.forward, playerLocation-this.transform.position, rotationStep, 0.0f);
+			
+			//Set y vector to 0 since we don't want to do anything with the y axis
+			playerDir.y = 0;
+			
+			this.transform.rotation = Quaternion.LookRotation(playerDir);
+		}
+		/*
+		if (player) {
 			// Get velocity path
 			Vector3 rotateDir = this.GetComponent<NavMeshAgent>().velocity;
+			Debug.Log ( this.GetComponent<NavMeshAgent>().velocity );
 			
 			// Set rotation step
 			float rotationStep = 5f*Time.deltaTime;
@@ -118,7 +141,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 			// Rotate enemy towards player
 			rotateDir = new Vector3(rotateDir.x,0,rotateDir.z);
 			this.transform.rotation = Quaternion.LookRotation(rotateDir);
-		}
+		}*/
 	}
 
 	/*
