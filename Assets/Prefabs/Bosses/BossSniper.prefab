@@ -1643,7 +1643,7 @@ MonoBehaviour:
   MaxHealth: 100
   Velocity: 10
   Damage: 10
-  AttackRate: 2
+  AttackRate: .00999999978
   Experience: 1
   EnemyAnimation: {fileID: 0}
   IsMoving: 0
