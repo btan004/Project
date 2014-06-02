@@ -116,15 +116,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 		// Rotate enemy towards player
 		RotateEnemy ();
 		
-		//Update anything that needs a cooldown
-		NextAttack = NextAttack - Time.deltaTime;
-		ChargeCooldownCounter += Time.deltaTime;
 
-		if( ChargeCooldownCounter >= ChargeCooldown )
-		{
-			ChargeCooldownCounter = ChargeCooldown;
-			ChargeReady = true;
-		}
 
 		//Run through this.StateMachine
 		StateMachine.Update ();
@@ -210,16 +202,17 @@ public class EnemyChargerScript : EnemyBaseScript {
 	}
 
 	public void RotateEnemy() {
-		if (player) {
-			// Get velocity path
-			Vector3 rotateDir = this.GetComponent<NavMeshAgent>().velocity;
+		if (player){
+			Vector3 playerLocation = player.transform.position;
 			
 			// Set rotation step
-			float rotationStep = 5f*Time.deltaTime;
+			float rotationStep = TurnVelocity*Time.deltaTime;
 			
 			// Rotate enemy towards player
-			rotateDir = new Vector3(rotateDir.x,0,rotateDir.z);
-			this.transform.rotation = Quaternion.LookRotation(rotateDir);
+			Vector3 playerDir = Vector3.RotateTowards( this.transform.forward, playerLocation-this.transform.position, rotationStep, 0.0f);
+			playerDir.y = 0f;
+
+			this.transform.rotation = Quaternion.LookRotation(playerDir);
 		}
 	}
 
@@ -315,8 +308,8 @@ public class EnemyChargerScript : EnemyBaseScript {
 		Vector3 createPosition = transform.position + transform.forward;
 		GameObject attack = Instantiate(EnemyAttackSphere) as GameObject;
 		attack.transform.position = createPosition;
-		attack.GetComponent<EnemyAttackSphereScript>().SetDamage(40);
-		attack.GetComponent<EnemyAttackSphereScript>().SetForce(20);
+		attack.GetComponent<EnemyAttackSphereScript>().SetDamage(20);
+		attack.GetComponent<EnemyAttackSphereScript>().SetForce(10);
 	}
 
 

@@ -17,7 +17,15 @@ public class Charger_Charging : State<EnemyChargerScript>
 
 	public override void BeforeEnter( EnemyChargerScript e )
 	{
-
+		foreach (ParticleSystem s in e.GetComponentsInChildren<ParticleSystem>())
+		{
+			if( s.name == "TrailParticles" )
+			{
+				s.enableEmission = true;
+			}
+		}
+		e.anim.SetBool ("Charging", true);
+		e.IsCharging = true;
 	}
 
 	public override void Action( EnemyChargerScript e)
@@ -28,7 +36,6 @@ public class Charger_Charging : State<EnemyChargerScript>
 		//Charge has reached it's target position
 		if( e.transform.position == e.ChargeTarget )
 		{
-			e.ChargeCooldownCounter = 0;
 			e.ChangeState(Charger_Resting.Instance);
 		}
 	}
@@ -38,8 +45,10 @@ public class Charger_Charging : State<EnemyChargerScript>
 		{
 			if( s.name == "TrailParticles" )
 			{
-				s.enableEmission = true;
+				s.enableEmission = false;
 			}
 		}
+		e.anim.SetBool ("Charging", false);
+		e.IsCharging = false;
 	}
 }

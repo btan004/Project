@@ -113,7 +113,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 		}
 	}
 
-	public void RotateEnemy() {
+	public void RotateEnemy(){
 		if (player) {
 			// Get player location
 			Vector3 playerLocation = player.transform.position;

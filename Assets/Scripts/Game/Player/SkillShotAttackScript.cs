@@ -10,7 +10,7 @@ public class SkillShotAttackScript : MonoBehaviour {
 	public float Force = 10f;
 	public float ParticleDuration = 0.5f;
 	private float particleDurationTimer;
-	ParticleSystem particleSystem;
+	public ParticleSystem particleSystem;
 
 	ParticleSystem[] particleSystems;
 

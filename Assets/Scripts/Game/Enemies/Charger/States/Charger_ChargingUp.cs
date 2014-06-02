@@ -17,7 +17,13 @@ public class Charger_ChargingUp : State<EnemyChargerScript>
 
 	public override void BeforeEnter( EnemyChargerScript e )
 	{
-
+		foreach (ParticleSystem s in e.GetComponentsInChildren<ParticleSystem>())
+		{
+			if( s.name == "ChargeupParticles" )
+			{
+				s.enableEmission = true;
+			}
+		}
 	}
 
 	public override void Action( EnemyChargerScript e)
