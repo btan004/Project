@@ -29,7 +29,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 	}
 
 	// Use this for initialization
-	public override void Start () {;
+	public override void Start () {
 		StateMachine = new FSM<EnemyChaserScript> ( this, Chaser_MoveToPlayer.Instance );
 		anim = GetComponent<Animator>();	
 
