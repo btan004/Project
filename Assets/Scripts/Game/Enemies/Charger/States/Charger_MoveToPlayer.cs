@@ -14,9 +14,12 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 	}
 
 
+	//State Machine variables go here
+	bool IsChargingUp = false;
+
 	public override void BeforeEnter( EnemyChargerScript e )
 	{
-
+		IsChargingUp = false;
 	}
 
 	public override void Action( EnemyChargerScript e)
@@ -30,7 +33,7 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 				{
 					//e.ChargeAttack();
 					//e.RotateEnemy();
-					e.ChargeReady = false;
+					IsChargingUp = true;
 					e.GetComponent<NavMeshAgent>().Stop();
 					e.ChangeState(Charger_ChargingUp.Instance);
 				}
@@ -42,7 +45,6 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 				//Before moving, check if enemy still alive.
 				//There's an issue where an enemy still tries to move, but they are
 				//dead right before they perform the navmesh move
-
 				if( e.Health > 0 )
 				{
 					// Move enemy using navmesh 
@@ -57,11 +59,21 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 				e.GetComponent<NavMeshAgent>().Stop ();
 				e.ChangeState(Charger_AttackPlayer.Instance);
 			}
-			e.anim.SetFloat ("Speed", System.Convert.ToSingle(!e.IsWithinAttackRange()));
+			e.anim.SetFloat ("Speed", System.Convert.ToSingle(!e.IsWithinAttackRange() && !IsChargingUp ));
 		}
 		else
 		{
 			Debug.Log ("[Charger_MoveToPlayer] WARNING: player entity null does not exist");
+		}
+
+		//Update anything that needs a cooldown
+		e.NextAttack = e.NextAttack - Time.deltaTime;
+		e.ChargeCooldownCounter += Time.deltaTime;
+		
+		if( e.ChargeCooldownCounter >= e.ChargeCooldown )
+		{
+			e.ChargeCooldownCounter = e.ChargeCooldown;
+			e.ChargeReady = true;
 		}
 	}
 

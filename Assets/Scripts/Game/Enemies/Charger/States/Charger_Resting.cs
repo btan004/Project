@@ -31,6 +31,7 @@ public class Charger_Resting : State<EnemyChargerScript>
 	}
 	public override void BeforeExit( EnemyChargerScript e )
 	{
-
+		e.ChargeCooldownCounter = 0f;
+		e.ChargeReady = false;
 	}
 }
