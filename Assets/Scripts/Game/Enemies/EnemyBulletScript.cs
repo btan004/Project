@@ -8,29 +8,22 @@ public class EnemyBulletScript : MonoBehaviour {
 	public float Damage;
 	public Vector3 Direction;
 	public float Force;
+	public bool isBoss;
+	public Vector3 initialDirection;
+	public float timer;
 
 	// Use this for initialization
 	void Start () {
-
-
 		//Bullet color
 		this.renderer.material.color = Color.cyan;
 
-		// Find player and move in that direction
-		if (GameObject.FindGameObjectWithTag ("Player")) {
-			// Get player location
-			Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-
-			// Set as direction
-			Direction = playerPosition - this.transform.position;
-			Direction.Normalize();
-		}
-		else{
-			Direction = Vector3.forward;
-		}
+		// Set initial bullet direction
+		MoveBullet();
 
 		// Other stats
 		Velocity = 10f;
+
+		timer = 1f;
 	}
 	
 	// Update is called once per frame
@@ -39,6 +32,9 @@ public class EnemyBulletScript : MonoBehaviour {
 		this.transform.Translate(Direction * Velocity * Time.deltaTime);
 
 		CheckLifeBound ();
+
+		//Update bullet direction
+		UpdateBullet();
 	}
 
 	public void CheckLifeBound (){
@@ -70,6 +66,56 @@ public class EnemyBulletScript : MonoBehaviour {
 	// Set damage of bullets
 	public void SetDamage(float dmg){
 		Damage = dmg;
+	}
+
+	public void MoveBullet(){
+		if(!isBoss){
+			// Find player and move in that direction
+			if (GameObject.FindGameObjectWithTag ("Player")) {
+				// Get player location
+				Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+			
+				// Set as direction
+				Direction = playerPosition - this.transform.position;
+				Direction.Normalize();
+			}
+			else{
+				Direction = Vector3.forward;
+			}
+		}
+		else{
+			if(GameObject.FindGameObjectWithTag("Player")){
+				// Move in the initial direction first
+				Direction = initialDirection;
+			}
+		}
+	}
+
+	public void UpdateBullet(){
+		if(isBoss){
+			timer = timer - Time.deltaTime;
+			if (timer <= 0){
+				if (GameObject.FindGameObjectWithTag ("Player")) {
+					// Get player location
+					Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+				
+					// Set as direction
+					Direction = playerPosition - this.transform.position;
+					Direction.Normalize();
+
+					//Turn off boss
+					isBoss = false;
+				}
+			}
+		}
+	}
+
+	public void SetBossBullet(bool boss){
+		isBoss = boss;
+	}
+
+	public void SetInitialDirection(Vector3 dir){
+		initialDirection = dir;
 	}
 
 	void OnTriggerEnter(Collider other){

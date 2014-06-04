@@ -1658,9 +1658,10 @@ MonoBehaviour:
   TurnVelocity: 0
   NextAttack: 0
   AttackDistance: 0
-  EnemyBulletPrefab: {fileID: 100000, guid: e73d9042f0e2d4952bb324c66f2be081, type: 2}
+  EnemyBulletPrefab: {fileID: 100008, guid: 5d966d248cf0e46abba36dcf5a4990cd, type: 2}
   anim: {fileID: 0}
   CurrentState: 0
+  isBoss: 1
 --- !u!137 &13700000
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

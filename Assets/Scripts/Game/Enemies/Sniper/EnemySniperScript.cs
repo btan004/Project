@@ -19,6 +19,9 @@ public class EnemySniperScript : EnemyBaseScript {
 	public enum StateID{ moving, attacking };
 	public StateID CurrentState;
 
+	//Boss
+	public bool isBoss;
+
 	//Function to handle statemachine
 	public void ChangeState( State<EnemySniperScript> s )
 	{
