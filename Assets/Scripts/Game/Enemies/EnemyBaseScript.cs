@@ -80,7 +80,7 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	// Health checker
 	public virtual void CheckHealth () {
-		if (Health <= 0) {
+		if (Health <= 0 || transform.position.y < 0) {
 			// Call death of enemy
 			Death();
 		}
@@ -120,6 +120,7 @@ public class EnemyBaseScript : MonoBehaviour {
 	public virtual void ApplyDamage(float damage)
 	{
 		Health -= damage;
+		StartCoroutine(Flash(0.2f, Color.red));
 	}
 
 	public virtual void AddKnockback(Vector3 direction, float force)
@@ -148,6 +149,18 @@ public class EnemyBaseScript : MonoBehaviour {
 		this.AttackRate = upgrade.AttackRate;
 		this.Experience = upgrade.Experience;
 		this.HasBeenUpgraded = true;
+	}
+
+	void OnTriggerStay(Collider other)
+	{
+		switch (other.gameObject.tag)
+		{
+			case "FireTrap":
+				other.gameObject.GetComponent<FireTrapScript>().ActivateTrap(this);
+				break;
+			default:
+				break;
+		}
 	}
 
 	/// <summary>

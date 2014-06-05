@@ -23,13 +23,15 @@ public class WaveSystem
 	public static bool WaveFinished;
 
 	//wave types: 3 repeating waves of steadily increasing numbers of enemies
-	public static int WaveTypeCount = 5;
-	public static List<int> ChasersPerWave = new List<int>() { 10, 10, 10, 10, 10 };
-	public static List<int> SnipersPerWave = new List<int> () { 10, 10, 10, 10, 10 };
-	public static List<int> BouncersPerWave = new List<int>() { 0, 3, 4, 5, 5 };
-	public static List<int> ChargersPerWave = new List<int>() { 0, 0, 3, 4, 5 };
-	public static List<int> HealersPerWave = new List<int>() { 0, 2, 3, 3, 5};
-	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 0, 3, 5 };
+	public static int WaveTypeCount = 6;
+	public static List<int> ChasersPerWave = new List<int>() { 10, 10, 10, 10, 10, 0 };
+	public static List<int> SnipersPerWave = new List<int> () { 10, 10, 10, 10, 10, 0 };
+	public static List<int> BouncersPerWave = new List<int>() { 0, 3, 4, 5, 5, 0 };
+	public static List<int> ChargersPerWave = new List<int>() { 0, 0, 3, 4, 5, 0 };
+	public static List<int> HealersPerWave = new List<int>() { 0, 2, 3, 3, 5, 0};
+	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 0, 3, 5, 0 };
+
+	public static List<int> BossesPerWave = new List<int>() { 0, 0, 0, 0, 0, 1 };
 
 	//lives per difficulty
 	public static Difficulty GameDifficulty;
@@ -37,7 +39,7 @@ public class WaveSystem
 	
 	//chaser upgrades
 	public static EnemyUpgrade ChaserUpgrade;
-	public static List<float> ChaserHealthUpgrade = new List<float>() { 5, 10, 20 };
+	public static List<float> ChaserHealthUpgrade = new List<float>() { 1, 2, 3 };
 	public static List<float> ChaserVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> ChaserDamageUpgrade = new List<float>() { 3, 5, 7 };
 	public static List<float> ChaserAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -55,7 +57,7 @@ public class WaveSystem
 
 	//Bouncer upgrades
 	public static EnemyUpgrade BouncerUpgrade;
-	public static List<float> BouncerHealthUpgrade = new List<float>() { 20, 40, 50 };
+	public static List<float> BouncerHealthUpgrade = new List<float>() { 1, 2, 3 };
 	public static List<float> BouncerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
 	public static List<float> BouncerDamageUpgrade = new List<float>() { 6, 10, 14 };
 	public static List<float> BouncerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -73,7 +75,7 @@ public class WaveSystem
 
 	//Charger upgrades
 	public static EnemyUpgrade ChargerUpgrade;
-	public static List<float> ChargerHealthUpgrade = new List<float>() { 20, 40, 50 };
+	public static List<float> ChargerHealthUpgrade = new List<float>() { 1, 2, 3 };
 	public static List<float> ChargerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
 	public static List<float> ChargerDamageUpgrade = new List<float>() { 6, 10, 14 };
 	public static List<float> ChargerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -91,7 +93,7 @@ public class WaveSystem
 
 	//sniper upgrades
 	public static EnemyUpgrade SniperUpgrade;
-	public static List<float> SniperHealthUpgrade = new List<float>() { 2, 5, 10 };
+	public static List<float> SniperHealthUpgrade = new List<float>() { 1, 2, 3 };
 	public static List<float> SniperVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> SniperDamageUpgrade = new List<float>() { 6, 10, 15 };
 	public static List<float> SniperAttackRateUpgrade = new List<float>() { 0.95f, 0.87f, 0.7f };
@@ -109,7 +111,7 @@ public class WaveSystem
 
 	//healer upgrades
 	public static EnemyUpgrade HealerUpgrade;
-	public static List<float> HealerHealthUpgrade = new List<float>() { 2, 5, 10 };
+	public static List<float> HealerHealthUpgrade = new List<float>() { 1, 2, 3 };
 	public static List<float> HealerVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> HealerDamageUpgrade = new List<float>() { 6, 10, 15 };
 	public static List<float> HealerAttackRateUpgrade = new List<float>() { 0.95f, 0.87f, 0.7f };
@@ -127,7 +129,7 @@ public class WaveSystem
 
 	//Spawner upgrades
 	public static EnemyUpgrade SpawnerUpgrade;
-	public static List<float> SpawnerHealthUpgrade = new List<float>() { 5, 10, 20 };
+	public static List<float> SpawnerHealthUpgrade = new List<float>() { 1, 2, 3 };
 	public static List<float> SpawnerVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> SpawnerDamageUpgrade = new List<float>() { 3, 5, 7 };
 	public static List<float> SpawnerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -142,6 +144,24 @@ public class WaveSystem
 	public static float SpawnerDamage;
 	public static float SpawnerAttackRate;
 	public static float SpawnerExperience;
+
+	//Boss upgrades
+	public static EnemyUpgrade BossUpgrade;
+	public static List<float> BossHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> BossVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
+	public static List<float> BossDamageUpgrade = new List<float>() { 3, 5, 7 };
+	public static List<float> BossAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
+	public static List<float> BossExperienceUpgrade = new List<float>() { 10, 20, 30 };
+	public const float BossHealthInitial = 20f;
+	public const float BossVelocityInitial = 5f;
+	public const float BossDamageInitial = 5f;
+	public const float BossAttackRateInitial = 2f;
+	public const float BossExperienceInitial = 10f;
+	public static float BossHealth;
+	public static float BossVelocity;
+	public static float BossDamage;
+	public static float BossAttackRate;
+	public static float BossExperience;
 
 	public WaveSystem (SpawnScript spawnScript, PlayerScript playerScript)
 	{
@@ -196,6 +216,13 @@ public class WaveSystem
 		SpawnerAttackRate = SpawnerAttackRateInitial;
 		SpawnerExperience = SpawnerExperienceInitial;
 		SpawnerUpgrade = new EnemyUpgrade(SpawnerHealth, SpawnerVelocity, SpawnerDamage, SpawnerAttackRate, SpawnerExperience);
+
+		BossHealth = BossHealthInitial;
+		BossVelocity = BossVelocityInitial;
+		BossDamage = BossDamageInitial;
+		BossAttackRate = BossAttackRateInitial;
+		BossExperience = BossExperienceInitial;
+		BossUpgrade = new EnemyUpgrade(BossHealth, BossVelocity, BossDamage, BossAttackRate, BossExperience);
 
 	}
 
@@ -256,6 +283,9 @@ public class WaveSystem
 		//create our spawners
 		spawnScript.SpawnEnemy(SpawnersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Spawner, SpawnerUpgrade);
 
+		//create our bosses
+		spawnScript.SpawnEnemy(BossesPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Boss, BossUpgrade);
+
 		//increase buffs at the end of spawning the last wave in the round
 		if (WaveNumber == WaveTypeCount)
 		{
@@ -294,6 +324,12 @@ public class WaveSystem
 			SpawnerUpgrade.Damage += SpawnerDamageUpgrade[(int)GameDifficulty];
 			SpawnerUpgrade.AttackRate *= SpawnerAttackRateUpgrade[(int)GameDifficulty];
 			SpawnerUpgrade.Experience += SpawnerExperienceUpgrade[(int)GameDifficulty];
+
+			BossUpgrade.Health += BossHealthUpgrade[(int)GameDifficulty];
+			BossUpgrade.Velocity += BossVelocityUpgrade[(int)GameDifficulty];
+			BossUpgrade.Damage += BossDamageUpgrade[(int)GameDifficulty];
+			BossUpgrade.AttackRate *= BossAttackRateUpgrade[(int)GameDifficulty];
+			BossUpgrade.Experience += BossExperienceUpgrade[(int)GameDifficulty];
 		}
 
 		//reset our force wave

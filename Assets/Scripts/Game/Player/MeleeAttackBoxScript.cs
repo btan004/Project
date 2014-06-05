@@ -11,6 +11,8 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 	private bool attacking;
 	private bool really;
 
+	public AudioClip[] swordSounds;
+
 	private List<GameObject> enemiesInRange = new List<GameObject>();
 
 	// Use this for initialization
@@ -29,6 +31,12 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		Quaternion rotation = Quaternion.LookRotation (direction);
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
+
+		if (PlayerScript.IsAttacking)
+		{
+			audio.clip = swordSounds[Random.Range(0, swordSounds.Length)];
+			audio.Play();
+		}
 
 		//this.renderer.enabled = PlayerScript.IsAttacking;
 	}
@@ -52,7 +60,6 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 					{
 						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
-						StartCoroutine(enemy.Flash(0.2f, Color.red));
 					}
 					if (enemy2)
 					{

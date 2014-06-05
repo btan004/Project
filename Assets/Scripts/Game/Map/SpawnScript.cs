@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpawnScript : MonoBehaviour {
 
-	public enum EnemyTypes {Debugging, Chaser, Bouncer, Charger, Sniper, Healer, Spawner};
+	public enum EnemyTypes {Debugging, Chaser, Bouncer, Charger, Sniper, Healer, Spawner, Boss};
 
 	//Debugging spawning option
 	private InputHandler inputHandler;
@@ -134,7 +134,7 @@ public class SpawnScript : MonoBehaviour {
 				switch (type)
 				{
 					case (TrapType.SlimeTrap):
-						ObjectFactory.CreateSlimeTrap(Random.Range(0.5f, 2), MapInfo.GetRandomPointOnMap());
+						ObjectFactory.CreateSlimeTrap(1, MapInfo.GetRandomPointOnMap());
 						break;
 					case (TrapType.Landmine):
 						ObjectFactory.CreateLandmine(Random.Range(10, 30), MapInfo.GetRandomPointOnMap());
@@ -192,6 +192,9 @@ public class SpawnScript : MonoBehaviour {
 						break;
 					case (EnemyTypes.Spawner):
 						ObjectFactory.CreateEnemySpawner(spawnPos, upgrade);
+						break;
+					case (EnemyTypes.Boss):
+						ObjectFactory.CreateEnemySniperBoss(spawnPos, upgrade);
 						break;
 					default:
 						break;

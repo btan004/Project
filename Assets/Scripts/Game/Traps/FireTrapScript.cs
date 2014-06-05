@@ -20,6 +20,9 @@ public class FireTrapScript : MonoBehaviour {
 			particleSystems.Add(s);
 			s.enableEmission = false;
 		}
+
+		//get a random delay to start from
+		timer = Random.Range(0.0f, 6.0f);
 	}
 	
 	// Update is called once per frame
@@ -84,4 +87,15 @@ public class FireTrapScript : MonoBehaviour {
 			player.ApplyDamage(Damage);
 		}
 	}
+
+	public void ActivateTrap(EnemyBaseScript enemy)
+	{
+		//if the trap is active
+		if (IsActive)
+		{
+			//apply the damage to the player
+			enemy.ApplyDamage(Damage);
+		}		
+	}
+
 }

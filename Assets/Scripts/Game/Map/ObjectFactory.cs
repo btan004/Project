@@ -27,6 +27,8 @@ public class ObjectFactory : MonoBehaviour {
 	public GameObject EnemyBouncerPrefab;
 	public GameObject EnemyChargerPrefab;
 
+	public GameObject EnemySniperBossPrefab;
+
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -190,6 +192,19 @@ public class ObjectFactory : MonoBehaviour {
 	{
 		//Instanciate our enemy
 		GameObject enemyObject = Instantiate(instance.EnemySniperPrefab, position, Quaternion.identity) as GameObject;
+		EnemySniperScript enemy = enemyObject.GetComponent<EnemySniperScript>();
+
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+
+		//return the enemy
+		return enemy;
+	}
+
+	public static EnemySniperScript CreateEnemySniperBoss(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemySniperBossPrefab, position, Quaternion.identity) as GameObject;
 		EnemySniperScript enemy = enemyObject.GetComponent<EnemySniperScript>();
 
 		//Set the stats for the enemy

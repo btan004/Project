@@ -8,6 +8,8 @@ public class LandmineScript : MonoBehaviour {
 	private float explosionTimer;
 	private bool exploding;
 
+	private bool wasActivated = false;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -36,12 +38,18 @@ public class LandmineScript : MonoBehaviour {
 	public void ActivateTrap(PlayerScript player)
 	{
 		//apply the damage to the character
-		player.ApplyDamage(Damage);
+		if (!wasActivated)
+		{
+			player.ApplyDamage(Damage);
 
-		//turn on the explosion
-		exploding = true;
-		explosionTimer = ExplosionDuration;
-		this.GetComponentInChildren<ParticleSystem>().enableEmission = true;
-		
+			//turn on the explosion
+			exploding = true;
+			explosionTimer = ExplosionDuration;
+			this.GetComponentInChildren<ParticleSystem>().enableEmission = true;
+
+			audio.Play();
+		}
+
+		wasActivated = true;
 	}
 }
