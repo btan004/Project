@@ -7,8 +7,10 @@ public class FireTrapScript : MonoBehaviour {
 	public float Damage = 10f;
 	public float TimeOff = 5f;
 	public float TimeOn = 5f;
-	private float timer = 0f;
+	public float timer = 0f;
 	public bool IsActive = false;
+
+	public bool partOfSpinningTrap = false;
 
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
@@ -22,7 +24,8 @@ public class FireTrapScript : MonoBehaviour {
 		}
 
 		//get a random delay to start from
-		timer = Random.Range(0.0f, 6.0f);
+		if (!partOfSpinningTrap)
+			timer = Random.Range(0.0f, 6.0f);
 	}
 	
 	// Update is called once per frame

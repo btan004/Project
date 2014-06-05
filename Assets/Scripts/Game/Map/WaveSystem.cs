@@ -39,7 +39,7 @@ public class WaveSystem
 	
 	//chaser upgrades
 	public static EnemyUpgrade ChaserUpgrade;
-	public static List<float> ChaserHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> ChaserHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> ChaserVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> ChaserDamageUpgrade = new List<float>() { 3, 5, 7 };
 	public static List<float> ChaserAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -57,7 +57,7 @@ public class WaveSystem
 
 	//Bouncer upgrades
 	public static EnemyUpgrade BouncerUpgrade;
-	public static List<float> BouncerHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> BouncerHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> BouncerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
 	public static List<float> BouncerDamageUpgrade = new List<float>() { 6, 10, 14 };
 	public static List<float> BouncerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -75,7 +75,7 @@ public class WaveSystem
 
 	//Charger upgrades
 	public static EnemyUpgrade ChargerUpgrade;
-	public static List<float> ChargerHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> ChargerHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> ChargerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
 	public static List<float> ChargerDamageUpgrade = new List<float>() { 6, 10, 14 };
 	public static List<float> ChargerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -93,7 +93,7 @@ public class WaveSystem
 
 	//sniper upgrades
 	public static EnemyUpgrade SniperUpgrade;
-	public static List<float> SniperHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> SniperHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> SniperVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> SniperDamageUpgrade = new List<float>() { 6, 10, 15 };
 	public static List<float> SniperAttackRateUpgrade = new List<float>() { 0.95f, 0.87f, 0.7f };
@@ -111,7 +111,7 @@ public class WaveSystem
 
 	//healer upgrades
 	public static EnemyUpgrade HealerUpgrade;
-	public static List<float> HealerHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> HealerHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> HealerVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> HealerDamageUpgrade = new List<float>() { 6, 10, 15 };
 	public static List<float> HealerAttackRateUpgrade = new List<float>() { 0.95f, 0.87f, 0.7f };
@@ -129,7 +129,7 @@ public class WaveSystem
 
 	//Spawner upgrades
 	public static EnemyUpgrade SpawnerUpgrade;
-	public static List<float> SpawnerHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> SpawnerHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> SpawnerVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> SpawnerDamageUpgrade = new List<float>() { 3, 5, 7 };
 	public static List<float> SpawnerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
@@ -147,7 +147,7 @@ public class WaveSystem
 
 	//Boss upgrades
 	public static EnemyUpgrade BossUpgrade;
-	public static List<float> BossHealthUpgrade = new List<float>() { 1, 2, 3 };
+	public static List<float> BossHealthUpgrade = new List<float>() { 100, 200, 300 };
 	public static List<float> BossVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
 	public static List<float> BossDamageUpgrade = new List<float>() { 3, 5, 7 };
 	public static List<float> BossAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };

@@ -13,6 +13,10 @@ public class SpinningFireTrapScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		//get a random delay to start from
+		float timeDelay = Random.Range(0.0f, 6.0f);
+
 		//get references to all of our fire traps
 		foreach(FireTrapScript s in this.GetComponentsInChildren<FireTrapScript>())
 		{
@@ -20,7 +24,12 @@ public class SpinningFireTrapScript : MonoBehaviour {
 			s.Damage = Damage;
 			s.TimeOff = 5f;
 			s.TimeOn = 5f;
+			s.timer = timeDelay;
 		}
+
+
+
+
 	}
 	
 	// Update is called once per frame
