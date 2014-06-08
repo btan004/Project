@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SpawnScript : MonoBehaviour {
 
-	public enum EnemyTypes {Debugging, Chaser, Bouncer, Charger, Sniper, Healer, Spawner};
+	public enum EnemyTypes {Debugging, Chaser, Bouncer, Charger, Sniper, Healer, Spawner, Boss};
 
 	//Debugging spawning option
 	private InputHandler inputHandler;
@@ -21,14 +21,14 @@ public class SpawnScript : MonoBehaviour {
 	public float minimumSpawnRange = 6;
 
 	//Powerup Data
-	public int MaxNumberOfPowerups = 100;
+	public int MaxNumberOfPowerups = 10;
 	public int NumberOfPowerups = 0;
 	public float PowerupSpawnRateMin = 2f;
 	public float PowerupSpawnRateMax = 5f;
 	private float timeUntilNextPowerupSpawn;
 
 	//Trap data
-	public int MaxNumberOfTraps = 100;
+	public int MaxNumberOfTraps = 20;
 	public int NumberOfTraps = 0;
 	public float TrapSpawnRateMin = 2f;
 	public float TrapSpawnRateMax = 5f;
@@ -52,6 +52,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		//update the input handler
 		inputHandler.Update ();
 
 		//Handle powerup spawning
@@ -60,23 +61,8 @@ public class SpawnScript : MonoBehaviour {
 		//Handle trap spawning
 		SpawnTraps();
 
-		//wave system
-		if (SpawnWave)
-		{
-			timeUntilSpawnWaveTimer -= Time.deltaTime;
-			if (timeUntilSpawnWaveTimer <= 0)
-			{
-				WaveSystem.ForceSpawnWave = true;
-				SpawnWave = false;
-				timeUntilSpawnWaveTimer = timeUntilSpawnWave;
-			}
-		}
-
+		//Update the wave system
 		waveSystem.update ();
-
-		//update the level portal
-		if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level && WaveSystem.WaveFinished)
-			MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive = WaveSystem.WaveFinished;
 	}
 
 	private void SpawnPowerups()
@@ -134,7 +120,7 @@ public class SpawnScript : MonoBehaviour {
 				switch (type)
 				{
 					case (TrapType.SlimeTrap):
-						ObjectFactory.CreateSlimeTrap(Random.Range(0.5f, 2), MapInfo.GetRandomPointOnMap());
+						ObjectFactory.CreateSlimeTrap(1, MapInfo.GetRandomPointOnMap());
 						break;
 					case (TrapType.Landmine):
 						ObjectFactory.CreateLandmine(Random.Range(10, 30), MapInfo.GetRandomPointOnMap());
@@ -155,7 +141,7 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	public void SpawnEnemy( int count, EnemyTypes type, EnemyUpgrade upgrade)
+	public void SpawnEnemy(EnemyTypes type, EnemyUpgrade upgrade, int count)
 	{
 		if (MapSystemScript.instance.EnemiesEnabled())
 		{
@@ -193,6 +179,9 @@ public class SpawnScript : MonoBehaviour {
 					case (EnemyTypes.Spawner):
 						ObjectFactory.CreateEnemySpawner(spawnPos, upgrade);
 						break;
+					case (EnemyTypes.Boss):
+						ObjectFactory.CreateEnemySniperBoss(spawnPos, upgrade);
+						break;
 					default:
 						break;
 				}
@@ -207,7 +196,7 @@ public class SpawnScript : MonoBehaviour {
 		if (inputHandler.WantToSpawnEnemy)
 		{
 			//Function to spawn the enemy
-			SpawnEnemy(1, EnemyTypes.Chaser, null);
+			SpawnEnemy(EnemyTypes.Chaser, null, 1);
 		}
 	}
 

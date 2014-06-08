@@ -67,8 +67,9 @@ public class PlayerSkills
 	private void setupHealthSkill()
 	{
 		List<float> healthSkillAmounts = new List<float>();
-		/* Health amounts: 100, 120, 140, ..., 960, 980, 1000 */
-		for (int health = 100; health <= 1000; health += 20)
+		/* Health amounts: 5, 6, 7, 8... */
+		healthSkillAmounts.Add(5);
+		for (int health = 6; health <= 1000; health += 1)
 			healthSkillAmounts.Add(health);
 
 		HealthSkill = new Skill(
@@ -107,9 +108,10 @@ public class PlayerSkills
 
 	private void setupAttackSkill()
 	{
-		List<float> attackSkillAmounts = new List<float>() {
-			10, 20, 30, 40, 50
-		};
+		List<float> attackSkillAmounts = new List<float>();
+		for (int attack = 1; attack <= 200; attack += 1)
+			attackSkillAmounts.Add(attack);
+
 		AttackSkill = new Skill(
 			"Attack",
 			"The Player's attack damage.",
@@ -120,7 +122,7 @@ public class PlayerSkills
 	private void setupSkillShotSkill()
 	{
 		List<float> skillShotSkillAmounts = new List<float>() {
-			20, 50, 100, 150, 200
+			1.0f, 1.5f, 2.0f, 2.5f, 3.0f
 		};
 		SkillShotSkill = new Skill(
 			"Skill Shot",
@@ -133,7 +135,7 @@ public class PlayerSkills
 	{
 		List<float> auraSkillAmounts = new List<float>()
 		{
-			10, 20, 30, 40, 50
+			1.0f, 1.5f, 2.0f, 2.5f, 3.0f
 		};
 		AuraSkill = new Skill(
 			"Aura Skill",

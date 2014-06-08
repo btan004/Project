@@ -33,6 +33,14 @@ public class EnemyBaseScript : MonoBehaviour {
 	// THIS MUST BE SET IN THE INSPECTOR IN ORDER FOR IT TO WORK.
 	public Renderer[] renderers;
 
+	//Dictionaries to store colors/shaders and return them to normal when flashing
+	Dictionary<Material, Color> colorDefs = new Dictionary<Material, Color>();
+	Dictionary<Material, Shader> shaderDefs = new Dictionary<Material, Shader>();
+	public static Color FlashColor;
+	public static float FlashDuration = 0.2f;
+	private float flashTimer;
+	private bool isFlashing = false;
+
 	public void ClearAnimationInfo()
 	{
 		IsMoving = false;
@@ -42,7 +50,6 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	public void AnimateSkeleton(bool isHit, bool isAttacking, bool isMoving)
 	{
-
 		if (IsHit)
 		{
 			EnemyAnimation.Play("gethit");
@@ -59,7 +66,6 @@ public class EnemyBaseScript : MonoBehaviour {
 		{
 			EnemyAnimation.Play("idle");
 		}
-
 	}
 
 	public static PlayerScript player;
@@ -70,17 +76,27 @@ public class EnemyBaseScript : MonoBehaviour {
 		//print ("This is the base class");
 		knockback = new Vector3();
 		if (!player) AssignPlayer();
+
+		RefreshRendererInfo();
 	}
 	
 	// Update is called once per frame
 	public virtual void Update () {
 		//Check enemy health
 		CheckHealth();
+
+
+		flashTimer -= Time.deltaTime;
+		if (isFlashing && flashTimer <= 0)
+		{
+			FlashReturnToNormal();
+			isFlashing = false;
+		}
 	}
 
 	// Health checker
 	public virtual void CheckHealth () {
-		if (Health <= 0) {
+		if (Health <= 0 || transform.position.y < 0) {
 			// Call death of enemy
 			Death();
 		}
@@ -120,6 +136,10 @@ public class EnemyBaseScript : MonoBehaviour {
 	public virtual void ApplyDamage(float damage)
 	{
 		Health -= damage;
+		//StartCoroutine(Flash(0.2f, Color.red));
+		FlashTurnRed();
+		flashTimer = FlashDuration;
+		isFlashing = true;
 	}
 
 	public virtual void AddKnockback(Vector3 direction, float force)
@@ -146,8 +166,80 @@ public class EnemyBaseScript : MonoBehaviour {
 		this.Velocity = upgrade.Velocity;
 		this.Damage = upgrade.Damage;
 		this.AttackRate = upgrade.AttackRate;
-		this.Experience = upgrade.Experience;
 		this.HasBeenUpgraded = true;
+	}
+
+	void OnTriggerStay(Collider other)
+	{
+		switch (other.gameObject.tag)
+		{
+			case "FireTrap":
+				other.gameObject.GetComponent<FireTrapScript>().ActivateTrap(this);
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void RefreshRendererInfo()
+	{
+		//Debug.LogError("Refreshing Renderer Info...");
+
+		if (colorDefs == null) colorDefs = new Dictionary<Material, Color>();
+		if (shaderDefs == null) shaderDefs = new Dictionary<Material, Shader>();
+
+		FlashColor = Color.red;
+
+		//store all of our renderer info
+		foreach (Renderer r in renderers)
+		{
+			foreach (Material m in r.materials)
+			{
+				if (m.HasProperty("_Color"))
+				{
+					colorDefs.Add(m, m.color);
+				}
+				if (m.shader != Shader.Find("Transparent/Diffuse"))
+				{
+					shaderDefs.Add(m, m.shader);
+				}
+			}
+		}
+	}
+
+	public void FlashTurnRed()
+	{
+		//Debug.LogWarning("Flashing red...");
+
+		foreach (Renderer r in renderers)
+		{
+			foreach (Material m in r.materials)
+			{
+				if (m.HasProperty("_Color"))
+				{
+					m.color = FlashColor;
+				}
+				if (m.shader != Shader.Find("Transparent/Diffuse"))
+				{
+					m.shader = Shader.Find("Transparent/Diffuse");
+				}
+			}
+		}
+	}
+
+	public void FlashReturnToNormal()
+	{
+		Debug.Log("Returning to normal...");
+
+		//go through our dictionaries and return our renderer data to normal
+		foreach (KeyValuePair<Material, Color> entry in colorDefs)
+		{
+			entry.Key.color = entry.Value;
+		}
+		foreach (KeyValuePair<Material, Shader> entry in shaderDefs)
+		{
+			entry.Key.shader = entry.Value;
+		}
 	}
 
 	/// <summary>

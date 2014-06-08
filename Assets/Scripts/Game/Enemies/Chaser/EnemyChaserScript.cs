@@ -69,6 +69,8 @@ public class EnemyChaserScript : EnemyBaseScript {
 		
 		//misc
 		renderer.material.color = Color.green;
+
+		RefreshRendererInfo();
 	}
 	
 	// Update is called once per frame
@@ -77,7 +79,8 @@ public class EnemyChaserScript : EnemyBaseScript {
 		//ClearAnimationInfo();
 
 		// Check enemy health, if <=0 die
-		CheckHealth ();
+		base.Update();
+		//CheckHealth ();
 
 		// Move Enemy
 		//MoveEnemy ();

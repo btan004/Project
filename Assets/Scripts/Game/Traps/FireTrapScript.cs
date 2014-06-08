@@ -7,8 +7,10 @@ public class FireTrapScript : MonoBehaviour {
 	public float Damage = 10f;
 	public float TimeOff = 5f;
 	public float TimeOn = 5f;
-	private float timer = 0f;
+	public float timer = 0f;
 	public bool IsActive = false;
+
+	public bool partOfSpinningTrap = false;
 
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
@@ -20,6 +22,10 @@ public class FireTrapScript : MonoBehaviour {
 			particleSystems.Add(s);
 			s.enableEmission = false;
 		}
+
+		//get a random delay to start from
+		if (!partOfSpinningTrap)
+			timer = Random.Range(0.0f, 6.0f);
 	}
 	
 	// Update is called once per frame
@@ -84,4 +90,15 @@ public class FireTrapScript : MonoBehaviour {
 			player.ApplyDamage(Damage);
 		}
 	}
+
+	public void ActivateTrap(EnemyBaseScript enemy)
+	{
+		//if the trap is active
+		if (IsActive)
+		{
+			//apply the damage to the player
+			enemy.ApplyDamage(Damage);
+		}		
+	}
+
 }

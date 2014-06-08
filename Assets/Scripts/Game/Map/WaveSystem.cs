@@ -11,6 +11,8 @@ public enum Difficulty
 
 public class WaveSystem
 {
+	public static WaveSystem instance;
+
 	//misc
 	public PlayerScript playerScript;
 	public SpawnScript spawnScript;
@@ -19,17 +21,23 @@ public class WaveSystem
 	public static int EnemiesRemaining;
 
 	//wave information
-	public static bool ForceSpawnWave;
+	public bool ForceSpawnWave;
+	private static bool WaveCountdownOccuring;
 	public static bool WaveFinished;
+	
+	//timer for spawning when player enters an arena zone
+	public static float TimeUntilWaveSpawn = 5.0f;
+	private static float spawnWaveTimer;
 
 	//wave types: 3 repeating waves of steadily increasing numbers of enemies
-	public static int WaveTypeCount = 5;
-	public static List<int> ChasersPerWave = new List<int>() { 10, 10, 10, 10, 10 };
-	public static List<int> SnipersPerWave = new List<int> () { 10, 10, 10, 10, 10 };
-	public static List<int> BouncersPerWave = new List<int>() { 0, 3, 4, 5, 5 };
-	public static List<int> ChargersPerWave = new List<int>() { 0, 0, 3, 4, 5 };
-	public static List<int> HealersPerWave = new List<int>() { 0, 2, 3, 3, 5};
-	public static List<int> SpawnersPerWave = new List<int>() { 0, 0, 0, 3, 5 };
+	public static int WaveTypeCount = 6;
+	public static List<int> ChasersPerWave = new List<int>()		{ 10,  10,  10,  10,  10,  0 };
+	public static List<int> SnipersPerWave = new List<int> ()	{ 10,  10,  10,  10,  10,  0 };
+	public static List<int> BouncersPerWave = new List<int>()	{  0,   3,   4,   5,   5,  0 };
+	public static List<int> ChargersPerWave = new List<int>()	{  0,   0,   3,   4,   5,  0 };
+	public static List<int> HealersPerWave = new List<int>()		{  0,   2,   3,   3,   5,  0 };
+	public static List<int> SpawnersPerWave = new List<int>()	{  0,   0,   0,   3,   5,  0 };
+	public static List<int> BossesPerWave = new List<int>()		{  0,   0,   0,   0,   0,  1 };
 
 	//lives per difficulty
 	public static Difficulty GameDifficulty;
@@ -37,176 +45,158 @@ public class WaveSystem
 	
 	//chaser upgrades
 	public static EnemyUpgrade ChaserUpgrade;
-	public static List<float> ChaserHealthUpgrade = new List<float>() { 5, 10, 20 };
+	public static List<float> ChaserHealthUpgrade = new List<float>() { 0.25f, 0.5f, .75f };
 	public static List<float> ChaserVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
-	public static List<float> ChaserDamageUpgrade = new List<float>() { 3, 5, 7 };
-	public static List<float> ChaserAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
-	public static List<float> ChaserExperienceUpgrade = new List<float>() { 10, 20, 30 };
-	public const float ChaserHealthInitial = 20f;
-	public const float ChaserVelocityInitial = 5f;
-	public const float ChaserDamageInitial = 5f;
+	public static List<float> ChaserDamageUpgrade = new List<float>() { 0.25f, 0.5f, .75f };
+	public static List<float> ChaserAttackRateUpgrade = new List<float>() { 0.97f, 0.95f, 0.8f };
+	public const float ChaserHealthInitial = 2f;
+	public const float ChaserVelocityInitial = 4f;
+	public const float ChaserDamageInitial = 1f;
 	public const float ChaserAttackRateInitial = 2f;
-	public const float ChaserExperienceInitial = 10f;
 	public static float ChaserHealth;
 	public static float ChaserVelocity;
 	public static float ChaserDamage;
 	public static float ChaserAttackRate;
-	public static float ChaserExperience;
 
-	//Bouncer upgrades
+	//Bouncer upgrades (upgrades based on chaser)
 	public static EnemyUpgrade BouncerUpgrade;
-	public static List<float> BouncerHealthUpgrade = new List<float>() { 20, 40, 50 };
-	public static List<float> BouncerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
-	public static List<float> BouncerDamageUpgrade = new List<float>() { 6, 10, 14 };
-	public static List<float> BouncerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
-	public static List<float> BouncerExperienceUpgrade = new List<float>() { 20, 30, 40 };
-	public const float BouncerHealthInitial = 20f;
-	public const float BouncerVelocityInitial = 5f;
-	public const float BouncerDamageInitial = 5f;
-	public const float BouncerAttackRateInitial = 2f;
-	public const float BouncerExperienceInitial = 10f;
+	public static List<float> BouncerHealthUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> BouncerVelocityUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> BouncerDamageUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> BouncerAttackRateUpgrade = new List<float>() { 0, 0, 0 };
+	public const float BouncerHealthInitial = ChaserHealthInitial * 2.0f;
+	public const float BouncerVelocityInitial = ChaserVelocityInitial * 0.5f;
+	public const float BouncerDamageInitial = ChaserDamageInitial * 2.0f;
+	public const float BouncerAttackRateInitial = ChaserAttackRateInitial * 2.0f;
 	public static float BouncerHealth;
 	public static float BouncerVelocity;
 	public static float BouncerDamage;
 	public static float BouncerAttackRate;
-	public static float BouncerExperience;
 
-	//Charger upgrades
+	//Charger upgrades (upgrades based on chaser)
 	public static EnemyUpgrade ChargerUpgrade;
-	public static List<float> ChargerHealthUpgrade = new List<float>() { 20, 40, 50 };
-	public static List<float> ChargerVelocityUpgrade = new List<float>() { 0.125f, 0.25f, .5f };
-	public static List<float> ChargerDamageUpgrade = new List<float>() { 6, 10, 14 };
-	public static List<float> ChargerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
-	public static List<float> ChargerExperienceUpgrade = new List<float>() { 20, 30, 40 };
-	public const float ChargerHealthInitial = 20f;
-	public const float ChargerVelocityInitial = 5f;
-	public const float ChargerDamageInitial = 5f;
-	public const float ChargerAttackRateInitial = 2f;
-	public const float ChargerExperienceInitial = 10f;
+	public static List<float> ChargerHealthUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> ChargerVelocityUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> ChargerDamageUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> ChargerAttackRateUpgrade = new List<float>() { 0, 0, 0 };
+	public const float ChargerHealthInitial = ChaserHealthInitial * 1.5f;
+	public const float ChargerVelocityInitial = ChaserVelocityInitial;
+	public const float ChargerDamageInitial = ChaserDamageInitial * 4.0f;
+	public const float ChargerAttackRateInitial = ChaserAttackRateInitial;
 	public static float ChargerHealth;
 	public static float ChargerVelocity;
 	public static float ChargerDamage;
 	public static float ChargerAttackRate;
-	public static float ChargerExperience;
 
-	//sniper upgrades
+	//sniper upgrades (upgrades based on chaser)
 	public static EnemyUpgrade SniperUpgrade;
-	public static List<float> SniperHealthUpgrade = new List<float>() { 2, 5, 10 };
-	public static List<float> SniperVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
-	public static List<float> SniperDamageUpgrade = new List<float>() { 6, 10, 15 };
-	public static List<float> SniperAttackRateUpgrade = new List<float>() { 0.95f, 0.87f, 0.7f };
-	public static List<float> SniperExperienceUpgrade = new List<float>() { 10, 20, 30 };
-	public static float SniperHealthInitial = 15f;
-	public static float SniperVelocityInitial = 5f;
-	public static float SniperDamageInitial = 5f;
-	public static float SniperAttackRateInitial = 2f;
-	public static float SniperExperienceInitial = 15f;
+	public static List<float> SniperHealthUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> SniperVelocityUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> SniperDamageUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> SniperAttackRateUpgrade = new List<float>() { 0, 0, 0 };
+	public static float SniperHealthInitial = ChaserHealthInitial * 0.5f;
+	public static float SniperVelocityInitial = ChaserVelocityInitial;
+	public static float SniperDamageInitial = ChaserDamageInitial * 1.25f;
+	public static float SniperAttackRateInitial = ChaserAttackRateInitial * (1f / 1.25f);
 	public static float SniperHealth;
 	public static float SniperVelocity;
 	public static float SniperDamage;
 	public static float SniperAttackRate;
-	public static float SniperExperience;
 
-	//healer upgrades
+	//healer upgrades (upgrades based on chaser)
 	public static EnemyUpgrade HealerUpgrade;
-	public static List<float> HealerHealthUpgrade = new List<float>() { 2, 5, 10 };
-	public static List<float> HealerVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
-	public static List<float> HealerDamageUpgrade = new List<float>() { 6, 10, 15 };
-	public static List<float> HealerAttackRateUpgrade = new List<float>() { 0.95f, 0.87f, 0.7f };
-	public static List<float> HealerExperienceUpgrade = new List<float>() { 10, 20, 30 };
-	public static float HealerHealthInitial = 15f;
-	public static float HealerVelocityInitial = 5f;
-	public static float HealerDamageInitial = 5f;
-	public static float HealerAttackRateInitial = 2f;
-	public static float HealerExperienceInitial = 15f;
+	public static List<float> HealerHealthUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> HealerVelocityUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> HealerDamageUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> HealerAttackRateUpgrade = new List<float>() { 0, 0, 0 };
+	public static float HealerHealthInitial = ChaserHealthInitial * 0.75f;
+	public static float HealerVelocityInitial = ChaserVelocityInitial;
+	public static float HealerDamageInitial = 0;
+	public static float HealerAttackRateInitial = 10000;
 	public static float HealerHealth;
 	public static float HealerVelocity;
 	public static float HealerDamage;
 	public static float HealerAttackRate;
-	public static float HealerExperience;
 
-	//Spawner upgrades
+	//Spawner upgrades (upgrades based on chaser)
 	public static EnemyUpgrade SpawnerUpgrade;
-	public static List<float> SpawnerHealthUpgrade = new List<float>() { 5, 10, 20 };
-	public static List<float> SpawnerVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
-	public static List<float> SpawnerDamageUpgrade = new List<float>() { 3, 5, 7 };
-	public static List<float> SpawnerAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
-	public static List<float> SpawnerExperienceUpgrade = new List<float>() { 10, 20, 30 };
-	public const float SpawnerHealthInitial = 20f;
-	public const float SpawnerVelocityInitial = 5f;
-	public const float SpawnerDamageInitial = 5f;
-	public const float SpawnerAttackRateInitial = 2f;
-	public const float SpawnerExperienceInitial = 10f;
+	public static List<float> SpawnerHealthUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> SpawnerVelocityUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> SpawnerDamageUpgrade = new List<float>() { 0, 0, 0 };
+	public static List<float> SpawnerAttackRateUpgrade = new List<float>() { 0, 0, 0 };
+	public const float SpawnerHealthInitial = ChaserHealthInitial * 10.0f;
+	public const float SpawnerVelocityInitial = 0;
+	public const float SpawnerDamageInitial = 0;
+	public const float SpawnerAttackRateInitial = 0;
 	public static float SpawnerHealth;
 	public static float SpawnerVelocity;
 	public static float SpawnerDamage;
 	public static float SpawnerAttackRate;
-	public static float SpawnerExperience;
+
+	//Boss upgrades
+	public static EnemyUpgrade BossUpgrade;
+	public static List<float> BossHealthUpgrade = new List<float>() { 100, 200, 300 };
+	public static List<float> BossVelocityUpgrade = new List<float>() { 0.25f, 0.5f, 1f };
+	public static List<float> BossDamageUpgrade = new List<float>() { 3, 5, 7 };
+	public static List<float> BossAttackRateUpgrade = new List<float>() { 0.95f, 0.9f, 0.8f };
+	public const float BossHealthInitial = ChaserHealthInitial * 50.0f;
+	public const float BossVelocityInitial = ChaserVelocityInitial * 1.5f;
+	public const float BossDamageInitial = 2.0f;
+	public const float BossAttackRateInitial = 1.0f;
+	public static float BossHealth;
+	public static float BossVelocity;
+	public static float BossDamage;
+	public static float BossAttackRate;
 
 	public WaveSystem (SpawnScript spawnScript, PlayerScript playerScript)
 	{
-		//misc wave system init
-		RoundNumber = 1;
-		WaveNumber = 0;
-		this.spawnScript = spawnScript;
-		this.playerScript = playerScript;
-		EnemiesRemaining = 0;
-		ForceSpawnWave = false;
-		WaveFinished = true;
+		if (instance == null)
+		{
+			instance = this;
 
-		//initialize enemy data
-		ChaserHealth = ChaserHealthInitial;
-		ChaserVelocity = ChaserVelocityInitial;
-		ChaserDamage = ChaserDamageInitial;
-		ChaserAttackRate = ChaserAttackRateInitial;
-		ChaserExperience = ChaserExperienceInitial;
-		ChaserUpgrade = new EnemyUpgrade(ChaserHealth, ChaserVelocity, ChaserDamage, ChaserAttackRate, ChaserExperience);
+			//misc wave system init
+			RoundNumber = 1;
+			WaveNumber = 0;
+			this.spawnScript = spawnScript;
+			this.playerScript = playerScript;
+			EnemiesRemaining = 0;
+			ForceSpawnWave = false;
+			WaveFinished = true;
+			WaveCountdownOccuring = false;
 
-		BouncerHealth = BouncerHealthInitial;
-		BouncerVelocity = BouncerVelocityInitial;
-		BouncerDamage = BouncerDamageInitial;
-		BouncerAttackRate = BouncerAttackRateInitial;
-		BouncerExperience = BouncerExperienceInitial;
-		BouncerUpgrade = new EnemyUpgrade(BouncerHealth, BouncerVelocity, BouncerDamage, BouncerAttackRate, BouncerExperience);
+			spawnWaveTimer = TimeUntilWaveSpawn;
 
-		ChargerHealth = ChargerHealthInitial;
-		ChargerVelocity = ChargerVelocityInitial;
-		ChargerDamage = ChargerDamageInitial;
-		ChargerAttackRate = ChargerAttackRateInitial;
-		ChargerExperience = ChargerExperienceInitial;
-		ChargerUpgrade = new EnemyUpgrade(ChargerHealth, ChargerVelocity, ChargerDamage, ChargerAttackRate, ChargerExperience);
+			//initialize enemy data
+			ChaserUpgrade = new EnemyUpgrade(ChaserHealthInitial, ChaserVelocityInitial, ChaserDamageInitial, ChaserAttackRateInitial);
+			BouncerUpgrade = new EnemyUpgrade(BouncerHealthInitial, BouncerVelocityInitial, BouncerDamageInitial, BouncerAttackRateInitial);
+			ChargerUpgrade = new EnemyUpgrade(ChargerHealthInitial, ChargerVelocityInitial, ChargerDamageInitial, ChargerAttackRateInitial);
+			SniperUpgrade = new EnemyUpgrade(SniperHealthInitial, SniperVelocityInitial, SniperDamageInitial, SniperAttackRateInitial);
+			HealerUpgrade = new EnemyUpgrade(HealerHealthInitial, HealerVelocityInitial, HealerDamageInitial, HealerAttackRateInitial);
+			SpawnerUpgrade = new EnemyUpgrade(SpawnerHealthInitial, SpawnerVelocityInitial, SpawnerDamageInitial, SpawnerAttackRateInitial);
+			BossUpgrade = new EnemyUpgrade(BossHealthInitial, BossVelocityInitial, BossDamageInitial, BossAttackRateInitial);
+		}
 
-		SniperHealth = SniperHealthInitial;
-		SniperVelocity = SniperVelocityInitial;
-		SniperDamage = SniperDamageInitial;
-		SniperAttackRate = SniperAttackRateInitial;
-		SniperExperience = SniperExperienceInitial;
-		SniperUpgrade = new EnemyUpgrade(SniperHealth, SniperVelocity, SniperDamage, SniperAttackRate, SniperExperience);
 
-		HealerHealth = HealerHealthInitial;
-		HealerVelocity = HealerVelocityInitial;
-		HealerDamage = HealerDamageInitial;
-		HealerAttackRate = HealerAttackRateInitial;
-		HealerExperience = HealerExperienceInitial;
-		HealerUpgrade = new EnemyUpgrade(HealerHealth, HealerVelocity, HealerDamage, HealerAttackRate, HealerExperience);
 
-		SpawnerHealth = SpawnerHealthInitial;
-		SpawnerVelocity = SpawnerVelocityInitial;
-		SpawnerDamage = SpawnerDamageInitial;
-		SpawnerAttackRate = SpawnerAttackRateInitial;
-		SpawnerExperience = SpawnerExperienceInitial;
-		SpawnerUpgrade = new EnemyUpgrade(SpawnerHealth, SpawnerVelocity, SpawnerDamage, SpawnerAttackRate, SpawnerExperience);
+	}
 
+	public void StartWaveCountdown()
+	{
+		Debug.LogWarning("Singleton WaveSystem told to StartWaveCountdown");
+		ForceSpawnWave = true;
 	}
 
 	public void update()
 	{
-		if (EnemiesRemaining <= 0 && !WaveFinished)
-		{
-			//the wave is finished
-			WaveFinished = true;
+		//Debug.Log("Wave Finished: " + WaveFinished + ", Force Spawn Wave: " + ForceSpawnWave + ", Wave Countdown Occuring: " + WaveCountdownOccuring + ", Time Until Next Wave: " + spawnWaveTimer); 
 
-			//
+		//if enemies are remaining, then the wave is not finished
+		WaveFinished = !(EnemiesRemaining > 0);
+
+		//if the wave is finished
+		if (WaveFinished)
+		{
+			//set the portal to active
 			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
 			{
 				if (c.name == "Portal")
@@ -215,91 +205,110 @@ public class WaveSystem
 				}
 				else continue;
 			}
-
+		}
+		else
+		{
+			//reset the portal to inactive
+			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
+			{
+				if (c.name == "Portal")
+				{
+					c.GetComponent<PortalScript>().IsActive = false;
+				}
+				else continue;
+			}
 		}
 
-		if (ForceSpawnWave)
+		if (ForceSpawnWave && !WaveCountdownOccuring)
 		{
-			//increment wave and round numbers
-			if (WaveNumber == WaveTypeCount)
+			//reset our timer
+			spawnWaveTimer = TimeUntilWaveSpawn;
+			WaveCountdownOccuring = true;
+
+			Debug.Log("Starting wave spawn countdown!");
+		}
+
+		if (WaveCountdownOccuring)
+		{
+			//if we are ready to spawn the next wave
+			if (spawnWaveTimer <= 0)
 			{
-				WaveNumber = 1;
-				RoundNumber++;
+				Debug.Log("Spawning wave!");
+
+				//increment wave and round numbers
+				if (WaveNumber == WaveTypeCount)
+				{
+					WaveNumber = 1;
+					RoundNumber++;
+				}
+				else
+				{
+					WaveNumber++;
+				}
+
+				SpawnWave();
+
+				ForceSpawnWave = false;
+				WaveCountdownOccuring = false;
 			}
 			else
 			{
-				WaveNumber++;
+				//continue counting down
+				spawnWaveTimer -= Time.deltaTime;
 			}
-
-			SpawnWave();
-
 		}
+
 	}
 
 	public void SpawnWave()
 	{
-		//create our chasers
-		spawnScript.SpawnEnemy (ChasersPerWave [WaveNumber - 1], SpawnScript.EnemyTypes.Chaser, ChaserUpgrade);
+		//create our enemies
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Chaser,		ChaserUpgrade,		ChasersPerWave		[WaveNumber - 1]);
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Bouncer,	BouncerUpgrade,	BouncersPerWave	[WaveNumber - 1]);
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Charger,	ChargerUpgrade,	ChargersPerWave	[WaveNumber - 1]);
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Sniper,		SniperUpgrade,		SnipersPerWave		[WaveNumber - 1]);
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Healer,		HealerUpgrade,		HealersPerWave		[WaveNumber - 1]);
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Spawner,	SpawnerUpgrade,	SpawnersPerWave	[WaveNumber - 1]);
+		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Boss,		BossUpgrade,		BossesPerWave		[WaveNumber - 1]);
 
-		//create our bouncer
-		spawnScript.SpawnEnemy(BouncersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Bouncer, BouncerUpgrade);
-
-		//create our charger
-		spawnScript.SpawnEnemy(ChargersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Charger, ChargerUpgrade);
-
-		//create our snipers
-		spawnScript.SpawnEnemy(SnipersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Sniper, SniperUpgrade);
-
-		//create our healers
-		spawnScript.SpawnEnemy(HealersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Healer, HealerUpgrade);
-
-		//create our spawners
-		spawnScript.SpawnEnemy(SpawnersPerWave[WaveNumber - 1], SpawnScript.EnemyTypes.Spawner, SpawnerUpgrade);
-
-		//increase buffs at the end of spawning the last wave in the round
+		//after we spawn our enemies for the wave, update the upgrade for the next level
 		if (WaveNumber == WaveTypeCount)
 		{
-			ChaserUpgrade.Health += ChaserHealthUpgrade[(int)GameDifficulty];
-			ChaserUpgrade.Velocity += ChaserVelocityUpgrade[(int)GameDifficulty];
-			ChaserUpgrade.Damage += ChaserDamageUpgrade[(int)GameDifficulty];
-			ChaserUpgrade.AttackRate *= ChaserAttackRateUpgrade[(int)GameDifficulty];
-			ChaserUpgrade.Experience += ChaserExperienceUpgrade[(int)GameDifficulty];
+			ChaserUpgrade.Health			+= ChaserHealthUpgrade[(int)GameDifficulty];
+			ChaserUpgrade.Velocity		+= ChaserVelocityUpgrade[(int)GameDifficulty];
+			ChaserUpgrade.Damage			+= ChaserDamageUpgrade[(int)GameDifficulty];
+			ChaserUpgrade.AttackRate	*= ChaserAttackRateUpgrade[(int)GameDifficulty];
 
-			BouncerUpgrade.Health += BouncerHealthUpgrade[(int)GameDifficulty];
-			BouncerUpgrade.Velocity += BouncerVelocityUpgrade[(int)GameDifficulty];
-			BouncerUpgrade.Damage += BouncerDamageUpgrade[(int)GameDifficulty];
-			BouncerUpgrade.AttackRate *= BouncerAttackRateUpgrade[(int)GameDifficulty];
-			BouncerUpgrade.Experience += BouncerExperienceUpgrade[(int)GameDifficulty];
+			BouncerUpgrade.Health		= 2.0f * ChaserUpgrade.Health;
+			BouncerUpgrade.Velocity		= 0.5f * ChaserUpgrade.Velocity;
+			BouncerUpgrade.Damage		= 2.0f * ChaserUpgrade.Damage;
+			BouncerUpgrade.AttackRate	= 2.0f * ChaserUpgrade.AttackRate;
 
-			ChargerUpgrade.Health += ChargerHealthUpgrade[(int)GameDifficulty];
-			ChargerUpgrade.Velocity += ChargerVelocityUpgrade[(int)GameDifficulty];
-			ChargerUpgrade.Damage += ChargerDamageUpgrade[(int)GameDifficulty];
-			ChargerUpgrade.AttackRate *= ChargerAttackRateUpgrade[(int)GameDifficulty];
-			ChargerUpgrade.Experience += ChargerExperienceUpgrade[(int)GameDifficulty];
+			ChargerUpgrade.Health		= 1.5f * ChaserUpgrade.Health;
+			ChargerUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
+			ChargerUpgrade.Damage		= 4.0f * ChaserUpgrade.Damage;
+			ChargerUpgrade.AttackRate	= 0f;
 
-			SniperUpgrade.Health += SniperHealthUpgrade[(int)GameDifficulty];
-			SniperUpgrade.Velocity += SniperVelocityUpgrade[(int)GameDifficulty];
-			SniperUpgrade.Damage += SniperDamageUpgrade[(int)GameDifficulty];
-			SniperUpgrade.AttackRate *= SniperAttackRateUpgrade[(int)GameDifficulty];
-			SniperUpgrade.Experience += SniperExperienceUpgrade[(int)GameDifficulty];
+			SniperUpgrade.Health			= 0.5f * ChaserUpgrade.Health;
+			SniperUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
+			SniperUpgrade.Damage			= 1.25f * ChaserUpgrade.Damage;
+			SniperUpgrade.AttackRate	= (1f / 1.25f) * ChaserUpgrade.AttackRate;
 
-			HealerUpgrade.Health += HealerHealthUpgrade[(int)GameDifficulty];
-			HealerUpgrade.Velocity += HealerVelocityUpgrade[(int)GameDifficulty];
-			HealerUpgrade.Damage += HealerDamageUpgrade[(int)GameDifficulty];
-			HealerUpgrade.AttackRate *= HealerAttackRateUpgrade[(int)GameDifficulty];
-			HealerUpgrade.Experience += HealerExperienceUpgrade[(int)GameDifficulty];
+			HealerUpgrade.Health			= 0.75f * ChaserUpgrade.Health;
+			HealerUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
+			HealerUpgrade.Damage			= 0;
+			HealerUpgrade.AttackRate	= 0;
 
-			SpawnerUpgrade.Health += SpawnerHealthUpgrade[(int)GameDifficulty];
-			SpawnerUpgrade.Velocity += SpawnerVelocityUpgrade[(int)GameDifficulty];
-			SpawnerUpgrade.Damage += SpawnerDamageUpgrade[(int)GameDifficulty];
-			SpawnerUpgrade.AttackRate *= SpawnerAttackRateUpgrade[(int)GameDifficulty];
-			SpawnerUpgrade.Experience += SpawnerExperienceUpgrade[(int)GameDifficulty];
+			SpawnerUpgrade.Health		= 10.0f * ChaserUpgrade.Health;
+			SpawnerUpgrade.Velocity		= 0;
+			SpawnerUpgrade.Damage		= 0;
+			SpawnerUpgrade.AttackRate	= 0;
+
+			BossUpgrade.Health			= 50.0f * ChaserUpgrade.Health;
+			BossUpgrade.Velocity			= 1.5f * ChaserUpgrade.Velocity;
+			BossUpgrade.Damage			= 2.0f * ChaserUpgrade.Damage;
+			BossUpgrade.AttackRate		= 0.5f * ChaserUpgrade.AttackRate;
 		}
-
-		//reset our force wave
-		ForceSpawnWave = false;
-
-		WaveFinished = false;
 	}
 }
 
