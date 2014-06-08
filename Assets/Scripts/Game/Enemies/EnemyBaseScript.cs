@@ -37,6 +37,7 @@ public class EnemyBaseScript : MonoBehaviour {
 	Dictionary<Material, Color> colorDefs = new Dictionary<Material, Color>();
 	Dictionary<Material, Shader> shaderDefs = new Dictionary<Material, Shader>();
 	public static Color FlashColor;
+	public static Color SpawnedColor;
 	public static float FlashDuration = 0.2f;
 	private float flashTimer;
 	private bool isFlashing = false;
@@ -89,7 +90,12 @@ public class EnemyBaseScript : MonoBehaviour {
 		flashTimer -= Time.deltaTime;
 		if (isFlashing && flashTimer <= 0)
 		{
-			FlashReturnToNormal();
+			if(!IsSpawned){
+				FlashReturnToNormal();
+			}
+			else{
+				FlashSpawned();
+			}
 			isFlashing = false;
 		}
 
@@ -240,6 +246,24 @@ public class EnemyBaseScript : MonoBehaviour {
 				if (m.HasProperty("_Color"))
 				{
 					m.color = FlashColor;
+				}
+				if (m.shader != Shader.Find("Transparent/Diffuse"))
+				{
+					m.shader = Shader.Find("Transparent/Diffuse");
+				}
+			}
+		}
+	}
+
+	public void FlashSpawned()
+	{	
+		foreach (Renderer r in renderers)
+		{
+			foreach (Material m in r.materials)
+			{
+				if (m.HasProperty("_Color"))
+				{
+					m.color = SpawnedColor;
 				}
 				if (m.shader != Shader.Find("Transparent/Diffuse"))
 				{
