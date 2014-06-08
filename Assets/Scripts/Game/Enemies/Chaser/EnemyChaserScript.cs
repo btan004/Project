@@ -95,7 +95,10 @@ public class EnemyChaserScript : EnemyBaseScript {
 		NextAttack = NextAttack - Time.deltaTime;
 		
 		//Run through this.StateMachine
-		StateMachine.Update ();
+		if( Health > 0 )
+		{
+			StateMachine.Update ();
+		}
 	}
 
 	// Figure out if enemy within range of player

@@ -1392,7 +1392,6 @@ MonoBehaviour:
   - {fileID: 2300002}
   - {fileID: 2300004}
   - {fileID: 13700002}
-  - {fileID: 0}
   TurnVelocity: 0
   NextAttack: 0
   AttackDistance: 0
