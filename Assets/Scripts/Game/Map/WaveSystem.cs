@@ -11,6 +11,8 @@ public enum Difficulty
 
 public class WaveSystem
 {
+	public static WaveSystem instance;
+
 	//misc
 	public PlayerScript playerScript;
 	public SpawnScript spawnScript;
@@ -19,8 +21,13 @@ public class WaveSystem
 	public static int EnemiesRemaining;
 
 	//wave information
-	public static bool ForceSpawnWave;
+	public bool ForceSpawnWave;
+	private static bool WaveCountdownOccuring;
 	public static bool WaveFinished;
+	
+	//timer for spawning when player enters an arena zone
+	public static float TimeUntilWaveSpawn = 5.0f;
+	private static float spawnWaveTimer;
 
 	//wave types: 3 repeating waves of steadily increasing numbers of enemies
 	public static int WaveTypeCount = 6;
@@ -144,29 +151,47 @@ public class WaveSystem
 
 	public WaveSystem (SpawnScript spawnScript, PlayerScript playerScript)
 	{
-		//misc wave system init
-		RoundNumber = 1;
-		WaveNumber = 0;
-		this.spawnScript = spawnScript;
-		this.playerScript = playerScript;
-		EnemiesRemaining = 0;
-		ForceSpawnWave = false;
-		WaveFinished = true;
+		if (instance == null)
+		{
+			instance = this;
 
-		//initialize enemy data
+			//misc wave system init
+			RoundNumber = 1;
+			WaveNumber = 0;
+			this.spawnScript = spawnScript;
+			this.playerScript = playerScript;
+			EnemiesRemaining = 0;
+			ForceSpawnWave = false;
+			WaveFinished = true;
+			WaveCountdownOccuring = false;
 
-		ChaserUpgrade = new EnemyUpgrade(ChaserHealthInitial, ChaserVelocityInitial, ChaserDamageInitial, ChaserAttackRateInitial);
-		BouncerUpgrade = new EnemyUpgrade(BouncerHealthInitial, BouncerVelocityInitial, BouncerDamageInitial, BouncerAttackRateInitial);
-		ChargerUpgrade = new EnemyUpgrade(ChargerHealthInitial, ChargerVelocityInitial, ChargerDamageInitial, ChargerAttackRateInitial);
-		SniperUpgrade = new EnemyUpgrade(SniperHealthInitial, SniperVelocityInitial, SniperDamageInitial, SniperAttackRateInitial);
-		HealerUpgrade = new EnemyUpgrade(HealerHealthInitial, HealerVelocityInitial, HealerDamageInitial, HealerAttackRateInitial);
-		SpawnerUpgrade = new EnemyUpgrade(SpawnerHealthInitial, SpawnerVelocityInitial, SpawnerDamageInitial, SpawnerAttackRateInitial);
-		BossUpgrade = new EnemyUpgrade(BossHealthInitial, BossVelocityInitial, BossDamageInitial, BossAttackRateInitial);
+			spawnWaveTimer = TimeUntilWaveSpawn;
 
+			//initialize enemy data
+			ChaserUpgrade = new EnemyUpgrade(ChaserHealthInitial, ChaserVelocityInitial, ChaserDamageInitial, ChaserAttackRateInitial);
+			BouncerUpgrade = new EnemyUpgrade(BouncerHealthInitial, BouncerVelocityInitial, BouncerDamageInitial, BouncerAttackRateInitial);
+			ChargerUpgrade = new EnemyUpgrade(ChargerHealthInitial, ChargerVelocityInitial, ChargerDamageInitial, ChargerAttackRateInitial);
+			SniperUpgrade = new EnemyUpgrade(SniperHealthInitial, SniperVelocityInitial, SniperDamageInitial, SniperAttackRateInitial);
+			HealerUpgrade = new EnemyUpgrade(HealerHealthInitial, HealerVelocityInitial, HealerDamageInitial, HealerAttackRateInitial);
+			SpawnerUpgrade = new EnemyUpgrade(SpawnerHealthInitial, SpawnerVelocityInitial, SpawnerDamageInitial, SpawnerAttackRateInitial);
+			BossUpgrade = new EnemyUpgrade(BossHealthInitial, BossVelocityInitial, BossDamageInitial, BossAttackRateInitial);
+		}
+
+
+
+	}
+
+	public void StartWaveCountdown()
+	{
+		Debug.LogWarning("Singleton WaveSystem told to StartWaveCountdown");
+		ForceSpawnWave = true;
+		Debug.LogWarning("Singleton Wavesystem - Force Spawn Wave: " + ForceSpawnWave);
 	}
 
 	public void update()
 	{
+		Debug.Log("Wave Finished: " + WaveFinished + ", Force Spawn Wave: " + ForceSpawnWave + ", Wave Countdown Occuring: " + WaveCountdownOccuring + ", Time Until Next Wave: " + spawnWaveTimer); 
+
 		//if enemies are remaining, then the wave is not finished
 		WaveFinished = !(EnemiesRemaining > 0);
 
@@ -183,32 +208,60 @@ public class WaveSystem
 				else continue;
 			}
 		}
-
-		if (EnemiesRemaining <= 0 && !WaveFinished)
+		else
 		{
-			//the wave is finished
-			WaveFinished = true;
-
-			//
-
-
+			//reset the portal to inactive
+			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
+			{
+				if (c.name == "Portal")
+				{
+					c.GetComponent<PortalScript>().IsActive = false;
+				}
+				else continue;
+			}
 		}
 
-		if (ForceSpawnWave)
+		if (ForceSpawnWave && !WaveCountdownOccuring)
 		{
-			//increment wave and round numbers
-			if (WaveNumber == WaveTypeCount)
+			//reset our timer
+			spawnWaveTimer = TimeUntilWaveSpawn;
+			WaveCountdownOccuring = true;
+
+			Debug.LogWarning("Starting wave spawn countdown!");
+		}
+
+		if (WaveCountdownOccuring)
+		{
+			//if we are ready to spawn the next wave
+			if (spawnWaveTimer <= 0)
 			{
-				WaveNumber = 1;
-				RoundNumber++;
+				Debug.LogWarning("Spawning wave!");
+
+				//increment wave and round numbers
+				if (WaveNumber == WaveTypeCount)
+				{
+					WaveNumber = 1;
+					RoundNumber++;
+				}
+				else
+				{
+					WaveNumber++;
+				}
+
+				SpawnWave();
+
+				ForceSpawnWave = false;
+				WaveCountdownOccuring = false;
 			}
 			else
 			{
-				WaveNumber++;
-			}
+				//continue counting down
+				spawnWaveTimer -= Time.deltaTime;
 
-			SpawnWave();
+				Debug.Log("Counting down until next wave...");
+			}
 		}
+
 	}
 
 	public void SpawnWave()
@@ -260,11 +313,6 @@ public class WaveSystem
 			BossUpgrade.Damage += BossDamageUpgrade[(int)GameDifficulty];
 			BossUpgrade.AttackRate *= BossAttackRateUpgrade[(int)GameDifficulty];
 		}
-
-		//reset our force wave
-		ForceSpawnWave = false;
-
-		WaveFinished = false;
 	}
 }
 

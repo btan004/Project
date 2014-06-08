@@ -104,8 +104,23 @@ public class MapSystemScript : MonoBehaviour
 		Player.transform.position = GetCurrentLevel().GetComponent<LevelScript>().PlayerSpawnPoint.transform.position;
 
 		//if the player moved home, give him points
-		if (GetCurrentLevelType() == LevelType.Home && Player.GetComponent<PlayerScript>().Skills != null)
-			Player.GetComponent<PlayerScript>().Skills.AddSkillPoints(WaveSystem.GameDifficulty);
+		if (GetCurrentLevelType() == LevelType.Home)
+		{
+			Debug.Log("Player moved home");
+			if (Player.GetComponent<PlayerScript>().Skills != null)
+			{
+				Debug.Log("Giving player skill points");
+				Player.GetComponent<PlayerScript>().Skills.AddSkillPoints(WaveSystem.GameDifficulty);
+			}
+		}
+		//else if the player moved to an arena zone, spawn the next wave.
+		else
+		{
+			Debug.Log("Player moved to arena zone - spawning next wave");
+			//WaveSystem.ForceSpawnWave = true;
+			WaveSystem.instance.StartWaveCountdown();
+			Debug.Log("<MapSystemScript> WaveSystem.ForceSpawnWave: " + WaveSystem.instance.ForceSpawnWave);
+		}
 
 		//fade in
 

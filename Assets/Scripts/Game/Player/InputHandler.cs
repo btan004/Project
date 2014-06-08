@@ -116,7 +116,9 @@ public class InputHandler
 
 	private void CheckForceSpawnWave()
 	{
-		WaveSystem.ForceSpawnWave = Input.GetButton("Y Button");
+		//WaveSystem.ForceSpawnWave = Input.GetButton("Y Button");
+		if (Input.GetButton("Y Button"))
+			WaveSystem.instance.StartWaveCountdown();
 	}
 
 	private void CheckWantToStartGame()
