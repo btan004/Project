@@ -116,10 +116,9 @@ public class MapSystemScript : MonoBehaviour
 		//else if the player moved to an arena zone, spawn the next wave.
 		else
 		{
-			Debug.Log("Player moved to arena zone - spawning next wave");
+			Debug.Log("Player moved to arena zone - starting next wave spawn countdown");
 			//WaveSystem.ForceSpawnWave = true;
 			WaveSystem.instance.StartWaveCountdown();
-			Debug.Log("<MapSystemScript> WaveSystem.ForceSpawnWave: " + WaveSystem.instance.ForceSpawnWave);
 		}
 
 		//fade in

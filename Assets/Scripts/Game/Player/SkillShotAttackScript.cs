@@ -67,7 +67,8 @@ public class SkillShotAttackScript : MonoBehaviour {
 	{
 		if (player.IsSkillShotActive)
 		{
-			enemy.ApplyDamage(player.Skills.GetPlayerSkillShotDamage());
+			//SkillShot Damage = Skill Shot Skill Multiplier x Player Attack Damage
+			enemy.ApplyDamage(player.Skills.GetPlayerSkillShotDamage() * player.Skills.GetPlayerDamage());
 			enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);			
 		}
 	}	

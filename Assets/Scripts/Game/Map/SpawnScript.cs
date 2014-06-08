@@ -52,6 +52,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		//update the input handler
 		inputHandler.Update ();
 
 		//Handle powerup spawning
@@ -60,23 +61,8 @@ public class SpawnScript : MonoBehaviour {
 		//Handle trap spawning
 		SpawnTraps();
 
-		//wave system
-		//if (SpawnWave)
-		//{
-		//	timeUntilSpawnWaveTimer -= Time.deltaTime;
-		//	if (timeUntilSpawnWaveTimer <= 0)
-		//	{
-		//		WaveSystem.ForceSpawnWave = true;
-		//		SpawnWave = false;
-		//		timeUntilSpawnWaveTimer = timeUntilSpawnWave;
-		//	}
-		//}
-
+		//Update the wave system
 		waveSystem.update ();
-
-		//update the level portal
-		//if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level && WaveSystem.WaveFinished)
-		//	MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive = WaveSystem.WaveFinished;
 	}
 
 	private void SpawnPowerups()
