@@ -13,6 +13,8 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   - 23: {fileID: 2300006}
+  - 95: {fileID: 9500000}
+  - 195: {fileID: 19500000}
   m_Layer: 8
   m_Name: EnemyHealer
   m_TagString: Enemy
@@ -701,7 +703,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.40266991, y: 1.55455399, z: -33.9142838}
+  m_LocalPosition: {x: -10.0233154, y: 2.01885629, z: -32.1424675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -1215,7 +1217,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100100}
-  m_LocalRotation: {x: 0, y: -.965210259, z: 0, w: .261475176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
@@ -1356,6 +1358,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0011f60f3fd35654fbeb3bfd50f41254, type: 3}
+  m_Controller: {fileID: 9100000, guid: a9d4bf16e9f88db4cb7e79d8f1ec18b3, type: 2}
+  m_CullingMode: 0
+  m_ApplyRootMotion: 1
+  m_AnimatePhysics: 0
+  m_HasTransformHierarchy: 1
 --- !u!111 &11100002
 Animation:
   m_ObjectHideFlags: 1
@@ -1413,7 +1429,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9d23acb229bda41ae8120106e90dbc, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e7c2993dfde80949b6872017dceef70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSpawned: 0
@@ -1430,7 +1446,10 @@ MonoBehaviour:
   IsAttacking: 0
   IsHit: 0
   IsDead: 0
-  renderers: []
+  renderers:
+  - {fileID: 13700002}
+  - {fileID: 2300000}
+  - {fileID: 2300002}
   TurnVelocity: 0
   MovementRadius: 0
   MinDistanceAwayFromPlayer: 0
@@ -1441,6 +1460,7 @@ MonoBehaviour:
   HealingActiveTime: 0
   HealingCooldown: 5
   HealingCurrentCooldown: 5
+  anim: {fileID: 0}
 --- !u!136 &13600002
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1517,6 +1537,26 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: .360303998}
     m_Extent: {x: .464718431, y: .562316179, z: .439942956}
   m_DirtyAABB: 0
+--- !u!195 &19500000
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Radius: .5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

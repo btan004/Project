@@ -90,8 +90,11 @@ public class EnemySniperScript : EnemyBaseScript {
 		NextAttack = NextAttack - Time.deltaTime;
 		
 		//Run through this.StateMachine
-		StateMachine.Update ();
-		
+		if( Health > 0 )
+		{
+			StateMachine.Update ();
+		}
+
 		// If within a certain distance stop and attack player
 		//StopAndAttack ();
 

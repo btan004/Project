@@ -85,7 +85,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 		MinDistanceToCharge = 10;
 
 		//Knockback
-		Force = 5f;
+		Force = 60f;
 		mass = 20;
 
 		//Checking if there are any renderers to flash when this enemy is hit
@@ -118,8 +118,10 @@ public class EnemyChargerScript : EnemyBaseScript {
 		
 
 
-		//Run through this.StateMachine
-		StateMachine.Update ();
+		if( Health > 0 )
+		{
+			StateMachine.Update ();
+		}
 
 		//AIDecision ();
 

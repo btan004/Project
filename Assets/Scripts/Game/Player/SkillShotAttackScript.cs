@@ -85,6 +85,7 @@ public class SkillShotAttackScript : MonoBehaviour {
 					{
 						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+						StartCoroutine(enemy.Flash(0.2f, Color.red));
 					}
 				}
 			}

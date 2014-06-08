@@ -56,6 +56,7 @@ public class AuraAttackScript : MonoBehaviour {
 				{
 					enemy.ApplyDamage(player.Skills.GetAuraDamage() * Time.deltaTime);
 					enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+					enemy.Flash(0.2f, Color.red);
 				}
 			}
 		}

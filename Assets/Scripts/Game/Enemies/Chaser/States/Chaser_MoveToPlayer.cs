@@ -28,16 +28,9 @@ public class Chaser_MoveToPlayer : State<EnemyChaserScript>
 				// Get player location
 				Vector3 playerLocation = EnemyBaseScript.player.transform.position;
 
-				//Before moving, check if enemy still alive.
-				//There's an issue where an enemy still tries to move, but they are
-				//dead right before they perform the navmesh move
-				
-				if( e.Health > 0 )
-				{
-					// Move enemy using navmesh 
-					e.GetComponent<NavMeshAgent>().SetDestination(playerLocation);
-				}
-				
+				// Move enemy using navmesh 
+				e.GetComponent<NavMeshAgent>().SetDestination(playerLocation);
+
 				// Make sure the enemy stays on the ground plane
 				//e.transform.SetPositionY(1);
 			}
