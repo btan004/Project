@@ -92,6 +92,9 @@ public class EnemyBaseScript : MonoBehaviour {
 			FlashReturnToNormal();
 			isFlashing = false;
 		}
+
+		//Check if enemy is outside of map
+		outOfBounds ();
 	}
 
 	// Health checker
@@ -116,6 +119,25 @@ public class EnemyBaseScript : MonoBehaviour {
 
 		//Destroy object
 		DestroyObject (this.gameObject);
+	}
+
+	// Check if enemy out of bounds
+	public void outOfBounds(){
+		GameObject mapSystem = GameObject.FindGameObjectWithTag ("MapContainer");
+		if(mapSystem!=null){	
+			Rect level = mapSystem.GetComponent<MapSystemScript>().GetLevelBounds();
+			Vector2 currentLocation = new Vector2 (this.transform.position.x, this.transform.position.z);
+			if(!level.Contains(currentLocation)){
+				Debug.Log("Out of bounds");
+				this.Death();
+			}
+			else{
+				Debug.Log("Not out of bounds");
+			}
+		}
+		else{
+			Debug.Log("Map is null");
+		}
 	}
 
 	// Spawner
