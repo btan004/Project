@@ -166,7 +166,6 @@ public class EnemyBaseScript : MonoBehaviour {
 		this.Velocity = upgrade.Velocity;
 		this.Damage = upgrade.Damage;
 		this.AttackRate = upgrade.AttackRate;
-		this.Experience = upgrade.Experience;
 		this.HasBeenUpgraded = true;
 	}
 

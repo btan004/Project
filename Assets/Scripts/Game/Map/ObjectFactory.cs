@@ -110,8 +110,8 @@ public class ObjectFactory : MonoBehaviour {
 	{
 		return CreatePowerup(
 			PowerupType.MovementSpeed,
-			Random.Range(PowerupInfo.MovementSpeedMinAmount, PowerupInfo.MovementSpeedMaxAmount),
-			Random.Range(PowerupInfo.MovementSpeedMinDuration, PowerupInfo.MovementSpeedMaxDuration),
+			PowerupInfo.MovementSpeedAmount,
+			PowerupInfo.MovementSpeedDuration,
 			PowerupInfo.Lifetime,
 			MapInfo.GetRandomPointOnMap()
 			);

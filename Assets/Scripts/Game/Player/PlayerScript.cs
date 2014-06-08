@@ -142,8 +142,6 @@ public class PlayerScript : MonoBehaviour {
 	void Update () {
 		//check for death
 		CheckForDeath();
-		//Clear animation variables
-		//ClearAnimationInfo();
 
 		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
 
@@ -167,12 +165,6 @@ public class PlayerScript : MonoBehaviour {
 		//Health + Stamina from powerup
 		Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthFromPowerups, 0, Skills.GetPlayerHealthMax());
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaFromPowerups, 0, Skills.GetPlayerStaminaMax());
-
-		//Check if the player wants to end the game
-		//if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
-
-		//animate the player
-		//AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	private void UpdateActivePowerups()
@@ -196,10 +188,6 @@ public class PlayerScript : MonoBehaviour {
 			//if they are move speed powerups, add to the movespeed from powerups pool
 			if (p.Type == PowerupType.MovementSpeed)
 				movespeedFromPowerups = SprintCoefficient;
-
-			//make sure we havent exceeded our movement speed cap
-			if (movespeedFromPowerups > PowerupInfo.MovementSpeedCap)
-				movespeedFromPowerups = PowerupInfo.MovementSpeedCap;
 
 			//reduce the duration of the powerup
 			p.Duration -= Time.deltaTime;

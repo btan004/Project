@@ -21,14 +21,14 @@ public class SpawnScript : MonoBehaviour {
 	public float minimumSpawnRange = 6;
 
 	//Powerup Data
-	public int MaxNumberOfPowerups = 100;
+	public int MaxNumberOfPowerups = 10;
 	public int NumberOfPowerups = 0;
 	public float PowerupSpawnRateMin = 2f;
 	public float PowerupSpawnRateMax = 5f;
 	private float timeUntilNextPowerupSpawn;
 
 	//Trap data
-	public int MaxNumberOfTraps = 100;
+	public int MaxNumberOfTraps = 20;
 	public int NumberOfTraps = 0;
 	public float TrapSpawnRateMin = 2f;
 	public float TrapSpawnRateMax = 5f;
@@ -61,22 +61,22 @@ public class SpawnScript : MonoBehaviour {
 		SpawnTraps();
 
 		//wave system
-		if (SpawnWave)
-		{
-			timeUntilSpawnWaveTimer -= Time.deltaTime;
-			if (timeUntilSpawnWaveTimer <= 0)
-			{
-				WaveSystem.ForceSpawnWave = true;
-				SpawnWave = false;
-				timeUntilSpawnWaveTimer = timeUntilSpawnWave;
-			}
-		}
+		//if (SpawnWave)
+		//{
+		//	timeUntilSpawnWaveTimer -= Time.deltaTime;
+		//	if (timeUntilSpawnWaveTimer <= 0)
+		//	{
+		//		WaveSystem.ForceSpawnWave = true;
+		//		SpawnWave = false;
+		//		timeUntilSpawnWaveTimer = timeUntilSpawnWave;
+		//	}
+		//}
 
 		waveSystem.update ();
 
 		//update the level portal
-		if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level && WaveSystem.WaveFinished)
-			MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive = WaveSystem.WaveFinished;
+		//if (MapSystemScript.instance.GetCurrentLevelType() == LevelType.Level && WaveSystem.WaveFinished)
+		//	MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive = WaveSystem.WaveFinished;
 	}
 
 	private void SpawnPowerups()
@@ -155,7 +155,7 @@ public class SpawnScript : MonoBehaviour {
 		}
 	}
 
-	public void SpawnEnemy( int count, EnemyTypes type, EnemyUpgrade upgrade)
+	public void SpawnEnemy(EnemyTypes type, EnemyUpgrade upgrade, int count)
 	{
 		if (MapSystemScript.instance.EnemiesEnabled())
 		{
@@ -210,7 +210,7 @@ public class SpawnScript : MonoBehaviour {
 		if (inputHandler.WantToSpawnEnemy)
 		{
 			//Function to spawn the enemy
-			SpawnEnemy(1, EnemyTypes.Chaser, null);
+			SpawnEnemy(EnemyTypes.Chaser, null, 1);
 		}
 	}
 
