@@ -10,6 +10,12 @@ public class EnemySpawnerScript : EnemyBaseScript {
 	public float SpawnRadius;
 	public float CurrentBuffer;
 	public float MaxBuffer;
+	public GameObject[] EnemyList;
+	public int EnemyStartAmount;
+	public int EnemyMaxAmount;
+
+	//Boss
+	public bool isBoss;
 
 	// Use this for initialization
 	public override void Start () {
@@ -26,6 +32,7 @@ public class EnemySpawnerScript : EnemyBaseScript {
 
 		// Color
 		renderer.material.color = Color.cyan;
+
 	}
 	
 	// Update is called once per frame
@@ -56,9 +63,13 @@ public class EnemySpawnerScript : EnemyBaseScript {
 				deg = deg + (360f/MaxSpawns);
 				float enemyx = transform.position.x + SpawnRadius*Mathf.Cos(deg*Mathf.Deg2Rad);
 				float enemyz = transform.position.z + SpawnRadius*Mathf.Sin(deg*Mathf.Deg2Rad);
-				EnemyChaserScript enemy = ObjectFactory.CreateEnemyChaser(
-					new Vector3(enemyx, 1, enemyz), 
-					WaveSystem.ChaserUpgrade);
+				EnemyBaseScript enemy;
+				if(!isBoss){
+					enemy = ObjectFactory.CreateEnemyChaser(new Vector3(enemyx, 1, enemyz), WaveSystem.ChaserUpgrade);
+				}
+				else{
+					enemy = ObjectFactory.CreateRandomEnemy(new Vector3(enemyx, 1, enemyz));
+				}
 
 				enemy.renderer.material.color = Color.red;
 				enemy.SetSpawner(this.gameObject);
