@@ -22,12 +22,12 @@ public class WaveSystem
 
 	//wave information
 	public bool ForceSpawnWave;
-	private static bool WaveCountdownOccuring;
+	public static bool WaveCountdownOccuring;
 	public static bool WaveFinished;
 	
 	//timer for spawning when player enters an arena zone
 	public static float TimeUntilWaveSpawn = 5.0f;
-	private static float spawnWaveTimer;
+	public static float spawnWaveTimer;
 
 	//wave types: 3 repeating waves of steadily increasing numbers of enemies
 	public static int WaveTypeCount = 6;
@@ -191,33 +191,7 @@ public class WaveSystem
 		//Debug.Log("Wave Finished: " + WaveFinished + ", Force Spawn Wave: " + ForceSpawnWave + ", Wave Countdown Occuring: " + WaveCountdownOccuring + ", Time Until Next Wave: " + spawnWaveTimer); 
 
 		//if enemies are remaining, then the wave is not finished
-		WaveFinished = !(EnemiesRemaining > 0);
-
-		//if the wave is finished
-		if (WaveFinished)
-		{
-			//set the portal to active
-			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
-			{
-				if (c.name == "Portal")
-				{
-					c.GetComponent<PortalScript>().IsActive = true;
-				}
-				else continue;
-			}
-		}
-		else
-		{
-			//reset the portal to inactive
-			foreach (Component c in MapSystemScript.instance.GetCurrentLevel().GetComponents<Component>())
-			{
-				if (c.name == "Portal")
-				{
-					c.GetComponent<PortalScript>().IsActive = false;
-				}
-				else continue;
-			}
-		}
+		WaveFinished = (EnemyContainerScript.instance.GetEnemyCount() <= 0);
 
 		if (ForceSpawnWave && !WaveCountdownOccuring)
 		{

@@ -5,8 +5,6 @@ public class PortalScript : MonoBehaviour {
 
 	public bool IsActive;
 
-	//private ParticleSystem particleSystem;
-
 	public int Destination;
 
 	public Color ActiveColor;
@@ -30,7 +28,8 @@ public class PortalScript : MonoBehaviour {
 		if (IsActive)
 			particleSystem.startColor = ActiveColor;
 		else
-			particleSystem.startColor = InactiveColor;		
+			particleSystem.startColor = InactiveColor;
 	}
+
 
 }

@@ -28,6 +28,8 @@ public class GameGUI : MonoBehaviour {
 	private ProgressBar attackDamageBar;
 	private ProgressBar skillAvailableBar;
 
+	private ProgressBar waveInfoBar;
+
 	private string acceptUpgradeCoverPath = "Textures/ProgressBar/GreenCover";
 	private Texture2D acceptUpgradeCover;
 	private string denyUpgradeCoverPath = "Textures/ProgressBar/RedCover";
@@ -63,6 +65,9 @@ public class GameGUI : MonoBehaviour {
 	private string 	progressBarCoverPath 			= "Textures/ProgressBar/Cover";
 	private string		progressBarDarkGreyPath			= "Textures/ProgressBar/DarkGreyBar";
 
+	private string progressBarCoverBigPath = "Textures/ProgressBar/CoverBig";
+	private string progressBarBackBigPath = "Textures/ProgressBar/BackBig";
+
 	private string skillDisplayBackPath			= "Textures/SkillDisplays/Background";
 	private string skillDisplayCoverPath		= "Textures/SkillDisplays/Cover";
 	private string skillDisplaySelectedPath		= "Textures/SkillDisplays/Selected";
@@ -77,6 +82,8 @@ public class GameGUI : MonoBehaviour {
 	private Texture2D skillPointAvailable;
 
 	private string tooltipBackgroundPath = "Textures/SkillDisplays/TooltipBackground";
+
+	private GUIStyle waveInfoStyle;
 
 	//load resources for the gui
 	void Start()
@@ -99,6 +106,11 @@ public class GameGUI : MonoBehaviour {
 		tooltipStyle.font = font;
 		tooltipStyle.normal.textColor = Color.black;
 		tooltipStyle.normal.background = Resources.Load<Texture2D>(tooltipBackgroundPath);
+
+		waveInfoStyle = new GUIStyle();
+		waveInfoStyle.font = font;
+		waveInfoStyle.fontSize = 30;
+		waveInfoStyle.normal.textColor = Color.black;
 
 		heartTexture = Resources.Load<Texture2D>(heartTexturePath);
 		greyHeartTexture = Resources.Load<Texture2D>(greyHeartTexturePath);
@@ -154,6 +166,14 @@ public class GameGUI : MonoBehaviour {
 			progressBarStyle,
 			progressBarTextOffset);
 
+		waveInfoBar = new ProgressBar(new Vector2((Screen.width / 2) - 200, 15), new Vector2(400, 100),
+			Resources.Load<Texture2D>(progressBarBackBigPath),
+			Resources.Load<Texture2D>(progressBarBackBigPath),
+			Resources.Load<Texture2D>(progressBarBackBigPath),
+			Resources.Load<Texture2D>(progressBarCoverBigPath),
+			progressBarStyle,
+			progressBarTextOffset);
+
 		spawnScript = GameObject.Find ("Spawner").gameObject.GetComponent<SpawnScript> ();
 
 		skillPointAvailable = Resources.Load<Texture2D>(skillPointAvailablePath);
@@ -162,21 +182,25 @@ public class GameGUI : MonoBehaviour {
 
 	void DisplaySpawnInfo()
 	{
-		GUI.Label (new Rect ((Screen.width / 2) - 35, 15, 200, 20), "Round " + spawnScript.waveSystem.RoundNumber + " Wave " + spawnScript.waveSystem.WaveNumber);
-		if (WaveSystem.EnemiesRemaining == 0)
-		{
-			//GUI.Label (new Rect ((Screen.width / 2) - 80, 35, 200, 20), "Time Until Next Wave: " + (int) spawnScript.waveSystem.TimeBetweenWavesTimer);
-		}
-		else
-		{
-			GUI.Label(new Rect ((Screen.width / 2) - 35, 35, 200, 20), "Enemies Remaining: " + WaveSystem.EnemiesRemaining);
-		}
-		GUI.Label(new Rect((Screen.width / 2) - 35, 55, 200, 20), "Score: " + PlayerScript.Score.ToString("F0"));
+		GUI.Label (new Rect ((Screen.width / 2) - 150, 25, 200, 20), "Round " + spawnScript.waveSystem.RoundNumber + "      Wave " + spawnScript.waveSystem.WaveNumber, waveInfoStyle);
 
-		if (MapSystemScript.instance.GetCurrentLevel().GetComponentInChildren<PortalScript>().IsActive
-			&& (spawnScript.waveSystem.RoundNumber > 1 || spawnScript.waveSystem.WaveNumber >= 1)) {
-			GUI.Label(new Rect((Screen.width / 2) - 35, 80, 200, 20), "Wave Finished!");
-				}
+		GUI.Label(new Rect((Screen.width / 2) - 75, 52, 200, 20), "Score: " + PlayerScript.Score.ToString("F0"), waveInfoStyle);
+
+		if (MapSystemScript.instance.GetCurrentLevelType() != LevelType.Home)
+		{
+			if (WaveSystem.WaveCountdownOccuring)
+			{
+				GUI.Label(new Rect((Screen.width / 2) - 120, 78, 200, 20), "Next Wave In: " + WaveSystem.spawnWaveTimer.ToString("F0"), waveInfoStyle);
+			}
+			else if (EnemyContainerScript.instance.GetEnemyCount() == 0)
+			{
+				GUI.Label(new Rect((Screen.width / 2) - 100, 78, 200, 20), "Wave Finished!", waveInfoStyle);
+			}
+			else
+			{
+				GUI.Label(new Rect((Screen.width / 2) - 160, 78, 200, 20), "Enemies Remaining: " + EnemyContainerScript.instance.GetEnemyCount(), waveInfoStyle);
+			}
+		}
 	}
 
 	// Update is called once per frame
@@ -291,6 +315,8 @@ public class GameGUI : MonoBehaviour {
 			"",
 			""
 		);
+
+		waveInfoBar.OnGUI(0f, "", "", "");
 
 		if (playerScript.Skills.PointsToSpend > 0)
 		{

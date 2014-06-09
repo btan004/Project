@@ -47,6 +47,21 @@ public class LevelScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (CurrentLevelType != LevelType.Home)
+		{
+			//if the wave is finished
+			if (WaveSystem.WaveFinished)
+			{
+				//set the portal to active
+				Portal.GetComponent<PortalScript>().IsActive = true;
+				//Debug.LogError("Wave Finished and portal set to active");
+			}
+			else
+			{
+				//reset the portal to inactive
+				Portal.GetComponent<PortalScript>().IsActive = false;
+				//Debug.LogError("Wave Finished and portal set to inactive");
+			}
+		}
 	}
 }

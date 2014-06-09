@@ -9,8 +9,6 @@ public class SlimeTrapScript : MonoBehaviour {
 	public bool HasVictim = false;
 	public float Duration = 2f;
 
-
-
 	void Start () 
 	{
 		renderer.material.color = Color.green;

@@ -5,7 +5,10 @@ public class ObjectFactory : MonoBehaviour {
 
 	protected static ObjectFactory instance;
 
-	//Our objects that we can create
+	//Storage
+	public static GameObject EnemyContainer;
+	public static GameObject PowerupContainer;
+	public static GameObject TrapContainer;
 
 	/* Powerups */
 	public GameObject PowerupPrefab;
@@ -33,19 +36,25 @@ public class ObjectFactory : MonoBehaviour {
 	void Start () {
 		instance = this;
 
-		
+		EnemyContainer = GameObject.FindGameObjectWithTag("EnemyContainer");
+		PowerupContainer = GameObject.FindGameObjectWithTag("PowerupContainer");
+		TrapContainer = GameObject.FindGameObjectWithTag("TrapContainer");
 	}
 	
 	public static PowerupScript CreatePowerup(PowerupType type, float amount, float duration, float lifetime, Vector3 position)
 	{
 		//Instanciate our powerup
-		PowerupScript powerup = (Object.Instantiate(instance.PowerupPrefab, position, Quaternion.identity) as GameObject).GetComponent<PowerupScript>();
+		GameObject powerupObject = (Object.Instantiate(instance.PowerupPrefab, position, Quaternion.identity) as GameObject);
+		PowerupScript powerup = powerupObject.GetComponent<PowerupScript>();
 
 		//Set the powerup's stats
 		powerup.Type = type;
 		powerup.Amount = amount;
 		powerup.Duration = duration;
 		powerup.Lifetime = lifetime;
+
+		//add the powerup to the container
+		powerupObject.transform.parent = PowerupContainer.transform;
 
 		//return the powerup
 		return powerup;
@@ -120,10 +129,14 @@ public class ObjectFactory : MonoBehaviour {
 	public static SlimeTrapScript CreateSlimeTrap(float duration, Vector3 position)
 	{
 		//Instanciate our slime trap
-		SlimeTrapScript slimeTrap = (Object.Instantiate(instance.SlimeTrapPrefab, position, Quaternion.identity) as GameObject).GetComponent<SlimeTrapScript>();
+		GameObject slimeTrapObject = (Object.Instantiate(instance.SlimeTrapPrefab, position, Quaternion.identity) as GameObject);
+		SlimeTrapScript slimeTrap = slimeTrapObject.GetComponent<SlimeTrapScript>();
 
 		//Set the slime traps duration
 		slimeTrap.Duration = duration;
+
+		//add the slime trap to the trap container
+		slimeTrapObject.transform.parent = TrapContainer.transform;
 
 		//return the slime trap
 		return slimeTrap;
@@ -132,10 +145,14 @@ public class ObjectFactory : MonoBehaviour {
 	public static LandmineScript CreateLandmine(float Damage, Vector3 position)
 	{
 		//Instanciate our landmine
-		LandmineScript landmine = (Object.Instantiate(instance.LandminePrefab, position, Quaternion.identity) as GameObject).GetComponent<LandmineScript>();
+		GameObject landmineObject = (Object.Instantiate(instance.LandminePrefab, position, Quaternion.identity) as GameObject);
+		LandmineScript landmine = landmineObject.GetComponent<LandmineScript>();
 
 		//Set the landmines damage
 		landmine.Damage = Damage;
+
+		//add the land mine trap to the trap container
+		landmineObject.transform.parent = TrapContainer.transform;
 
 		//return the landmine
 		return landmine;
@@ -158,6 +175,9 @@ public class ObjectFactory : MonoBehaviour {
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
 
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
 		//return the enemy
 		return enemy;
 	}
@@ -170,7 +190,10 @@ public class ObjectFactory : MonoBehaviour {
 		
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
-		
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
 		//return the enemy
 		return enemy;
 	}
@@ -183,7 +206,10 @@ public class ObjectFactory : MonoBehaviour {
 		
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
-		
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
 		//return the enemy
 		return enemy;
 	}
@@ -196,6 +222,9 @@ public class ObjectFactory : MonoBehaviour {
 
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
 
 		//return the enemy
 		return enemy;
@@ -210,6 +239,9 @@ public class ObjectFactory : MonoBehaviour {
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
 
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
 		//return the enemy
 		return enemy;
 	}
@@ -222,7 +254,10 @@ public class ObjectFactory : MonoBehaviour {
 		
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
-		
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
 		//return the enemy
 		return enemy;
 	}
@@ -235,7 +270,10 @@ public class ObjectFactory : MonoBehaviour {
 		
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
-		
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
 		//return the enemy
 		return enemy;
 	}

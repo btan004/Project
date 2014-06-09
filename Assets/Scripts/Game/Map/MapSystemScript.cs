@@ -103,6 +103,10 @@ public class MapSystemScript : MonoBehaviour
 		//move the player
 		Player.transform.position = GetCurrentLevel().GetComponent<LevelScript>().PlayerSpawnPoint.transform.position;
 
+		//remove all enemies, traps, and powerups
+		TrapContainerScript.instance.DeleteAllTraps();
+		PowerupContainerScript.instance.DeleteAllPowerups();
+
 		//if the player moved home, give him points
 		if (GetCurrentLevelType() == LevelType.Home)
 		{

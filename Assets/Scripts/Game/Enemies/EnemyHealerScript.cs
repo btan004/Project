@@ -26,9 +26,9 @@ public class EnemyHealerScript : EnemyBaseScript {
 		WaveSystem.EnemiesRemaining++;
 		
 		// Set stats
-		MaxHealth = 100;
-		Health = 100;
-		Experience = 10;
+		//MaxHealth = 100;
+		//Health = 100;
+		//Experience = 10;
 		
 		// Movement
 		IsMoving = true;
