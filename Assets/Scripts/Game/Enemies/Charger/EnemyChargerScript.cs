@@ -57,8 +57,8 @@ public class EnemyChargerScript : EnemyBaseScript {
 			Velocity = 1;
 			Damage = 1;
 			AttackRate = 5;
-			ScoreValue = 300;
 		}
+		ScoreValue = 300;
 
 		// Movement
 		IsMoving = true;
@@ -85,7 +85,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 		MinDistanceToCharge = 10;
 
 		//Knockback
-		Force = 60f;
+		Force = 600f;
 		mass = 20;
 
 		//Checking if there are any renderers to flash when this enemy is hit

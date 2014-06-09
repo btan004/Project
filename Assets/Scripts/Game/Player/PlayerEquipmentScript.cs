@@ -14,7 +14,7 @@ public class PlayerEquipmentScript : MonoBehaviour {
 		//make sure the active weapon and shield are active (in the case that they have been changed)
 		if (!Weapons[ActiveWeapon].activeInHierarchy)
 		{
-			Debug.Log("Need to active the correct weapon...");
+			//Debug.Log("Need to active the correct weapon...");
 
 			//disable all weapons, and active the correct one
 			for (int i = 0; i < Weapons.Length; i++)
@@ -26,7 +26,7 @@ public class PlayerEquipmentScript : MonoBehaviour {
 
 		if (!Shields[ActiveShield].activeInHierarchy)
 		{
-			Debug.Log("Need to active the correct shield...");
+			//Debug.Log("Need to active the correct shield...");
 
 			//disable all weapons, and active the correct one
 			for (int i = 0; i < Shields.Length; i++)

@@ -7,11 +7,12 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 	public CursorScript cursor;
 	public PlayerScript player;
 	private Vector3 directionToOffset;
-	public float Force = 3f;
+	public float Force = 30f;
 	private bool attacking;
 	private bool really;
 
 	public AudioClip[] swordSounds;
+	public AudioClip[] enemyBeingHitSounds;
 
 	private List<GameObject> enemiesInRange = new List<GameObject>();
 
@@ -32,12 +33,6 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
 
-		if (PlayerScript.IsAttacking)
-		{
-			audio.clip = swordSounds[Random.Range(0, swordSounds.Length)];
-			audio.Play();
-		}
-
 		//this.renderer.enabled = PlayerScript.IsAttacking;
 	}
 
@@ -45,6 +40,10 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 	{
 		if (PlayerScript.IsAttacking)
 		{
+			audio.clip = swordSounds[Random.Range(0, swordSounds.Length)];
+			audio.pitch = 1.76f;
+			audio.volume = 1.0f;
+
 			foreach (GameObject other in enemiesInRange)
 			{
 				if (other)
@@ -55,6 +54,9 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 					 **/
 					EnemyBaseCloneScript enemy2 = other.GetComponent<EnemyBaseCloneScript>();
 
+					audio.clip = enemyBeingHitSounds[Random.Range(0, enemyBeingHitSounds.Length)];
+					audio.pitch = 0.6f;
+					audio.volume = 0.188f;
 
 					if (enemy)
 					{
@@ -68,6 +70,8 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 					}
 				}
 			}
+
+			audio.Play();
 		}
 
 		enemiesInRange.Clear();

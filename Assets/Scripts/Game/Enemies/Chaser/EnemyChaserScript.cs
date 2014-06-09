@@ -43,8 +43,8 @@ public class EnemyChaserScript : EnemyBaseScript {
 			Velocity = 1;
 			Damage = 1;
 			AttackRate = 5;
-			ScoreValue = 100;
 		}
+		ScoreValue = 100;
 
 		// Movement
 		IsMoving = true;
@@ -58,13 +58,13 @@ public class EnemyChaserScript : EnemyBaseScript {
 		attackAnimationDelayTimer = AttackAnimationDelay;
 
 		//Knockback
-		Force = 5f;
+		Force = 100f;
 		mass = 20;
 
 		//Checking if there are any renderers to flash when this enemy is hit
 		if( renderers.Length <= 0 )
 		{
-			Debug.LogWarning("[EnemyChaserScript]: No renderers are set in order to flash this enemy when they are hit. If this is intentional, ignore");
+			//Debug.LogWarning("[EnemyChaserScript]: No renderers are set in order to flash this enemy when they are hit. If this is intentional, ignore");
 		}
 		
 		//misc
@@ -75,10 +75,10 @@ public class EnemyChaserScript : EnemyBaseScript {
 		if(IsSpawned){
 			SpawnedColor = new Color(255f/255f, 118f/255f, 0f/255f);
 			FlashSpawned();
-			Debug.Log("Spawned");
+			//Debug.Log("Spawned");
 		}
 		else{
-			Debug.Log("Is not spawned");
+			//Debug.Log("Is not spawned");
 		}
 	}
 	

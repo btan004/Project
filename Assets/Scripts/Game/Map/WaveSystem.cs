@@ -150,8 +150,8 @@ public class WaveSystem
 
 	public WaveSystem (SpawnScript spawnScript, PlayerScript playerScript)
 	{
-		if (instance == null)
-		{
+		//if (instance == null)
+		//{
 			instance = this;
 
 			//misc wave system init
@@ -174,7 +174,7 @@ public class WaveSystem
 			HealerUpgrade = new EnemyUpgrade(HealerHealthInitial, HealerVelocityInitial, HealerDamageInitial, HealerAttackRateInitial);
 			SpawnerUpgrade = new EnemyUpgrade(SpawnerHealthInitial, SpawnerVelocityInitial, SpawnerDamageInitial, SpawnerAttackRateInitial);
 			BossUpgrade = new EnemyUpgrade(BossHealthInitial, BossVelocityInitial, BossDamageInitial, BossAttackRateInitial);
-		}
+		//}
 
 
 

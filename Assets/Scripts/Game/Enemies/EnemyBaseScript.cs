@@ -42,6 +42,8 @@ public class EnemyBaseScript : MonoBehaviour {
 	private float flashTimer;
 	private bool isFlashing = false;
 
+	private GameObject mapSystem;
+
 	public void ClearAnimationInfo()
 	{
 		IsMoving = false;
@@ -77,6 +79,8 @@ public class EnemyBaseScript : MonoBehaviour {
 		//print ("This is the base class");
 		knockback = new Vector3();
 		if (!player) AssignPlayer();
+
+		mapSystem = GameObject.FindGameObjectWithTag("MapContainer");
 
 		RefreshRendererInfo();
 	}
@@ -129,7 +133,7 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	// Check if enemy out of bounds
 	public void outOfBounds(){
-		GameObject mapSystem = GameObject.FindGameObjectWithTag ("MapContainer");
+		/*
 		if(mapSystem!=null){	
 			Rect level = mapSystem.GetComponent<MapSystemScript>().GetLevelBounds();
 			Vector2 currentLocation = new Vector2 (this.transform.position.x, this.transform.position.z);
@@ -144,6 +148,7 @@ public class EnemyBaseScript : MonoBehaviour {
 		else{
 			Debug.Log("Map is null");
 		}
+		 * */
 	}
 
 	// Spawner
@@ -164,7 +169,6 @@ public class EnemyBaseScript : MonoBehaviour {
 	public virtual void ApplyDamage(float damage)
 	{
 		Health -= damage;
-		//StartCoroutine(Flash(0.2f, Color.red));
 		FlashTurnRed();
 		flashTimer = FlashDuration;
 		isFlashing = true;

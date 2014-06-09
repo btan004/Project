@@ -12,8 +12,20 @@ public class EnemyBulletScript : MonoBehaviour {
 	public Vector3 initialDirection;
 	public float timer;
 
+	static GameObject player;
+	static PlayerScript playerScript;
+
+	float bulletLifetime;
+
 	// Use this for initialization
 	void Start () {
+		if (player == null)
+		{
+			player = GameObject.FindGameObjectWithTag("Player");
+			playerScript = player.GetComponent<PlayerScript>();
+		}
+		bulletLifetime = 5.0f;
+
 		//Bullet color
 		this.renderer.material.color = Color.cyan;
 
@@ -24,6 +36,8 @@ public class EnemyBulletScript : MonoBehaviour {
 		Velocity = 10f;
 
 		timer = 1f;
+
+		Force = 100f;
 	}
 	
 	// Update is called once per frame
@@ -31,7 +45,12 @@ public class EnemyBulletScript : MonoBehaviour {
 		// Move fowards
 		this.transform.Translate(Direction * Velocity * Time.deltaTime);
 
-		CheckLifeBound ();
+		//CheckLifeBound ();
+		bulletLifetime -= Time.deltaTime;
+		if (bulletLifetime <= 0)
+		{
+			Destroy(gameObject);
+		}
 
 		//Update bullet direction
 		UpdateBullet();
@@ -71,9 +90,9 @@ public class EnemyBulletScript : MonoBehaviour {
 	public void MoveBullet(){
 		if(!isBoss){
 			// Find player and move in that direction
-			if (GameObject.FindGameObjectWithTag ("Player")) {
+			if (player) {
 				// Get player location
-				Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+				Vector3 playerPosition = player.transform.position;
 			
 				// Set as direction
 				Direction = playerPosition - this.transform.position;
@@ -84,7 +103,7 @@ public class EnemyBulletScript : MonoBehaviour {
 			}
 		}
 		else{
-			if(GameObject.FindGameObjectWithTag("Player")){
+			if(player){
 				// Move in the initial direction first
 				Direction = initialDirection;
 			}
@@ -95,9 +114,9 @@ public class EnemyBulletScript : MonoBehaviour {
 		if(isBoss){
 			timer = timer - Time.deltaTime;
 			if (timer <= 0){
-				if (GameObject.FindGameObjectWithTag ("Player")) {
+				if (player) {
 					// Get player location
-					Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+					Vector3 playerPosition = player.transform.position;
 				
 					// Set as direction
 					Direction = playerPosition - this.transform.position;
@@ -121,8 +140,6 @@ public class EnemyBulletScript : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag == "PlayerHitbox"){
 			// Apply damage to player and destroy self
-			GameObject player = GameObject.FindGameObjectWithTag("Player");
-			PlayerScript playerScript = player.GetComponent<PlayerScript>();
 			playerScript.ApplyDamage(Damage);
 			playerScript.AddKnockback(playerScript.transform.position - this.transform.position, Force);
 			Destroy(gameObject);

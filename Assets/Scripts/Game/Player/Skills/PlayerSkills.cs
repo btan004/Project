@@ -53,7 +53,7 @@ public class PlayerSkills
 		switch (difficulty) 
 		{
 			case Difficulty.Easy:
-				PointsToSpend += 3;
+				PointsToSpend += 300;
 				break;
 			case Difficulty.Normal:
 				PointsToSpend += 2;
@@ -156,7 +156,8 @@ public class PlayerSkills
 						playAcceptSound();
 						HealthSkill.Upgrade();
 						PointsToSpend--;
-						EquipmentScript.UpgradeShield();
+						if (HealthSkill.Total % 5 == 0)
+							EquipmentScript.UpgradeShield();
 					}
 					else playRejectSound();
 					break;
@@ -182,8 +183,13 @@ public class PlayerSkills
 					if (!AttackSkill.IsFullyUpgraded())
 					{
 						playAcceptSound();
-						EquipmentScript.UpgradeWeapon();
+
 						AttackSkill.Upgrade();
+
+						//if ((AttackSkill.Level - 4) % 5 == 0)
+						if (AttackSkill.Total % 5 == 0)
+							EquipmentScript.UpgradeWeapon();
+
 						PointsToSpend--;
 					}
 					else playRejectSound();
