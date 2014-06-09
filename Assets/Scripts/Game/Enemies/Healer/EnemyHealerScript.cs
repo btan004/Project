@@ -19,10 +19,22 @@ public class EnemyHealerScript : EnemyBaseScript {
 	public float HealingActiveTime = 0;		//How long has the healing aura been active
 	public float HealingCooldown = 15;		//Time before healing aura is active again
 	public float HealingCurrentCooldown = 0;
-	
+
+	public Animator anim;
+
+	public FSM<EnemyHealerScript> StateMachine;
+
+	public void ChangeState( State<EnemyHealerScript> s )
+	{
+		StateMachine.ChangeState ( s );
+	}
+
 	// Use this for initialization
 	public override void Start () {
 		if (!player) AssignPlayer();
+		StateMachine = new FSM<EnemyHealerScript> ( this, Healer_MoveToPlayer.Instance );
+		anim = GetComponent<Animator>();	
+
 		WaveSystem.EnemiesRemaining++;
 		
 		// Set stats
@@ -45,35 +57,34 @@ public class EnemyHealerScript : EnemyBaseScript {
 		HealingCooldown = 5;
 		HealingCurrentCooldown = 5;
 
-		foreach (MeshRenderer mesh in this.GetComponentsInChildren<MeshRenderer>())
-		{
-			mesh.material.color = Color.magenta;
-		}
 		foreach (ParticleSystem s in this.GetComponentsInChildren<ParticleSystem>())
 		{
 			s.enableEmission = false;
 		}
+
+		if( renderers.Length <= 0 )
+		{
+			Debug.LogWarning("[EnemyHealerScript]: No renderers are set in order to flash this enemy when they are hit. If this is intentional, ignore");
+		}
+
 		mass = 20;
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
-		// Reset animation info
-		ClearAnimationInfo();
-
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 		
 		// Move Enemy
-		MoveEnemy ();
+		//MoveEnemy ();
 		
 		// Rotate enemy towards player
 		RotateEnemy ();
 
-		Heal ();
-
-		// Animate
-		AnimateSkeleton(IsHit, IsAttacking, IsMoving);
+		if( Health > 0 )
+		{
+			StateMachine.Update ();
+		}
 	}
 
 	public void Heal()

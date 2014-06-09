@@ -71,6 +71,15 @@ public class EnemyChaserScript : EnemyBaseScript {
 		renderer.material.color = Color.green;
 
 		RefreshRendererInfo();
+
+		if(IsSpawned){
+			SpawnedColor = new Color(255f/255f, 118f/255f, 0f/255f);
+			FlashSpawned();
+			Debug.Log("Spawned");
+		}
+		else{
+			Debug.Log("Is not spawned");
+		}
 	}
 	
 	// Update is called once per frame
@@ -95,7 +104,10 @@ public class EnemyChaserScript : EnemyBaseScript {
 		NextAttack = NextAttack - Time.deltaTime;
 		
 		//Run through this.StateMachine
-		StateMachine.Update ();
+		if( Health > 0 )
+		{
+			StateMachine.Update ();
+		}
 	}
 
 	// Figure out if enemy within range of player
