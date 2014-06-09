@@ -50,7 +50,7 @@ public class EnemySniperScript : EnemyBaseScript {
 			Velocity = 1;
 			Damage = 1;
 			AttackRate = 5;
-			Experience = 1;
+			ScoreValue = 100;
 		}
 
 		// Movement

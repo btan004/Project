@@ -15,7 +15,7 @@ public class EnemySpawnerScript : EnemyBaseScript {
 	public override void Start () {
 		// Set stats
 		Health = 5;
-		Experience = 10;
+		ScoreValue = 100;
 
 		// Spawning
 		CurrentSpawns = 0;

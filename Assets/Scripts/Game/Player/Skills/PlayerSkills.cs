@@ -53,7 +53,7 @@ public class PlayerSkills
 		switch (difficulty) 
 		{
 			case Difficulty.Easy:
-				PointsToSpend += 30;
+				PointsToSpend += 3;
 				break;
 			case Difficulty.Normal:
 				PointsToSpend += 2;
@@ -69,7 +69,7 @@ public class PlayerSkills
 		List<float> healthSkillAmounts = new List<float>();
 		/* Health amounts: 5, 6, 7, 8... */
 		healthSkillAmounts.Add(5);
-		for (int health = 6; health <= 1000; health += 1)
+		for (float health = 6; health <= 1000; health += 1)
 			healthSkillAmounts.Add(health);
 
 		HealthSkill = new Skill(

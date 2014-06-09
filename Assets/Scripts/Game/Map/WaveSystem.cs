@@ -256,12 +256,12 @@ public class WaveSystem
 			BouncerUpgrade.Health		= 2.0f * ChaserUpgrade.Health;
 			BouncerUpgrade.Velocity		= 0.5f * ChaserUpgrade.Velocity;
 			BouncerUpgrade.Damage		= 2.0f * ChaserUpgrade.Damage;
-			BouncerUpgrade.AttackRate	= 2.0f * ChaserUpgrade.AttackRate;
+			BouncerUpgrade.AttackRate	= (1f / 0.75f) * ChaserUpgrade.AttackRate;
 
 			ChargerUpgrade.Health		= 1.5f * ChaserUpgrade.Health;
 			ChargerUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
 			ChargerUpgrade.Damage		= 4.0f * ChaserUpgrade.Damage;
-			ChargerUpgrade.AttackRate	= 0f;
+			ChargerUpgrade.AttackRate	= 1.0f * ChaserUpgrade.AttackRate;
 
 			SniperUpgrade.Health			= 0.5f * ChaserUpgrade.Health;
 			SniperUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;

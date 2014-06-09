@@ -15,7 +15,7 @@ public class EnemyBaseScript : MonoBehaviour {
 	public float Velocity = 10;
 	public float Damage = 10;
 	public float AttackRate = 2;
-	public float Experience = 1;
+	public float ScoreValue;
 
 	//Non-upgradable Enemy Stats
 	protected float mass = 10;
@@ -118,7 +118,7 @@ public class EnemyBaseScript : MonoBehaviour {
 			ReportToSpawner();
 		}
 		//Give exp to player
-		player.ApplyExperience(Experience);
+		player.ApplyExperience(ScoreValue);
 
 		//decrement the enemy count
 		WaveSystem.EnemiesRemaining--;

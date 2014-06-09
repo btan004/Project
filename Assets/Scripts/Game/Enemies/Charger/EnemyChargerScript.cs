@@ -57,7 +57,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 			Velocity = 1;
 			Damage = 1;
 			AttackRate = 5;
-			Experience = 1;
+			ScoreValue = 300;
 		}
 
 		// Movement

@@ -30,6 +30,4 @@ public class PortalScript : MonoBehaviour {
 		else
 			particleSystem.startColor = InactiveColor;
 	}
-
-
 }

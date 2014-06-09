@@ -40,7 +40,7 @@ public class LandmineScript : MonoBehaviour {
 		//apply the damage to the character
 		if (!wasActivated)
 		{
-			player.ApplyDamage(Damage);
+			player.ApplyDamage(0.25f * player.Skills.GetPlayerHealthMax());
 
 			//turn on the explosion
 			exploding = true;

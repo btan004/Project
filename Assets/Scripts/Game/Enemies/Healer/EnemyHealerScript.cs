@@ -41,6 +41,7 @@ public class EnemyHealerScript : EnemyBaseScript {
 		//MaxHealth = 100;
 		//Health = 100;
 		//Experience = 10;
+		ScoreValue = 300;
 		
 		// Movement
 		IsMoving = true;
