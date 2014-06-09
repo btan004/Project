@@ -8,6 +8,9 @@ public class GameGUI : MonoBehaviour {
 	public PlayerScript playerScript;
 	public SpawnScript spawnScript;
 
+	public static EnemyBaseScript Boss;
+	public static bool BossActive;
+
 	//font
 	private Font			font;
 	private string			fontPath					= "Fonts/FreePixel";
@@ -27,6 +30,7 @@ public class GameGUI : MonoBehaviour {
 	private ProgressBar	skillShotBar;
 	private ProgressBar attackDamageBar;
 	private ProgressBar skillAvailableBar;
+	private ProgressBar bossHealthBar;
 
 	private ProgressBar waveInfoBar;
 
@@ -68,6 +72,10 @@ public class GameGUI : MonoBehaviour {
 	private string progressBarCoverBigPath = "Textures/ProgressBar/CoverBig";
 	private string progressBarBackBigPath = "Textures/ProgressBar/BackBig";
 
+	private string progressBarCoverBossPath = "Textures/ProgressBar/CoverBoss";
+	private string progressBarBackBossPath = "Textures/ProgressBar/BackBoss";
+	private string progressBarRedBossPath = "Textures/ProgressBar/RedBarBoss";
+
 	private string skillDisplayBackPath			= "Textures/SkillDisplays/Background";
 	private string skillDisplayCoverPath		= "Textures/SkillDisplays/Cover";
 	private string skillDisplaySelectedPath		= "Textures/SkillDisplays/Selected";
@@ -84,12 +92,12 @@ public class GameGUI : MonoBehaviour {
 	private string tooltipBackgroundPath = "Textures/SkillDisplays/TooltipBackground";
 
 	private GUIStyle waveInfoStyle;
+	private GUIStyle bossInfoStyle;
 
 	//load resources for the gui
 	void Start()
 	{
 		//load our font
-
 		font = Resources.Load<Font>(fontPath);
 
 		//set our text offset
@@ -111,6 +119,11 @@ public class GameGUI : MonoBehaviour {
 		waveInfoStyle.font = font;
 		waveInfoStyle.fontSize = 30;
 		waveInfoStyle.normal.textColor = Color.black;
+
+		bossInfoStyle = new GUIStyle();
+		bossInfoStyle.font = font;
+		bossInfoStyle.fontSize = 30;
+		bossInfoStyle.normal.textColor = Color.black;
 
 		heartTexture = Resources.Load<Texture2D>(heartTexturePath);
 		greyHeartTexture = Resources.Load<Texture2D>(greyHeartTexturePath);
@@ -172,6 +185,14 @@ public class GameGUI : MonoBehaviour {
 			Resources.Load<Texture2D>(progressBarBackBigPath),
 			Resources.Load<Texture2D>(progressBarCoverBigPath),
 			progressBarStyle,
+			progressBarTextOffset);
+
+		bossHealthBar = new ProgressBar(new Vector2((Screen.width / 2) - 300, 15), new Vector2(600, 50),
+			Resources.Load<Texture2D>(progressBarBackBossPath),
+			Resources.Load<Texture2D>(progressBarRedBossPath),
+			Resources.Load<Texture2D>(progressBarBackBossPath),
+			Resources.Load<Texture2D>(progressBarCoverBossPath),
+			bossInfoStyle,
 			progressBarTextOffset);
 
 		spawnScript = GameObject.Find ("Spawner").gameObject.GetComponent<SpawnScript> ();
@@ -249,6 +270,8 @@ public class GameGUI : MonoBehaviour {
 			}
 			spendSkillTimer = SpendSkillCooldown;
 		}
+
+		Debug.LogError("Boss Active: " + BossActive);
 	}
 
 	//Our GUI 
@@ -316,7 +339,21 @@ public class GameGUI : MonoBehaviour {
 			""
 		);
 
-		waveInfoBar.OnGUI(0f, "", "", "");
+		if (BossActive)
+		{
+			float bossHealthPercentage = (Boss.Health / Boss.MaxHealth);
+			bossHealthBar.OnGUI(
+				bossHealthPercentage,
+				"",
+				"         Boss at " + (100.0f * bossHealthPercentage).ToString("F0") + "%",
+				""
+			);
+		}
+		else
+		{
+			waveInfoBar.OnGUI(0f, "", "", "");
+			DisplaySpawnInfo();
+		}
 
 		if (playerScript.Skills.PointsToSpend > 0)
 		{
@@ -359,8 +396,6 @@ public class GameGUI : MonoBehaviour {
 
 
 		}
-		DisplaySpawnInfo ();
-	
 
 	}
 }

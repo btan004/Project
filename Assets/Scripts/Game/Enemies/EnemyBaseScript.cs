@@ -7,7 +7,10 @@ public class EnemyBaseScript : MonoBehaviour {
 	// Spawner 
 	public bool IsSpawned;
 	public GameObject ParentSpawner;
-	
+
+	//Boss
+	public bool isBoss;
+
 	//Upgradable Enemy Stats
 	public bool HasBeenUpgraded = false;
 	public float Health = 100;
@@ -41,6 +44,8 @@ public class EnemyBaseScript : MonoBehaviour {
 	public static float FlashDuration = 0.2f;
 	private float flashTimer;
 	private bool isFlashing = false;
+
+	private GameObject mapSystem;
 
 	public void ClearAnimationInfo()
 	{
@@ -78,7 +83,15 @@ public class EnemyBaseScript : MonoBehaviour {
 		knockback = new Vector3();
 		if (!player) AssignPlayer();
 
+		mapSystem = GameObject.FindGameObjectWithTag("MapContainer");
+
 		RefreshRendererInfo();
+
+		if (isBoss)
+		{
+			GameGUI.Boss = this;
+			GameGUI.BossActive = true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -86,6 +99,11 @@ public class EnemyBaseScript : MonoBehaviour {
 		//Check enemy health
 		CheckHealth();
 
+		//if (isBoss)
+		//{
+		//	GameGUI.Boss = this;
+		//	GameGUI.BossActive = true;
+		//}
 
 		flashTimer -= Time.deltaTime;
 		if (isFlashing && flashTimer <= 0)
@@ -123,13 +141,19 @@ public class EnemyBaseScript : MonoBehaviour {
 		//decrement the enemy count
 		WaveSystem.EnemiesRemaining--;
 
+		//
+		if (isBoss)
+		{
+			GameGUI.BossActive = false;
+			Debug.LogError("Boss Dead:" + GameGUI.BossActive);
+		}
 		//Destroy object
 		DestroyObject (this.gameObject);
 	}
 
 	// Check if enemy out of bounds
 	public void outOfBounds(){
-		GameObject mapSystem = GameObject.FindGameObjectWithTag ("MapContainer");
+		/*
 		if(mapSystem!=null){	
 			Rect level = mapSystem.GetComponent<MapSystemScript>().GetLevelBounds();
 			Vector2 currentLocation = new Vector2 (this.transform.position.x, this.transform.position.z);
@@ -144,6 +168,7 @@ public class EnemyBaseScript : MonoBehaviour {
 		else{
 			Debug.Log("Map is null");
 		}
+		 * */
 	}
 
 	// Spawner
@@ -164,7 +189,6 @@ public class EnemyBaseScript : MonoBehaviour {
 	public virtual void ApplyDamage(float damage)
 	{
 		Health -= damage;
-		//StartCoroutine(Flash(0.2f, Color.red));
 		FlashTurnRed();
 		flashTimer = FlashDuration;
 		isFlashing = true;

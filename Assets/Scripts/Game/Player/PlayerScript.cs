@@ -88,6 +88,12 @@ public class PlayerScript : MonoBehaviour {
 	public bool IsMoving;
 	public bool IsHit;
 
+	public ParticleSystem onHitParticle;
+	public static float FlashDuration = 0.2f;
+	private float flashTimer;
+	private bool isFlashing = false;
+
+
 	public bool debugvar = false;
 
 	// Use this for initialization
@@ -109,7 +115,6 @@ public class PlayerScript : MonoBehaviour {
 				WaveSystem.GameDifficulty = Difficulty.Easy;
 				break;
 		}
-		
 
 		anim = GetComponent<Animator>();
 		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
@@ -165,6 +170,19 @@ public class PlayerScript : MonoBehaviour {
 		//Health + Stamina from powerup
 		Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthFromPowerups, 0, Skills.GetPlayerHealthMax());
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaFromPowerups, 0, Skills.GetPlayerStaminaMax());
+
+		//Update OnHit Red Flash
+		CheckForRedFlash();
+	}
+
+	private void CheckForRedFlash()
+	{
+		flashTimer -= Time.deltaTime;
+		if (isFlashing && flashTimer <= 0)
+		{
+			isFlashing = false;
+			DisableRedFlash();
+		}
 	}
 
 	private void UpdateActivePowerups()
@@ -447,6 +465,22 @@ public class PlayerScript : MonoBehaviour {
 	{
 		if (Skills.GetPlayerHealth() <= damage) Skills.HealthSkill.CurrentAmount = 0;
 		else Skills.HealthSkill.CurrentAmount -= damage;
+
+		EnableRedFlash();
+		flashTimer = FlashDuration;
+		isFlashing = true;
+
+		Debug.LogWarning("Player took << " + damage + " >>  damage.");
+	}
+
+	public void EnableRedFlash()
+	{
+		onHitParticle.enableEmission = true;
+	}
+
+	public void DisableRedFlash()
+	{
+		onHitParticle.enableEmission = false;
 	}
 
 	public void AddKnockback(Vector3 direction, float force)

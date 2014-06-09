@@ -11,6 +11,7 @@ public class FireTrapScript : MonoBehaviour {
 	public bool IsActive = false;
 
 	public bool partOfSpinningTrap = false;
+	public bool partOfBossLevel = false;
 
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
@@ -34,34 +35,42 @@ public class FireTrapScript : MonoBehaviour {
 		timer -= Time.deltaTime;
 
 		//if the fire trap is active
-		if (IsActive)
+		if (partOfBossLevel)
 		{
-			//check if its time to turn the fire trap off
-			if (timer <= 0)
-			{
-				//turn the fire trap off
-				TurnTrapOff();
-
-				//reset our timer
-				timer = TimeOff;
-			}
+			
 		}
-		//if the fire trap is inactive
 		else
 		{
-			//check if its time to turn the fire trap on
-			if (timer <= 0)
+			if (IsActive)
 			{
-				//turn the fire trap on
-				TurnTrapOn();
+				//check if its time to turn the fire trap off
+				if (timer <= 0)
+				{
+					//turn the fire trap off
+					TurnTrapOff();
 
-				//reset our timer
-				timer = TimeOn;
+					//reset our timer
+					timer = TimeOff;
+				}
+			}
+			//if the fire trap is inactive
+			else
+			{
+				//check if its time to turn the fire trap on
+				if (timer <= 0)
+				{
+					//turn the fire trap on
+					TurnTrapOn();
+
+					//reset our timer
+					timer = TimeOn;
+				}
 			}
 		}
+
 	}
 
-	void TurnTrapOn()
+	public void TurnTrapOn()
 	{
 		//enable particle systems
 		foreach (ParticleSystem s in particleSystems)
@@ -71,9 +80,9 @@ public class FireTrapScript : MonoBehaviour {
 		IsActive = true;
 	}
 
-	void TurnTrapOff()
+	public void TurnTrapOff()
 	{
-		//enable particle systems
+		//disable particle systems
 		foreach (ParticleSystem s in particleSystems)
 			s.enableEmission = false;
 

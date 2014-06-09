@@ -37,7 +37,7 @@ public class WaveSystem
 	public static List<int> ChargersPerWave = new List<int>()	{  0,   0,   3,   4,   5,  0 };
 	public static List<int> HealersPerWave = new List<int>()		{  0,   2,   3,   3,   5,  0 };
 	public static List<int> SpawnersPerWave = new List<int>()	{  0,   0,   0,   3,   5,  0 };
-	public static List<int> BossesPerWave = new List<int>()		{  0,   0,   0,   0,   0,  1 };
+	public static List<int> BossesPerWave = new List<int>()		{  1,   0,   0,   0,   0,  1 };
 
 	//lives per difficulty
 	public static Difficulty GameDifficulty;
@@ -50,7 +50,7 @@ public class WaveSystem
 	public static List<float> ChaserDamageUpgrade = new List<float>() { 0.25f, 0.5f, .75f };
 	public static List<float> ChaserAttackRateUpgrade = new List<float>() { 0.97f, 0.95f, 0.8f };
 	public const float ChaserHealthInitial = 2f;
-	public const float ChaserVelocityInitial = 4f;
+	public const float ChaserVelocityInitial = 6f;
 	public const float ChaserDamageInitial = 1f;
 	public const float ChaserAttackRateInitial = 2f;
 	public static float ChaserHealth;
@@ -150,8 +150,8 @@ public class WaveSystem
 
 	public WaveSystem (SpawnScript spawnScript, PlayerScript playerScript)
 	{
-		if (instance == null)
-		{
+		//if (instance == null)
+		//{
 			instance = this;
 
 			//misc wave system init
@@ -174,7 +174,7 @@ public class WaveSystem
 			HealerUpgrade = new EnemyUpgrade(HealerHealthInitial, HealerVelocityInitial, HealerDamageInitial, HealerAttackRateInitial);
 			SpawnerUpgrade = new EnemyUpgrade(SpawnerHealthInitial, SpawnerVelocityInitial, SpawnerDamageInitial, SpawnerAttackRateInitial);
 			BossUpgrade = new EnemyUpgrade(BossHealthInitial, BossVelocityInitial, BossDamageInitial, BossAttackRateInitial);
-		}
+		//}
 
 
 

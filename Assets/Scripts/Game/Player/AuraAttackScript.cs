@@ -58,6 +58,13 @@ public class AuraAttackScript : MonoBehaviour {
 					enemy.ApplyDamage(player.Skills.GetAuraDamage() * player.Skills.GetPlayerDamage() * Time.deltaTime);
 					enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
 					enemy.Flash(0.2f, Color.red);
+
+					UnityEngine.Debug.LogWarning("Aura Damage: " + (player.Skills.GetAuraDamage() * player.Skills.GetPlayerDamage() * Time.deltaTime));
+				}
+				EnemyBulletScript bullet = other.GetComponent<EnemyBulletScript>();
+				if (bullet)
+				{
+					Destroy(bullet.gameObject);
 				}
 			}
 		}

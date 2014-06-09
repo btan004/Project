@@ -11,7 +11,6 @@ public enum LevelType
 
 public class LevelScript : MonoBehaviour {
 
-
 	public LevelType CurrentLevelType;
 
 	public GameObject Boundaries;
@@ -53,6 +52,7 @@ public class LevelScript : MonoBehaviour {
 			if (WaveSystem.WaveFinished)
 			{
 				//set the portal to active
+				Portal.SetActive(true);
 				Portal.GetComponent<PortalScript>().IsActive = true;
 				//Debug.LogError("Wave Finished and portal set to active");
 			}
@@ -60,6 +60,7 @@ public class LevelScript : MonoBehaviour {
 			{
 				//reset the portal to inactive
 				Portal.GetComponent<PortalScript>().IsActive = false;
+				Portal.SetActive(false);
 				//Debug.LogError("Wave Finished and portal set to inactive");
 			}
 		}
