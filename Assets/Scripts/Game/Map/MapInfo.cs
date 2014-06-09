@@ -32,6 +32,10 @@ public class MapInfo
 
 		NavMesh.SamplePosition(position, out hit, 10, 1);
 
+		if(hit.position.x == Mathf.Infinity || hit.position.y == Mathf.Infinity || hit.position.z == Mathf.Infinity){
+			hit.position = new Vector3(MapSystemScript.instance.GetLevelBounds().center.x,1,MapSystemScript.instance.GetLevelBounds().center.y);
+		}
+
 		return hit.position;
 	}
 }
