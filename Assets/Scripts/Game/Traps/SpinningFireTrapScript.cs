@@ -26,10 +26,6 @@ public class SpinningFireTrapScript : MonoBehaviour {
 			s.TimeOn = 5f;
 			s.timer = timeDelay;
 		}
-
-
-
-
 	}
 	
 	// Update is called once per frame
@@ -43,6 +39,22 @@ public class SpinningFireTrapScript : MonoBehaviour {
 			s.Damage = Damage;
 			s.TimeOff = 5f;
 			s.TimeOn = 5f;
+		}
+	}
+
+	public void EnableSpinningFireTrap()
+	{
+		foreach (FireTrapScript trap in fireTraps)
+		{
+			trap.TurnTrapOn();
+		}
+	}
+
+	public void DisableSpinningFireTrap()
+	{
+		foreach (FireTrapScript trap in fireTraps)
+		{
+			trap.TurnTrapOff();
 		}
 	}
 }

@@ -17,4 +17,5 @@ public class EnemyContainerScript : MonoBehaviour
 	{
 		return instance.GetComponentsInChildren<EnemyBaseScript>().Length;
 	}
+
 }

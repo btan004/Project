@@ -80,19 +80,19 @@ public class EnemyChaserScript : EnemyBaseScript {
 		else{
 			//Debug.Log("Is not spawned");
 		}
+
+		if (isBoss)
+		{
+			GameGUI.Boss = this;
+			GameGUI.BossActive = true;
+		}
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
-		// Reset animation info
-		//ClearAnimationInfo();
-
 		// Check enemy health, if <=0 die
 		base.Update();
-		//CheckHealth ();
-
-		// Move Enemy
-		//MoveEnemy ();
+		CheckHealth ();
 
 		//apply knockback
 		ApplyKnockback();
