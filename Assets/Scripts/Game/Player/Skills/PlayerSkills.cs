@@ -53,7 +53,7 @@ public class PlayerSkills
 		switch (difficulty) 
 		{
 			case Difficulty.Easy:
-				PointsToSpend += 300;
+				PointsToSpend += 3;
 				break;
 			case Difficulty.Normal:
 				PointsToSpend += 2;
