@@ -68,5 +68,6 @@ public class BossLevelScript : MonoBehaviour {
 				secondTrapEnabled = Random.Range(0, 3);
 			CornerFireTraps[firstTrapEnabled].EnableSpinningFireTrap();
 			CornerFireTraps[secondTrapEnabled].EnableSpinningFireTrap();
+			MiddleFireTrap.EnableSpinningFireTrap();
 		}
 	}}

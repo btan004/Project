@@ -96,7 +96,7 @@ public class FireTrapScript : MonoBehaviour {
 		if (IsActive)
 		{
 			//apply the damage to the player
-			player.ApplyDamage(0.1f * player.Skills.GetPlayerHealthMax() * Time.deltaTime);
+			player.ApplyDamage(1.0f * player.Skills.GetPlayerHealthMax() * Time.deltaTime);
 		}
 	}
 
@@ -105,8 +105,14 @@ public class FireTrapScript : MonoBehaviour {
 		//if the trap is active
 		if (IsActive)
 		{
-			//apply the damage to the player
-			enemy.ApplyDamage(0.1f * enemy.MaxHealth * Time.deltaTime);
+			//apply the damage to the enemy
+			if (!enemy.IsSpawned)
+			{
+				if (enemy.isBoss)
+					enemy.ApplyDamage(0.01f * enemy.MaxHealth * Time.deltaTime);
+				else
+					enemy.ApplyDamage(0.1f * enemy.MaxHealth * Time.deltaTime);
+			}
 		}		
 	}
 

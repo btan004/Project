@@ -114,7 +114,10 @@ public class EnemyChargerScript : EnemyBaseScript {
 		// Reset animation info
 		//ClearAnimationInfo();
 
+		base.Update();
+
 		// Check enemy health, if <=0 die
+
 		CheckHealth ();
 
 		//apply knockback

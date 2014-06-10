@@ -33,6 +33,12 @@ public class EnemySpawnerScript : EnemyBaseScript {
 		// Color
 		renderer.material.color = Color.cyan;
 
+		if (isBoss)
+		{
+			GameGUI.Boss = this;
+			GameGUI.BossActive = true;
+		}
+
 	}
 	
 	// Update is called once per frame
