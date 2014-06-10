@@ -39,12 +39,13 @@ public class EnemySpawnerScript : EnemyBaseScript {
 			GameGUI.BossActive = true;
 		}
 
+		RefreshRendererInfo();
+
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
-		// Check enemy health, if <=0 die
-		CheckHealth ();
+		base.Update();
 
 		// Check spawns
 		CheckCurrentSpawns ();

@@ -56,6 +56,7 @@ public class EnemySniperScript : EnemyBaseScript {
 			AttackRate = baseAttackRate;
 		}
 		ScoreValue = 100;
+		mass = 20;
 
 		// Movement
 		IsMoving = true;

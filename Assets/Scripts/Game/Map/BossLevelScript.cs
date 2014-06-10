@@ -36,38 +36,49 @@ public class BossLevelScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
-		//increment the timer
-		fireTrapTimer -= Time.deltaTime;
-
-		//check if its time to change the state
-		if (fireTrapTimer <= 0)
+		if (GameGUI.BossActive)
 		{
-			//reset our timer
-			fireTrapTimer = TrapTimer;
+			//increment the timer
+			fireTrapTimer -= Time.deltaTime;
 
+			//check if its time to change the state
+			if (fireTrapTimer <= 0)
+			{
+				//reset our timer
+				fireTrapTimer = TrapTimer;
+
+				//disable all corner traps
+				foreach (SpinningFireTrapScript trap in CornerFireTraps)
+					trap.DisableSpinningFireTrap();
+
+				//reverse the direction of the middle fire trap
+				MiddleFireTrap.RotateSpeed = -1 * MiddleFireTrap.RotateSpeed;
+
+				//increase turn rate of all traps
+				Rotation += RotationIncrease;
+				if (MiddleFireTrap.RotateSpeed > 0)
+					MiddleFireTrap.RotateSpeed = Rotation;
+				else
+					MiddleFireTrap.RotateSpeed = -1 * Rotation;
+				foreach (SpinningFireTrapScript trap in CornerFireTraps)
+					trap.RotateSpeed = Rotation;
+
+				//enable 2 random corner traps
+				int firstTrapEnabled = Random.Range(0, 3);
+				int secondTrapEnabled = Random.Range(0, 3);
+				while (firstTrapEnabled == secondTrapEnabled)
+					secondTrapEnabled = Random.Range(0, 3);
+				CornerFireTraps[firstTrapEnabled].EnableSpinningFireTrap();
+				CornerFireTraps[secondTrapEnabled].EnableSpinningFireTrap();
+				MiddleFireTrap.EnableSpinningFireTrap();
+			}
+		}
+		else
+		{
 			//disable all corner traps
 			foreach (SpinningFireTrapScript trap in CornerFireTraps)
 				trap.DisableSpinningFireTrap();
-
-			//reverse the direction of the middle fire trap
-			MiddleFireTrap.RotateSpeed = -1 * MiddleFireTrap.RotateSpeed;
-
-			//increase turn rate of all traps
-			Rotation += RotationIncrease;
-			if (MiddleFireTrap.RotateSpeed > 0)
-				MiddleFireTrap.RotateSpeed = Rotation;
-			else
-				MiddleFireTrap.RotateSpeed = -1 * Rotation;
-			foreach (SpinningFireTrapScript trap in CornerFireTraps)
-				trap.RotateSpeed = Rotation;
-
-			//enable 2 random corner traps
-			int firstTrapEnabled = Random.Range(0, 3);
-			int secondTrapEnabled = Random.Range(0, 3);
-			while (firstTrapEnabled == secondTrapEnabled)
-				secondTrapEnabled = Random.Range(0, 3);
-			CornerFireTraps[firstTrapEnabled].EnableSpinningFireTrap();
-			CornerFireTraps[secondTrapEnabled].EnableSpinningFireTrap();
-			MiddleFireTrap.EnableSpinningFireTrap();
+			//disable the middle trap
+			MiddleFireTrap.DisableSpinningFireTrap();
 		}
 	}}
