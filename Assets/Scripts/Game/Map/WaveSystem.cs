@@ -50,7 +50,7 @@ public class WaveSystem
 	public static List<float> ChaserDamageUpgrade = new List<float>() { 0.25f, 0.5f, .75f };
 	public static List<float> ChaserAttackRateUpgrade = new List<float>() { 0.97f, 0.95f, 0.8f };
 	public const float ChaserHealthInitial = 2f;
-	public const float ChaserVelocityInitial = 4f;
+	public const float ChaserVelocityInitial = 6f;
 	public const float ChaserDamageInitial = 1f;
 	public const float ChaserAttackRateInitial = 2f;
 	public static float ChaserHealth;
@@ -281,7 +281,7 @@ public class WaveSystem
 			BossUpgrade.Health			= 50.0f * ChaserUpgrade.Health;
 			BossUpgrade.Velocity			= 1.5f * ChaserUpgrade.Velocity;
 			BossUpgrade.Damage			= 2.0f * ChaserUpgrade.Damage;
-			BossUpgrade.AttackRate		= 0.5f * ChaserUpgrade.AttackRate;
+			BossUpgrade.AttackRate		= 1.0f * ChaserUpgrade.AttackRate;
 		}
 	}
 }

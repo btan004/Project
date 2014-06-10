@@ -7,8 +7,11 @@ public class EnemyBaseScript : MonoBehaviour {
 	// Spawner 
 	public bool IsSpawned;
 	public GameObject ParentSpawner;
-	
-	//Upgradable Base Enemy Stats
+
+	//Boss
+	public bool isBoss;
+
+	//Upgradable Enemy Stats
 	public bool HasBeenUpgraded = false;
 	public float baseHealth = 100;
 	public float baseMaxHealth = 100;
@@ -109,6 +112,12 @@ public class EnemyBaseScript : MonoBehaviour {
 		AttackRate = baseAttackRate;
 
 		RefreshRendererInfo();
+
+		if (isBoss)
+		{
+			GameGUI.Boss = this;
+			GameGUI.BossActive = true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -116,6 +125,11 @@ public class EnemyBaseScript : MonoBehaviour {
 		//Check enemy health
 		CheckHealth();
 
+		//if (isBoss)
+		//{
+		//	GameGUI.Boss = this;
+		//	GameGUI.BossActive = true;
+		//}
 
 		flashTimer -= Time.deltaTime;
 		if (isFlashing && flashTimer <= 0)
@@ -161,6 +175,12 @@ public class EnemyBaseScript : MonoBehaviour {
 		//decrement the enemy count
 		WaveSystem.EnemiesRemaining--;
 
+		//
+		if (isBoss)
+		{
+			GameGUI.BossActive = false;
+			Debug.LogError("Boss Dead:" + GameGUI.BossActive);
+		}
 		//Destroy object
 		DestroyObject (this.gameObject);
 	}

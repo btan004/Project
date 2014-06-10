@@ -19,9 +19,6 @@ public class EnemySniperScript : EnemyBaseScript {
 	public enum StateID{ moving, attacking };
 	public StateID CurrentState;
 
-	//Boss
-	public bool isBoss;
-
 	//Function to handle statemachine
 	public void ChangeState( State<EnemySniperScript> s )
 	{
@@ -69,6 +66,14 @@ public class EnemySniperScript : EnemyBaseScript {
 		NextAttack = AttackRate;
 		AttackDistance = 10;
 
+		RefreshRendererInfo();
+
+		if (isBoss)
+		{
+			GameGUI.Boss = this;
+			GameGUI.BossActive = true;
+		}
+
 		//Checking if there are any renderers to flash when this enemy is hit
 		if( renderers.Length <= 0 )
 		{
@@ -81,15 +86,11 @@ public class EnemySniperScript : EnemyBaseScript {
 	
 	// Update is called once per frame
 	public override void Update () {
-		// Reset animation info
-		//ClearAnimationInfo();
+		base.Update();
 
 		// Check enemy health, if <=0 die
 		CheckHealth ();
 		
-		// Move Enemy
-		//MoveEnemy ();
-
 		//apply knockback
 		ApplyKnockback();
 
@@ -104,12 +105,6 @@ public class EnemySniperScript : EnemyBaseScript {
 		{
 			StateMachine.Update ();
 		}
-
-		// If within a certain distance stop and attack player
-		//StopAndAttack ();
-
-		// Animate
-		//AnimateSkeleton(IsHit, IsAttacking, IsMoving);
 	}
 
 	// Figure out if enemy within range of player

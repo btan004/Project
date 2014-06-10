@@ -166,6 +166,21 @@ public class ObjectFactory : MonoBehaviour {
 		return enemy;
 	}
 
+	public static EnemyBaseScript CreateRandomEnemy(Vector3 position)
+	{
+		int enemyType = Random.Range (0, 6);
+		Debug.Log ("Type: "+enemyType);
+		GameObject enemyPrefab;
+		EnemyUpgrade enemyUpgrade;
+		if(enemyType==0){ return CreateEnemyChaser(position, WaveSystem.ChaserUpgrade);}
+		else if(enemyType==1){ return CreateEnemySniper(position, WaveSystem.SniperUpgrade);}
+		else if(enemyType==2){ return CreateEnemyHealer(position, WaveSystem.HealerUpgrade);}
+		else if(enemyType==3){ return CreateEnemySpawner(position, WaveSystem.SpawnerUpgrade);}
+		else if(enemyType==4){ return CreateEnemyBouncer(position, WaveSystem.BouncerUpgrade);}
+		else if(enemyType==5){ return CreateEnemyCharger(position, WaveSystem.ChargerUpgrade);}
+		else{ return CreateEnemyChaser(position, WaveSystem.ChaserUpgrade);}
+	}
+
 	public static EnemyChaserScript CreateEnemyChaser(Vector3 position, EnemyUpgrade upgrade)
 	{
 		//Instanciate our enemy
