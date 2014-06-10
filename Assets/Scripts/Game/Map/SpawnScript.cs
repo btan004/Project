@@ -187,8 +187,10 @@ public class SpawnScript : MonoBehaviour {
 									ObjectFactory.CreateEnemySniperBoss(spawnPos, upgrade);
 									break;
 								case 1:
+									ObjectFactory.CreateEnemyChaserBoss(spawnPos, upgrade);
 									break;
 								case 2:
+									ObjectFactory.CreateEnemySpawnerBoss(spawnPos, upgrade);
 									break;
 							}
 						}

@@ -265,8 +265,8 @@ public class WaveSystem
 
 			SniperUpgrade.Health			= 0.5f * ChaserUpgrade.Health;
 			SniperUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
-			SniperUpgrade.Damage			= 1.25f * ChaserUpgrade.Damage;
-			SniperUpgrade.AttackRate	= (1f / 1.25f) * ChaserUpgrade.AttackRate;
+			SniperUpgrade.Damage			= 1.0f * ChaserUpgrade.Damage;
+			SniperUpgrade.AttackRate	= 1.0f * ChaserUpgrade.AttackRate;
 
 			HealerUpgrade.Health			= 0.75f * ChaserUpgrade.Health;
 			HealerUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
@@ -281,7 +281,7 @@ public class WaveSystem
 			BossUpgrade.Health			= 50.0f * ChaserUpgrade.Health;
 			BossUpgrade.Velocity			= 1.5f * ChaserUpgrade.Velocity;
 			BossUpgrade.Damage			= 2.0f * ChaserUpgrade.Damage;
-			BossUpgrade.AttackRate		= 1.0f * ChaserUpgrade.AttackRate;
+			BossUpgrade.AttackRate		= 0.5f * ChaserUpgrade.AttackRate;
 		}
 	}
 }

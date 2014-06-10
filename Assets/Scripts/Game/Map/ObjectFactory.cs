@@ -279,7 +279,7 @@ public class ObjectFactory : MonoBehaviour {
 		return enemy;		
 	}
 
-	public static EnemySpawnerScript CreateEnemySummonerBoss(Vector3 position, EnemyUpgrade upgrade)
+	public static EnemySpawnerScript CreateEnemySpawnerBoss(Vector3 position, EnemyUpgrade upgrade)
 	{
 		//Instanciate our enemy
 		GameObject enemyObject = Instantiate(instance.EnemySpawnerBossPrefab, position, Quaternion.identity) as GameObject;
