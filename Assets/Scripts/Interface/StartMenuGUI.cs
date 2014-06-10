@@ -4,7 +4,8 @@ using System.Collections;
 public class StartMenuGUI : MonoBehaviour
 {
 
-	private string GameTitle = "The Arena";
+	private string GameTitleThe = "The";
+	private string GameTitleArena = "Arena";
 	private static int GameTitleWidth = 200;
 	private static int GameTitleHeight = 50;
 
@@ -16,8 +17,14 @@ public class StartMenuGUI : MonoBehaviour
 
 	//Start Menu Style
 	private Font font;
-	private string fontPath = "Fonts/FreePixel";
+	private Font fontFree;
+	private string fontPath = "Fonts/UnifrakturCook";
+	private string fontPathFree = "Fonts/FreePixel";
 	private GUIStyle style;
+	private GUIStyle styleThe;
+	private GUIStyle styleArena;
+	public Texture back;
+	public Texture black;
 
 	private GUIStyle difficultyStyle;
 	private Difficulty difficulty;
@@ -38,12 +45,25 @@ public class StartMenuGUI : MonoBehaviour
 	{
 		//load our font
 		font = Resources.Load<Font>(fontPath);
+		fontFree = Resources.Load<Font>(fontPathFree);
 
 		//set up our normal style
 		style = new GUIStyle();
-		style.fontSize = 60;
-		style.font = font;
-		style.normal.textColor = Color.black;
+		style.fontSize = 40;
+		style.font = fontFree;
+		style.normal.textColor = Color.white;
+
+		//set up our normal style
+		styleThe = new GUIStyle();
+		styleThe.fontSize = 50;
+		styleThe.font = font;
+		styleThe.normal.textColor = Color.white;
+
+		//set up our normal style
+		styleArena = new GUIStyle();
+		styleArena.fontSize = 85;
+		styleArena.font = font;
+		styleArena.normal.textColor = Color.white;
 
 		//set up the easy difficulty and the difficulty style
 		difficultyStyle = new GUIStyle();
@@ -104,17 +124,33 @@ public class StartMenuGUI : MonoBehaviour
 
 	void OnGUI()
 	{
+		// Background
+		GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), black);
+		float locx = 0.0f;
+		float locy = 0.0f;
+		if(Screen.width > 1212){
+			float spacex = (Screen.width - 1212)/2.0f;
+			locx = spacex;
+			float spacey = (Screen.height-726)/2.0f;
+			locy = spacey;
+			GUI.DrawTexture (new Rect (locx, locy, 1212, 726), back, ScaleMode.ScaleAndCrop);
+		}
+		else{
+			GUI.DrawTexture (new Rect (0, 0, 1212, 726), back, ScaleMode.ScaleAndCrop);
+		} 
+
 		//Display the Game Title
-		GUI.Label(new Rect((Screen.width / 2) - (GameTitleWidth / 2), 50, GameTitleWidth, GameTitleHeight), GameTitle, style);
+		GUI.Label(new Rect(locx+195, 50, GameTitleWidth, GameTitleHeight), GameTitleThe, styleThe);
+		GUI.Label(new Rect(locx+130, 70, GameTitleWidth, GameTitleHeight), GameTitleArena, styleArena);
 
 		//Display the Difficulty
-		GUI.Label(new Rect((Screen.width / 2) - (DifficultyWidth / 2), 250, DifficultyWidth, DifficultyHeight), DifficultyString, difficultyStyle);
+		GUI.Label(new Rect(locx+175, 250, DifficultyWidth, DifficultyHeight), DifficultyString, difficultyStyle);
 
 		//Display Controls
-		GUI.Label(new Rect(Screen.width - 600, 500, controlStringWidth, controlStringHeight), controlStringStartGame, style);
-		GUI.Label(new Rect(Screen.width - 600, 500 + controlStringHeight, controlStringWidth, controlStringHeight), controlStringChangeDifficulty, style);
-		GUI.Label(new Rect(Screen.width - 600, 500 + controlStringHeight * 2, controlStringWidth, controlStringHeight), controlStringControls, style);
-		GUI.Label(new Rect(Screen.width - 600, 500 + controlStringHeight * 3, controlStringWidth, controlStringHeight), controlStringQuitGame, style);
+		GUI.Label(new Rect(locx+1212 - 410, 540, controlStringWidth, controlStringHeight-10), controlStringStartGame, style);
+		GUI.Label(new Rect(locx+1212 - 410, 540 + controlStringHeight-10, controlStringWidth, controlStringHeight), controlStringChangeDifficulty, style);
+		GUI.Label(new Rect(locx+1212 - 410, 540 + controlStringHeight * 2 -20, controlStringWidth, controlStringHeight), controlStringControls, style);
+		GUI.Label(new Rect(locx+1212 - 410, 540 + controlStringHeight * 3 -30, controlStringWidth, controlStringHeight), controlStringQuitGame, style);
 
 	}
 
