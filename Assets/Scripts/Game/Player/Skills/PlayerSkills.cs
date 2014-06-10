@@ -68,8 +68,10 @@ public class PlayerSkills
 	{
 		List<float> healthSkillAmounts = new List<float>();
 		/* Health amounts: 5, 6, 7, 8... */
-		healthSkillAmounts.Add(5);
-		for (float health = 6; health <= 1000; health += 1)
+		if (WaveSystem.GameDifficulty == Difficulty.Hard) healthSkillAmounts.Add(5);
+		if (WaveSystem.GameDifficulty == Difficulty.Normal) healthSkillAmounts.Add(10);
+		if (WaveSystem.GameDifficulty == Difficulty.Easy) healthSkillAmounts.Add(15);
+		for (float health = (healthSkillAmounts[0] + 1); health <= 1000; health += 1)
 			healthSkillAmounts.Add(health);
 
 		HealthSkill = new Skill(

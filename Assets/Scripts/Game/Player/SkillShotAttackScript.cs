@@ -95,14 +95,13 @@ public class SkillShotAttackScript : MonoBehaviour {
 						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
 						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
 
-						Debug.LogError("Looking for open audio source!");
 						for (int i = 0; i < enemiesHitSounds.Length; i++)
 						{
 							if (!enemiesHitSounds[i].audio.isPlaying || enemiesHitSounds[i].audio.time > 1.0f)
 							{
 								enemiesHitSounds[i].audio.Play();
 								break;
-								Debug.LogError("Found open audio source!");
+
 							}
 						}
 

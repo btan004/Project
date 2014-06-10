@@ -37,7 +37,7 @@ public class WaveSystem
 	public static List<int> ChargersPerWave = new List<int>()	{  0,   0,   3,   4,   5,  0 };
 	public static List<int> HealersPerWave = new List<int>()		{  0,   2,   3,   3,   5,  0 };
 	public static List<int> SpawnersPerWave = new List<int>()	{  0,   0,   0,   3,   5,  0 };
-	public static List<int> BossesPerWave = new List<int>()		{  1,   0,   0,   0,   0,  1 };
+	public static List<int> BossesPerWave = new List<int>()		{  0,   0,   0,   0,   0,  1 };
 
 	//lives per difficulty
 	public static Difficulty GameDifficulty;
@@ -281,7 +281,7 @@ public class WaveSystem
 			BossUpgrade.Health			= 50.0f * ChaserUpgrade.Health;
 			BossUpgrade.Velocity			= 1.5f * ChaserUpgrade.Velocity;
 			BossUpgrade.Damage			= 2.0f * ChaserUpgrade.Damage;
-			BossUpgrade.AttackRate		= 0.5f * ChaserUpgrade.AttackRate;
+			BossUpgrade.AttackRate		= 1.0f * ChaserUpgrade.AttackRate;
 		}
 	}
 }

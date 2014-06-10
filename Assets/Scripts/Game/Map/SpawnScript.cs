@@ -145,17 +145,17 @@ public class SpawnScript : MonoBehaviour {
 	{
 		if (MapSystemScript.instance.EnemiesEnabled())
 		{
-			GameObject player = GameObject.Find("Player");
 			Vector3 playerPos = player.transform.position;
 
 			for (int i = 0; i < count; ++i)
 			{
-				Vector3 spawnPos = MapInfo.GetRandomPointOnMap();
+				Vector3 spawnPos = MapSystemScript.instance.GetCurrentLevel().GetComponent<LevelScript>().GetRandomSpawnPoint().transform.position;
+					//MapInfo.GetRandomPointOnMap();
 
-				while (Mathf.Abs(playerPos.x - spawnPos.x) <= minimumSpawnRange || Mathf.Abs(playerPos.z - spawnPos.z) <= minimumSpawnRange)
-				{
-					spawnPos = MapInfo.GetRandomPointOnMap();
-				}
+				//while (Mathf.Abs(playerPos.x - spawnPos.x) <= minimumSpawnRange || Mathf.Abs(playerPos.z - spawnPos.z) <= minimumSpawnRange)
+				//{
+				//	spawnPos = MapInfo.GetRandomPointOnMap();
+				//}
 				switch (type)
 				{
 					case (EnemyTypes.Debugging):

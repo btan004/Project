@@ -8,7 +8,6 @@ public enum LevelType
 	Level
 };
 
-
 public class LevelScript : MonoBehaviour {
 
 	public LevelType CurrentLevelType;
@@ -16,6 +15,7 @@ public class LevelScript : MonoBehaviour {
 	public GameObject Boundaries;
 	public GameObject Lighting;
 	public GameObject PlayerSpawnPoint;
+	public GameObject[] EnemySpawnPoints;
 	public GameObject Portal;
 	public GameObject Traps;
 	public GameObject Walls;
@@ -64,5 +64,10 @@ public class LevelScript : MonoBehaviour {
 				//Debug.LogError("Wave Finished and portal set to inactive");
 			}
 		}
+	}
+
+	public GameObject GetRandomSpawnPoint()
+	{
+		return EnemySpawnPoints[Random.Range(0, EnemySpawnPoints.Length)];
 	}
 }

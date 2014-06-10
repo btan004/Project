@@ -270,8 +270,6 @@ public class GameGUI : MonoBehaviour {
 			}
 			spendSkillTimer = SpendSkillCooldown;
 		}
-
-		Debug.LogError("Boss Active: " + BossActive);
 	}
 
 	//Our GUI 
