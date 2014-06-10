@@ -246,11 +246,11 @@ public class ObjectFactory : MonoBehaviour {
 		return enemy;
 	}
 
-	public static EnemyHealerScript CreateEnemyHealer(Vector3 position, EnemyUpgrade upgrade)
+	public static EnemyBufferScript CreateEnemyHealer(Vector3 position, EnemyUpgrade upgrade)
 	{
 		//Instanciate our enemy
 		GameObject enemyObject = Instantiate(instance.EnemyHealerPrefab, position, Quaternion.identity) as GameObject;
-		EnemyHealerScript enemy = enemyObject.GetComponent<EnemyHealerScript>();
+		EnemyBufferScript enemy = enemyObject.GetComponent<EnemyBufferScript>();
 		
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);

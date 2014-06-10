@@ -703,7 +703,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.0233154, y: 2.01885629, z: -32.1424675}
+  m_LocalPosition: {x: -62.6207199, y: 1.17253828, z: -23.7374821}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400008}
@@ -1429,19 +1429,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e7c2993dfde80949b6872017dceef70, type: 3}
+  m_Script: {fileID: 11500000, guid: c34856a25e7ea6043ba668e44d417671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsSpawned: 0
   ParentSpawner: {fileID: 0}
   HasBeenUpgraded: 0
-  Health: 100
-  MaxHealth: 100
-  Velocity: 10
-  Damage: 10
-  AttackRate: 2
-  Experience: 1
-  EnemyAnimation: {fileID: 11100006}
+  baseHealth: 100
+  baseMaxHealth: 100
+  baseVelocity: 10
+  baseDamage: 10
+  baseAttackRate: 2
+  ScoreValue: 0
+  Health: 1
+  MaxHealth: 1
+  Velocity: 1
+  Damage: 1
+  AttackRate: 1
+  velocityBuffed: 0
+  damageBuffed: 0
+  healthBuffed: 0
+  maxHealthBuffed: 0
+  attackRateBuffed: 0
+  EnemyAnimation: {fileID: 0}
   IsMoving: 0
   IsAttacking: 0
   IsHit: 0
@@ -1450,17 +1460,19 @@ MonoBehaviour:
   - {fileID: 13700002}
   - {fileID: 2300000}
   - {fileID: 2300002}
+  applyABuff: 0
   TurnVelocity: 0
   MovementRadius: 0
   MinDistanceAwayFromPlayer: 0
   MaxDistanceAwayFromPlayer: 0
-  HealPerSec: 25
-  HealingRadius: 6
-  HealingInterval: 3
-  HealingActiveTime: 0
-  HealingCooldown: 5
-  HealingCurrentCooldown: 5
+  BuffPerSec: 25
+  BuffingRadius: 6
+  BuffingInterval: 3
+  BuffingActiveTime: 0
+  BuffingCooldown: 15
+  BuffingCurrentCooldown: 0
   anim: {fileID: 0}
+  targetLocation: {fileID: 0}
 --- !u!136 &13600002
 CapsuleCollider:
   m_ObjectHideFlags: 1
