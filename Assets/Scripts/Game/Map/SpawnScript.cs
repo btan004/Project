@@ -180,7 +180,19 @@ public class SpawnScript : MonoBehaviour {
 						ObjectFactory.CreateEnemySpawner(spawnPos, upgrade);
 						break;
 					case (EnemyTypes.Boss):
-						ObjectFactory.CreateEnemySniperBoss(spawnPos, upgrade);
+						{
+							switch (Random.Range(0, 2))
+							{
+								case 0:
+									ObjectFactory.CreateEnemySniperBoss(spawnPos, upgrade);
+									break;
+								case 1:
+									break;
+								case 2:
+									break;
+							}
+						}
+						
 						break;
 					default:
 						break;

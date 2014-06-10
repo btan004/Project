@@ -67,10 +67,19 @@ public class PlayerSkills
 	private void setupHealthSkill()
 	{
 		List<float> healthSkillAmounts = new List<float>();
-		/* Health amounts: 5, 6, 7, 8... */
-		if (WaveSystem.GameDifficulty == Difficulty.Hard) healthSkillAmounts.Add(5);
-		if (WaveSystem.GameDifficulty == Difficulty.Normal) healthSkillAmounts.Add(10);
-		if (WaveSystem.GameDifficulty == Difficulty.Easy) healthSkillAmounts.Add(15);
+		/* Health amounts: n, n+1, n+2, n+3, etc */
+		switch (WaveSystem.GameDifficulty)
+		{
+			case Difficulty.Easy:
+				healthSkillAmounts.Add(5);
+				break;
+			case Difficulty.Normal:
+				healthSkillAmounts.Add(10);
+				break;
+			case Difficulty.Hard:
+				healthSkillAmounts.Add(15);
+				break;
+		}
 		for (float health = (healthSkillAmounts[0] + 1); health <= 1000; health += 1)
 			healthSkillAmounts.Add(health);
 
@@ -148,19 +157,26 @@ public class PlayerSkills
 
 	public void UpdgradeSkill(SkillType type)
 	{
+		//if the player has points to spend
 		if (PointsToSpend > 0)
 		{
 			switch (type)
 			{
+				//and the player would like to upgrade their health skill
 				case (SkillType.Health):
-					if (!HealthSkill.IsFullyUpgraded())
+					//and the health skill isn't fully upgraded
+					if (!HealthSkill.IsFullyUpgraded()) 
 					{
+						//upgrade the health skill and play the accept sound
 						playAcceptSound();
 						HealthSkill.Upgrade();
 						PointsToSpend--;
+						//if the player's new health is a multiple of 5, 
+						//upgrade their shield appearance
 						if (HealthSkill.Total % 5 == 0)
 							EquipmentScript.UpgradeShield();
 					}
+						//otherwise, play the reject sound
 					else playRejectSound();
 					break;
 				case (SkillType.Stamina):

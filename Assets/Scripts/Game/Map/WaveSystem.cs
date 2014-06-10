@@ -29,7 +29,11 @@ public class WaveSystem
 	public static float TimeUntilWaveSpawn = 5.0f;
 	public static float spawnWaveTimer;
 
-	//wave types: 3 repeating waves of steadily increasing numbers of enemies
+	//lives per difficulty
+	public static Difficulty GameDifficulty;
+	public static List<int> LivesPerDifficulty = new List<int>() { 5, 3, 1 };
+
+	//wave types: 6 repeating waves of steadily increasing numbers of enemies
 	public static int WaveTypeCount = 6;
 	public static List<int> ChasersPerWave = new List<int>()		{ 10,  10,  10,  10,  10,  0 };
 	public static List<int> SnipersPerWave = new List<int> ()	{ 10,  10,  10,  10,  10,  0 };
@@ -38,10 +42,6 @@ public class WaveSystem
 	public static List<int> HealersPerWave = new List<int>()		{  2,   2,   3,   3,   5,  0 };
 	public static List<int> SpawnersPerWave = new List<int>()	{  0,   0,   0,   3,   5,  0 };
 	public static List<int> BossesPerWave = new List<int>()		{  0,   0,   0,   0,   0,  1 };
-
-	//lives per difficulty
-	public static Difficulty GameDifficulty;
-	public static List<int> LivesPerDifficulty = new List<int>() { 5, 3, 1 };
 	
 	//chaser upgrades
 	public static EnemyUpgrade ChaserUpgrade;
@@ -260,7 +260,7 @@ public class WaveSystem
 
 			ChargerUpgrade.Health		= 1.5f * ChaserUpgrade.Health;
 			ChargerUpgrade.Velocity		= 1.0f * ChaserUpgrade.Velocity;
-			ChargerUpgrade.Damage		= 4.0f * ChaserUpgrade.Damage;
+			ChargerUpgrade.Damage		= 2.0f * ChaserUpgrade.Damage;
 			ChargerUpgrade.AttackRate	= 1.0f * ChaserUpgrade.AttackRate;
 
 			SniperUpgrade.Health			= 0.5f * ChaserUpgrade.Health;

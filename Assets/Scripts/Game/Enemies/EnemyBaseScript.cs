@@ -125,6 +125,8 @@ public class EnemyBaseScript : MonoBehaviour {
 		//Check enemy health
 		CheckHealth();
 
+		particleSystem.enableEmission = (buffs.Count > 0);
+
 		//if (isBoss)
 		//{
 		//	GameGUI.Boss = this;

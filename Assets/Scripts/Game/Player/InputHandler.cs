@@ -142,19 +142,16 @@ public class InputHandler
 		WantToQuit = Input.GetButton("Y Button");
 	}
 
-	//Supports: xbox controller and keyboard
+	//Supports: xbox controller
 	private void CheckMovement()
 	{
-		//Debug.Log("Movement Axis: (" + Input.GetAxis("Horizontal Movement") + ", " + Input.GetAxis("Vertical Movement") + ")");
 		MovementVector = new Vector3(Input.GetAxis("Horizontal Movement"), 0, Input.GetAxis("Vertical Movement"));
-		//if (MovementVector.magnitude < AnalogTolerance) MovementVector = Vector3.zero;
-		//MovementVector.Normalize();
 	}
 
 	//supports: xbox controller
 	private void CheckDirection()
 	{
-		//check for changes in our direction
+		//check for changes in our direction with tolerance
 		DirectionVector = Vector3.zero;
 		if (Mathf.Abs(Input.GetAxis("Horizontal Direction")) > AnalogTolerance)
 			DirectionVector.x = Input.GetAxis("Horizontal Direction");

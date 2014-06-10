@@ -31,6 +31,8 @@ public class ObjectFactory : MonoBehaviour {
 	public GameObject EnemyChargerPrefab;
 
 	public GameObject EnemySniperBossPrefab;
+	public GameObject EnemyChaserBossPrefab;
+	public GameObject EnemySpawnerBossPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -250,6 +252,38 @@ public class ObjectFactory : MonoBehaviour {
 		//Instanciate our enemy
 		GameObject enemyObject = Instantiate(instance.EnemySniperBossPrefab, position, Quaternion.identity) as GameObject;
 		EnemySniperScript enemy = enemyObject.GetComponent<EnemySniperScript>();
+
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
+		//return the enemy
+		return enemy;
+	}
+
+	public static EnemyChaserScript CreateEnemyChaserBoss(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemyChaserBossPrefab, position, Quaternion.identity) as GameObject;
+		EnemyChaserScript enemy = enemyObject.GetComponent<EnemyChaserScript>();
+
+		//Set the stats for the enemy
+		enemy.ApplyUpgrade(upgrade);
+
+		//add the enemy object to the enemy container
+		enemyObject.transform.parent = EnemyContainer.transform;
+
+		//return the enemy
+		return enemy;		
+	}
+
+	public static EnemySpawnerScript CreateEnemySummonerBoss(Vector3 position, EnemyUpgrade upgrade)
+	{
+		//Instanciate our enemy
+		GameObject enemyObject = Instantiate(instance.EnemySpawnerBossPrefab, position, Quaternion.identity) as GameObject;
+		EnemySpawnerScript enemy = enemyObject.GetComponent<EnemySpawnerScript>();
 
 		//Set the stats for the enemy
 		enemy.ApplyUpgrade(upgrade);
