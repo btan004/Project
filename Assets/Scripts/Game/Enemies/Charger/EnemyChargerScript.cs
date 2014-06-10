@@ -53,10 +53,17 @@ public class EnemyChargerScript : EnemyBaseScript {
 		// Set initial stats (should ovaeride by applying an upgrade)
 		if (!HasBeenUpgraded)
 		{
-			Health = 1;
-			Velocity = 1;
-			Damage = 1;
-			AttackRate = 5;
+			baseHealth = 1;
+			baseMaxHealth = 1;
+			baseVelocity = 1;
+			baseDamage = 1;
+			baseAttackRate = 5;
+			
+			Health = baseHealth;
+			MaxHealth = baseMaxHealth;
+			Velocity = baseVelocity;
+			Damage = baseDamage;
+			AttackRate = baseAttackRate;
 		}
 		ScoreValue = 300;
 

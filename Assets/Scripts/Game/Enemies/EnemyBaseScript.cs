@@ -13,12 +13,28 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	//Upgradable Enemy Stats
 	public bool HasBeenUpgraded = false;
-	public float Health = 100;
-	public float MaxHealth = 100;
-	public float Velocity = 10;
-	public float Damage = 10;
-	public float AttackRate = 2;
+	public float baseHealth = 100;
+	public float baseMaxHealth = 100;
+	public float baseVelocity = 10;
+	public float baseDamage = 10;
+	public float baseAttackRate = 2;
 	public float ScoreValue;
+
+	//Stats that will be used
+	//Will contain base stat + any modifiers to the stat.
+	public float Health;
+	public float MaxHealth;
+	public float Velocity;
+	public float Damage;
+	public float AttackRate;
+	public bool velocityBuffed;
+	public bool damageBuffed;
+	public bool healthBuffed;
+	public bool maxHealthBuffed;
+	public bool attackRateBuffed;
+
+	//List of buffs
+	public List<EnemyBuff> buffs = new List<EnemyBuff> ();
 
 	//Non-upgradable Enemy Stats
 	protected float mass = 10;
@@ -46,6 +62,10 @@ public class EnemyBaseScript : MonoBehaviour {
 	private bool isFlashing = false;
 
 	private GameObject mapSystem;
+
+
+	public bool applyABuff = false;
+
 
 	public void ClearAnimationInfo()
 	{
@@ -85,6 +105,12 @@ public class EnemyBaseScript : MonoBehaviour {
 
 		mapSystem = GameObject.FindGameObjectWithTag("MapContainer");
 
+		Health = baseHealth;
+		MaxHealth = baseMaxHealth;
+		Velocity = baseVelocity;
+		Damage = baseDamage;
+		AttackRate = baseAttackRate;
+
 		RefreshRendererInfo();
 
 		if (isBoss)
@@ -119,6 +145,14 @@ public class EnemyBaseScript : MonoBehaviour {
 
 		//Check if enemy is outside of map
 		outOfBounds ();
+
+		UpdateBuffs ();
+
+		if( applyABuff )
+		{
+			applyABuff = false;
+			buffs.Add( new EnemyBuff( BuffType.Velocity, 4, 3, 3 ) );
+		}
 	}
 
 	// Health checker
@@ -214,11 +248,16 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	public void ApplyUpgrade(EnemyUpgrade upgrade)
 	{
-		this.Health = upgrade.Health;
-		this.Velocity = upgrade.Velocity;
-		this.Damage = upgrade.Damage;
-		this.AttackRate = upgrade.AttackRate;
+		this.baseHealth = upgrade.Health;
+		this.baseVelocity = upgrade.Velocity;
+		this.baseDamage = upgrade.Damage;
+		this.baseAttackRate = upgrade.AttackRate;
 		this.HasBeenUpgraded = true;
+		Health = baseHealth;
+		MaxHealth = baseMaxHealth;
+		Velocity = baseVelocity;
+		Damage = baseDamage;
+		AttackRate = baseAttackRate;
 	}
 
 	void OnTriggerStay(Collider other)
@@ -278,7 +317,6 @@ public class EnemyBaseScript : MonoBehaviour {
 			}
 		}
 	}
-
 	public void FlashSpawned()
 	{	
 		foreach (Renderer r in renderers)
@@ -312,48 +350,71 @@ public class EnemyBaseScript : MonoBehaviour {
 		}
 	}
 
-	/// <summary>
-	/// Flashes this enemy when they are hit with a color
-	/// </summary>
-	/// <param name="time">How long the given color persists on the enemy</param>
-	/// <param name="color">Color to flash</param>
-	/// <returns>
-	/// IEnumerator back to the function for yield
-	/// </returns>
-	/// <remarks>
-	/// This function should be called within scripts that are applying damage to the enemy.
-	/// E.g, when this enemy is damaged by a melee attack, this function is called within MeleeAttackBoxScript.cs
-	/// </remarks>
-	public IEnumerator Flash( float time, Color color )
+	public void ApplyBuff( EnemyBuff b )
 	{
-		Dictionary<Material, Color> colorDefs = new Dictionary<Material, Color> ();
-		Dictionary<Material, Shader> shaderDefs = new Dictionary<Material, Shader> ();
-		foreach ( Renderer r in renderers )
+		if( b.Type == BuffType.AttackRate && !attackRateBuffed )
 		{
-			foreach ( Material m in r.materials )
+			attackRateBuffed = true;
+			buffs.Add(b);
+		}
+		if( b.Type == BuffType.Damage && !damageBuffed )
+		{
+			damageBuffed = true;
+			buffs.Add(b);
+		}
+		if( b.Type == BuffType.Velocity && !velocityBuffed )
+		{
+			velocityBuffed = true;
+			buffs.Add(b);
+		}
+	}
+
+	private void UpdateBuffs()
+	{
+		float damageBuffValue = baseDamage;
+		float attackRateBuffValue = baseAttackRate;
+		float velocityBuffValue = baseVelocity;
+		foreach( EnemyBuff buff in buffs )
+		{
+			switch( buff.Type )
 			{
-				Debug.Log ( "Material is: " + m.name );
-				if( m.HasProperty("_Color") && m.color != color )
-				{
-					colorDefs.Add( m, m.color );
-					m.color = color;
-				}
-				if( m.shader != Shader.Find ("Transparent/Diffuse") )
-				{
-					shaderDefs.Add ( m, m.shader );
-					m.shader = Shader.Find("Transparent/Diffuse");
-				}
+				case BuffType.Damage:
+					damageBuffValue = baseDamage + buff.Value;
+					break;
+				case BuffType.AttackRate:
+					attackRateBuffValue = baseAttackRate / buff.Value;
+					break;
+				case BuffType.Velocity:
+					velocityBuffValue = baseVelocity * buff.Value;
+					break;
+			}
+			buff.Duration -= Time.deltaTime;
+		}
+		Damage = damageBuffValue;
+		AttackRate = attackRateBuffValue;
+		Velocity = velocityBuffValue;
+		GetComponent<NavMeshAgent> ().speed = Velocity;
+		buffs.RemoveAll (IsBuffAlive);
+	}
+
+	private bool IsBuffAlive(EnemyBuff b)
+	{
+		if( b.Duration <= 0 )
+		{
+			switch( b.Type )
+			{
+				case BuffType.Damage:
+					damageBuffed = false;
+					break;
+				case BuffType.AttackRate:
+					attackRateBuffed = false;
+					break;
+				case BuffType.Velocity:
+					velocityBuffed = false;
+					GetComponent<NavMeshAgent>().speed = baseVelocity;
+					break;
 			}
 		}
-		yield return new WaitForSeconds (time);
-		
-		foreach ( KeyValuePair<Material, Color> entry in colorDefs )
-		{
-			entry.Key.color = entry.Value;
-		}
-		foreach ( KeyValuePair<Material, Shader> entry in shaderDefs )
-		{
-			entry.Key.shader = entry.Value;
-		}
+		return (b.Duration <= 0);
 	}
 }

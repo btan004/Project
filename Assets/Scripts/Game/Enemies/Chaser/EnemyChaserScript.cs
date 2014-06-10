@@ -39,11 +39,19 @@ public class EnemyChaserScript : EnemyBaseScript {
 		// Set initial stats (should overide by applying an upgrade)
 		if (!HasBeenUpgraded)
 		{
-			Health = 1;
-			Velocity = 1;
-			Damage = 1;
-			AttackRate = 5;
+			baseHealth = 1;
+			baseMaxHealth = 1;
+			baseVelocity = 4;
+			baseDamage = 1;
+			baseAttackRate = 5;
+
+			Health = baseHealth;
+			MaxHealth = baseMaxHealth;
+			Velocity = baseVelocity;
+			Damage = baseDamage;
+			AttackRate = baseAttackRate;
 		}
+		GetComponent<NavMeshAgent> ().speed = Velocity;
 		ScoreValue = 100;
 
 		// Movement
@@ -92,7 +100,12 @@ public class EnemyChaserScript : EnemyBaseScript {
 	public override void Update () {
 		// Check enemy health, if <=0 die
 		base.Update();
-		CheckHealth ();
+
+		//CheckHealth ();
+
+		// Move Enemy
+
+		//MoveEnemy ();
 
 		//apply knockback
 		ApplyKnockback();
@@ -104,7 +117,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 		NextAttack = NextAttack - Time.deltaTime;
 		
 		//Run through this.StateMachine
-		if( Health > 0 )
+		if( baseHealth > 0 )
 		{
 			StateMachine.Update ();
 		}
@@ -158,61 +171,4 @@ public class EnemyChaserScript : EnemyBaseScript {
 			this.transform.rotation = Quaternion.LookRotation(rotateDir);
 		}*/
 	}
-
-	/*
-	public void MoveEnemy() {
-		// Find player in game
-		if (!IsWithinAttackRange ()){
-			IsMoving = true;
-		}
-
-		if (player && IsMoving && !IsWithinAttackRange()) {
-			// Get player location
-			Vector3 playerLocation = player.transform.position;
-
-			// Set movement step
-			float moveStep = Velocity*Time.deltaTime;
-
-			// Move towards player
-			this.transform.position = Vector3.MoveTowards(this.transform.position,playerLocation,moveStep);
-
-			//make sure the enemy stays on the ground plane
-			//this.transform.SetPositionY(1);
-		}
-	}
-
-	public void StopAndAttack () {
-		NextAttack = NextAttack - Time.deltaTime;
-		if (IsWithinAttackRange () && !waitingForAnimationDelay) {
-			if(NextAttack <= 0){
-				NextAttack = AttackRate;
-				waitingForAnimationDelay = true;
-				attackAnimationDelayTimer = AttackAnimationDelay;
-				IsAttacking = true;
-			}
-
-			//Todo: Add stopping animation here when enemy is in range.
-			//This'll fix the problem where the enemy plays the moving animation,
-			//even if it is next to the player
-		}
-
-		if (waitingForAnimationDelay)
-		{
-			attackAnimationDelayTimer -= Time.deltaTime;
-			if (attackAnimationDelayTimer <= 0)
-			{
-				// Create sphere attack
-				Vector3 createPosition = transform.position + transform.forward;
-				GameObject attack = Instantiate(EnemyAttackSphere) as GameObject;
-				attack.transform.position = createPosition;
-				attack.GetComponent<EnemyAttackSphereScript>().SetDamage(Damage);
-				attack.GetComponent<EnemyAttackSphereScript>().SetForce(Force);
-
-				waitingForAnimationDelay = false;
-			}
-		}
-	}
-	*/
-
-
 }

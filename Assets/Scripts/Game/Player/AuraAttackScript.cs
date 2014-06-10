@@ -57,7 +57,6 @@ public class AuraAttackScript : MonoBehaviour {
 					//Aura Damage =  Aura Skill Multiplier x Player Attack Damage x deltaTime
 					enemy.ApplyDamage(player.Skills.GetAuraDamage() * player.Skills.GetPlayerDamage() * Time.deltaTime);
 					enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
-					enemy.Flash(0.2f, Color.red);
 
 					UnityEngine.Debug.LogWarning("Aura Damage: " + (player.Skills.GetAuraDamage() * player.Skills.GetPlayerDamage() * Time.deltaTime));
 				}
