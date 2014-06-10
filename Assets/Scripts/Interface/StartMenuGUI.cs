@@ -69,8 +69,9 @@ public class StartMenuGUI : MonoBehaviour
 		difficultyStyle = new GUIStyle();
 		difficultyStyle.fontSize = 60;
 		difficultyStyle.font = font;
+		difficultyStyle.alignment = TextAnchor.MiddleCenter;
 		difficultyStyle.normal.textColor = Color.green;
-		difficulty = Difficulty.Easy;
+		difficulty = Difficulty.Normal;
 		difficultyToggleTimer = difficultyToggleCooldown;
 
 		inputHandler = new InputHandler();
@@ -87,6 +88,10 @@ public class StartMenuGUI : MonoBehaviour
 		{
 			toggleDifficulty();
 			difficultyToggleTimer = difficultyToggleCooldown;
+		}
+		if (InputHandler.WantToViewControls) {
+			Application.LoadLevel("ControlsScene");
+			InputHandler.DisableInput();
 		}
 		if (InputHandler.WantToQuit) QuitGame();
 
@@ -140,17 +145,17 @@ public class StartMenuGUI : MonoBehaviour
 		} 
 
 		//Display the Game Title
-		GUI.Label(new Rect(locx+195, 50, GameTitleWidth, GameTitleHeight), GameTitleThe, styleThe);
-		GUI.Label(new Rect(locx+130, 70, GameTitleWidth, GameTitleHeight), GameTitleArena, styleArena);
+		GUI.Label(new Rect(locx+195, 50+locy, GameTitleWidth, GameTitleHeight), GameTitleThe, styleThe);
+		GUI.Label(new Rect(locx+130, 70+locy, GameTitleWidth, GameTitleHeight), GameTitleArena, styleArena);
 
 		//Display the Difficulty
-		GUI.Label(new Rect(locx+175, 250, DifficultyWidth, DifficultyHeight), DifficultyString, difficultyStyle);
+		GUI.Label(new Rect(locx+90, 250+locy, 285, DifficultyHeight), DifficultyString, difficultyStyle);
 
 		//Display Controls
-		GUI.Label(new Rect(locx+1212 - 410, 540, controlStringWidth, controlStringHeight-10), controlStringStartGame, style);
-		GUI.Label(new Rect(locx+1212 - 410, 540 + controlStringHeight-10, controlStringWidth, controlStringHeight), controlStringChangeDifficulty, style);
-		GUI.Label(new Rect(locx+1212 - 410, 540 + controlStringHeight * 2 -20, controlStringWidth, controlStringHeight), controlStringControls, style);
-		GUI.Label(new Rect(locx+1212 - 410, 540 + controlStringHeight * 3 -30, controlStringWidth, controlStringHeight), controlStringQuitGame, style);
+		GUI.Label(new Rect(locx+1212 - 410, locy + 540, controlStringWidth, controlStringHeight-10), controlStringStartGame, style);
+		GUI.Label(new Rect(locx+1212 - 410, locy + 540 + controlStringHeight-10, controlStringWidth, controlStringHeight), controlStringChangeDifficulty, style);
+		GUI.Label(new Rect(locx+1212 - 410, locy + 540 + controlStringHeight * 2 -20, controlStringWidth, controlStringHeight), controlStringControls, style);
+		GUI.Label(new Rect(locx+1212 - 410, locy + 540 + controlStringHeight * 3 -30, controlStringWidth, controlStringHeight), controlStringQuitGame, style);
 
 	}
 
