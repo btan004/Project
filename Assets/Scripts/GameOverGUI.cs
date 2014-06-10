@@ -91,9 +91,9 @@ public class GameOverGUI : MonoBehaviour {
 		// Score
 		int x = (Screen.width / 2) - (StringWidth / 2);
 		int y = 50;
-		GUI.Label(new Rect(locx+(Screen.width/2.0f)-175, y, StringWidth, StringHeight), GameOverString, styleUnifrak);
-		GUI.Label(new Rect(locx+(Screen.width/2.0f)-235, y + 200, StringWidth, StringHeight), HighScoreString, style);
-		GUI.Label(new Rect(locx+(Screen.width/2.0f)-155, y + 300, StringWidth, StringHeight), ScoreString, style);
-		GUI.Label(new Rect(locx+(Screen.width/2.0f)-275, y + 500, StringWidth, StringHeight), ContinueString, style);
+		GUI.Label(new Rect(locx+(Screen.width/2.0f)-175, locy + y, StringWidth, StringHeight), GameOverString, styleUnifrak);
+		GUI.Label(new Rect(locx+(Screen.width/2.0f)-235, locy + y + 200, StringWidth, StringHeight), HighScoreString, style);
+		GUI.Label(new Rect(locx+(Screen.width/2.0f)-155, locy + y + 300, StringWidth, StringHeight), ScoreString, style);
+		GUI.Label(new Rect(locx+(Screen.width/2.0f)-275, locy + y + 500, StringWidth, StringHeight), ContinueString, style);
 	}
 }
