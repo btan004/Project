@@ -7,7 +7,7 @@ public class SkillShotAttackScript : MonoBehaviour {
 	public PlayerScript player;
 	public CursorScript cursor;
 	private Vector3 directionToOffset;
-	public float Force = 3f;
+	public float Force = 0.5f;
 	public float ParticleDuration = 0.5f;
 	private float particleDurationTimer;
 	public ParticleSystem particleSystem;

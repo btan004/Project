@@ -3,7 +3,6 @@ using System.Collections;
 
 public class PowerupContainerScript : MonoBehaviour
 {
-
 	public static PowerupContainerScript instance;
 
 	// Use this for initialization
@@ -11,6 +10,14 @@ public class PowerupContainerScript : MonoBehaviour
 	{
 		instance = this;
 
+	}
+
+	void Update()
+	{
+		if (WaveSystem.WaveFinished)
+		{
+			DeleteAllPowerups();
+		}
 	}
 
 	public void DeleteAllPowerups()

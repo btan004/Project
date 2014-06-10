@@ -145,7 +145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.1038942, y: .640128851, z: -21.8279095}
+  m_LocalPosition: {x: 16.467823, y: 2.21289706, z: -5.84411526}
   m_LocalScale: {x: 1.5, y: 3, z: 1.5}
   m_Children:
   - {fileID: 400002}
@@ -571,7 +571,8 @@ MonoBehaviour:
   IsAttacking: 0
   IsHit: 0
   IsDead: 0
-  renderers: []
+  renderers:
+  - {fileID: 2300002}
   applyABuff: 0
   CurrentSpawns: 0
   MaxSpawns: 0

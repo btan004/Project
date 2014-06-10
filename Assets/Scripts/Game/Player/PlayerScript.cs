@@ -21,6 +21,7 @@ public class PlayerScript : MonoBehaviour {
 	public AudioClip Reject;
 	public AudioClip SkillShotEffect;
 	public AudioClip AuraEffect;
+	public AudioClip PowerupSound;
 
 	//player stats
 	public static float		Score = 0;
@@ -98,7 +99,7 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		INVULNERABLE = true;
+		INVULNERABLE = false;
 
 		switch (PlayerPrefs.GetString("Difficulty"))
 		{
@@ -174,6 +175,8 @@ public class PlayerScript : MonoBehaviour {
 		//Update OnHit Red Flash
 		CheckForRedFlash();
 	}
+
+
 
 	private void CheckForRedFlash()
 	{
@@ -359,6 +362,8 @@ public class PlayerScript : MonoBehaviour {
 			auraDurationTimer = AuraDuration;
 
 			audio.clip = AuraEffect;
+			audio.volume = 0.085f;
+			audio.pitch = 1.0f;
 			audio.Play();
 		}
 
@@ -434,6 +439,11 @@ public class PlayerScript : MonoBehaviour {
 
 	public void ApplyPowerup(Powerup powerup)
 	{
+		audio.clip = PowerupSound;
+		audio.pitch = 1.25f;
+		audio.volume = 0.16f;
+		audio.Play();
+
 		switch(powerup.Type)
 		{
 			case (PowerupType.Health):
