@@ -278,10 +278,10 @@ public class WaveSystem
 			SpawnerUpgrade.Damage		= 0;
 			SpawnerUpgrade.AttackRate	= 0;
 
-			BossUpgrade.Health			= 50.0f * ChaserUpgrade.Health;
+			BossUpgrade.Health			= 150.0f * ChaserUpgrade.Health;
 			BossUpgrade.Velocity			= 1.5f * ChaserUpgrade.Velocity;
 			BossUpgrade.Damage			= 2.0f * ChaserUpgrade.Damage;
-			BossUpgrade.AttackRate		= 0.5f * ChaserUpgrade.AttackRate;
+			BossUpgrade.AttackRate		= 2f * ChaserUpgrade.AttackRate;
 		}
 	}
 }

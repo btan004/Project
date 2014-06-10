@@ -71,13 +71,13 @@ public class PlayerSkills
 		switch (WaveSystem.GameDifficulty)
 		{
 			case Difficulty.Easy:
-				healthSkillAmounts.Add(5);
+				healthSkillAmounts.Add(15);
 				break;
 			case Difficulty.Normal:
 				healthSkillAmounts.Add(10);
 				break;
 			case Difficulty.Hard:
-				healthSkillAmounts.Add(15);
+				healthSkillAmounts.Add(5);
 				break;
 		}
 		for (float health = (healthSkillAmounts[0] + 1); health <= 1000; health += 1)
