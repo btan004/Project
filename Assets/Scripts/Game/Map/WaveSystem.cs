@@ -38,8 +38,8 @@ public class WaveSystem
 	public static List<int> ChasersPerWave = new List<int>()		{ 10,  10,  10,  10,  10,  0 };
 	public static List<int> SnipersPerWave = new List<int> ()	{ 10,  10,  10,  10,  10,  0 };
 	public static List<int> BouncersPerWave = new List<int>()	{  0,   3,   4,   5,   5,  0 };
-	public static List<int> ChargersPerWave = new List<int>()	{  0,   0,   3,   4,   5,  0 };
-	public static List<int> HealersPerWave = new List<int>()		{  2,   2,   3,   3,   5,  0 };
+	public static List<int> ChargersPerWave = new List<int>()	{  1,   0,   3,   4,   5,  0 };
+	public static List<int> HealersPerWave = new List<int>()		{  0,   1,   3,   3,   5,  0 };
 	public static List<int> SpawnersPerWave = new List<int>()	{  0,   0,   0,   3,   5,  0 };
 	public static List<int> BossesPerWave = new List<int>()		{  0,   0,   0,   0,   0,  1 };
 	

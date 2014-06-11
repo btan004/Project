@@ -14,7 +14,7 @@ public class Buffer_SelectTarget : State<EnemyBufferScript>
 	{
 	}
 
-	public float checkRadius = 5f;
+	public float checkRadius = 10f;
 
 	public override void BeforeEnter( EnemyBufferScript e )
 	{

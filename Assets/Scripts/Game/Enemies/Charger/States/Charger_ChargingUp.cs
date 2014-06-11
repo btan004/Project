@@ -31,14 +31,26 @@ public class Charger_ChargingUp : State<EnemyChargerScript>
 		e.TimeUntilChargeCounter += Time.deltaTime;
 		if( e.TimeUntilChargeCounter >= e.TimeUntilCharge )
 		{
+			int layerMask = 1 << Globals.DEFAULT_LAYER;
+			bool lineOfSight = e.clearLineOfSight (EnemyBaseScript.player.transform.position, layerMask);
 
-			e.ChargeTarget.x = EnemyBaseScript.player.transform.position.x;
-			e.ChargeTarget.y = e.transform.position.y;
-			e.ChargeTarget.z = EnemyBaseScript.player.transform.position.z;
+			if( lineOfSight )
+			{
+				e.ChargeTarget.x = EnemyBaseScript.player.transform.position.x;
+				e.ChargeTarget.y = e.transform.position.y;
+				e.ChargeTarget.z = EnemyBaseScript.player.transform.position.z;
+				
+				//Set state to Charging
+				e.ChangeState(Charger_Charging.Instance);
+			}
+			else
+			{
+				e.ChangeState(Charger_MoveToPlayer.Instance);
+				e.ChargeCooldownCounter = 0f;
+				e.ChargeReady = false;
+			}
 			e.TimeUntilChargeCounter = 0;
 
-			//Set state to Charging
-			e.ChangeState(Charger_Charging.Instance);
 		}
 	}
 	public override void BeforeExit( EnemyChargerScript e )

@@ -99,7 +99,7 @@ public class PlayerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		INVULNERABLE = false;
+		INVULNERABLE = true;
 
 		switch (PlayerPrefs.GetString("Difficulty"))
 		{

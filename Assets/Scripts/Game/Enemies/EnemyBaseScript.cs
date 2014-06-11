@@ -429,4 +429,16 @@ public class EnemyBaseScript : MonoBehaviour {
 		}
 		return (b.Duration <= 0);
 	}
+
+	public bool clearLineOfSight( Vector3 target, int layerMask )
+	{
+		Vector3 enemyLOSpos = this.transform.position;
+		Vector3 targetLOSpos = target;
+
+		//Might not be needed. Simply just casting the ray at a higher position
+		enemyLOSpos.y += 0.5f;
+		targetLOSpos.y += 0.5f;
+		float distanceBetweenPlayer = Vector3.Distance(targetLOSpos, enemyLOSpos);
+		return !(Physics.Raycast( enemyLOSpos, (targetLOSpos - enemyLOSpos).normalized, distanceBetweenPlayer, layerMask));
+	}
 }
