@@ -123,6 +123,13 @@ public class EnemyBaseScript : MonoBehaviour {
 	// Update is called once per frame
 	public virtual void Update () {
 		//Check enemy health
+
+		if (knockback.magnitude > 2.0f)
+		{
+			knockback.Normalize();
+			knockback *= 2.0f;
+		}
+
 		CheckHealth();
 
 		particleSystem.enableEmission = (buffs.Count > 0);

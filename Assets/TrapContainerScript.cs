@@ -12,6 +12,14 @@ public class TrapContainerScript : MonoBehaviour {
 
 	}
 
+	void Update()
+	{
+		if (WaveSystem.WaveFinished)
+		{
+			DeleteAllTraps();
+		}
+	}
+
 	public void DeleteAllTraps()
 	{
 		foreach (SlimeTrapScript slimeTrap in instance.GetComponentsInChildren<SlimeTrapScript>())

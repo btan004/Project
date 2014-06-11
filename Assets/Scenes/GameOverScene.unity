@@ -142,11 +142,8 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
   m_HDR: 0
   m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: .0219999999
 --- !u!4 &792237965
 Transform:
   m_ObjectHideFlags: 0
@@ -158,7 +155,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
 --- !u!82 &792237966
 AudioSource:
   m_ObjectHideFlags: 0
@@ -169,7 +165,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 2d205c9fee522b144ba0f9579adcca0a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: .100000001
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -244,6 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e775da8022f05bf4a98678ba8aba4f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  black: {fileID: 2800000, guid: edf3f83ebb28a45c5967ac3827d5ada6, type: 3}
+  back: {fileID: 2800000, guid: 7d3b49c9ae1434f9e8eab488cefeaeda, type: 3}
 --- !u!4 &1881407115
 Transform:
   m_ObjectHideFlags: 0
@@ -255,4 +253,3 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
