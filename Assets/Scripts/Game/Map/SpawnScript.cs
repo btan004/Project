@@ -67,7 +67,7 @@ public class SpawnScript : MonoBehaviour {
 
 	private void SpawnPowerups()
 	{
-		if (MapSystemScript.instance.PowerupsEnabled())
+		if (MapSystemScript.instance.PowerupsEnabled() && !WaveSystem.WaveCountdownOccuring && !WaveSystem.WaveFinished)
 		{
 			//if we have room for more powerups on the map
 			if (NumberOfPowerups < MaxNumberOfPowerups)
@@ -106,7 +106,7 @@ public class SpawnScript : MonoBehaviour {
 
 	private void SpawnTraps()
 	{
-		if (MapSystemScript.instance.TrapsEnabled())
+		if (MapSystemScript.instance.TrapsEnabled() && !WaveSystem.WaveCountdownOccuring && !WaveSystem.WaveFinished)
 		{
 			//if we are ready to spawn the next trap
 			if (timeUntilNextTrapSpawn <= 0)

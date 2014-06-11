@@ -245,8 +245,8 @@ public class WaveSystem
 		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Spawner,	SpawnerUpgrade,	SpawnersPerWave	[WaveNumber - 1]);
 		spawnScript.SpawnEnemy(SpawnScript.EnemyTypes.Boss,		BossUpgrade,		BossesPerWave		[WaveNumber - 1]);
 
-		//after we spawn our enemies for the wave, update the upgrade for the next level
-		if (WaveNumber == WaveTypeCount)
+		//after we spawn our enemies for the wave, update the upgrade for the next round
+		//if (WaveNumber == WaveTypeCount)
 		{
 			ChaserUpgrade.Health			+= ChaserHealthUpgrade[(int)GameDifficulty];
 			ChaserUpgrade.Velocity		+= ChaserVelocityUpgrade[(int)GameDifficulty];
@@ -278,7 +278,7 @@ public class WaveSystem
 			SpawnerUpgrade.Damage		= 0;
 			SpawnerUpgrade.AttackRate	= 0;
 
-			BossUpgrade.Health			= 150.0f * ChaserUpgrade.Health;
+			BossUpgrade.Health			= 50.0f * ChaserUpgrade.Health;
 			BossUpgrade.Velocity			= 1.5f * ChaserUpgrade.Velocity;
 			BossUpgrade.Damage			= 2.0f * ChaserUpgrade.Damage;
 			BossUpgrade.AttackRate		= 2f * ChaserUpgrade.AttackRate;

@@ -263,7 +263,7 @@ public class EnemyBaseScript : MonoBehaviour {
 		this.baseAttackRate = upgrade.AttackRate;
 		this.HasBeenUpgraded = true;
 		Health = baseHealth;
-		MaxHealth = baseMaxHealth;
+		MaxHealth = baseHealth;
 		Velocity = baseVelocity;
 		Damage = baseDamage;
 		AttackRate = baseAttackRate;
@@ -380,30 +380,33 @@ public class EnemyBaseScript : MonoBehaviour {
 
 	private void UpdateBuffs()
 	{
-		float damageBuffValue = baseDamage;
-		float attackRateBuffValue = baseAttackRate;
-		float velocityBuffValue = baseVelocity;
-		foreach( EnemyBuff buff in buffs )
+		if (GetComponent<NavMeshAgent>() != null)
 		{
-			switch( buff.Type )
+			float damageBuffValue = baseDamage;
+			float attackRateBuffValue = baseAttackRate;
+			float velocityBuffValue = baseVelocity;
+			foreach (EnemyBuff buff in buffs)
 			{
-				case BuffType.Damage:
-					damageBuffValue = baseDamage + buff.Value;
-					break;
-				case BuffType.AttackRate:
-					attackRateBuffValue = baseAttackRate / buff.Value;
-					break;
-				case BuffType.Velocity:
-					velocityBuffValue = baseVelocity * buff.Value;
-					break;
+				switch (buff.Type)
+				{
+					case BuffType.Damage:
+						damageBuffValue = baseDamage + buff.Value;
+						break;
+					case BuffType.AttackRate:
+						attackRateBuffValue = baseAttackRate / buff.Value;
+						break;
+					case BuffType.Velocity:
+						velocityBuffValue = baseVelocity * buff.Value;
+						break;
+				}
+				buff.Duration -= Time.deltaTime;
 			}
-			buff.Duration -= Time.deltaTime;
+			Damage = damageBuffValue;
+			AttackRate = attackRateBuffValue;
+			Velocity = velocityBuffValue;
+			GetComponent<NavMeshAgent>().speed = Velocity;
+			buffs.RemoveAll(IsBuffAlive);
 		}
-		Damage = damageBuffValue;
-		AttackRate = attackRateBuffValue;
-		Velocity = velocityBuffValue;
-		GetComponent<NavMeshAgent> ().speed = Velocity;
-		buffs.RemoveAll (IsBuffAlive);
 	}
 
 	private bool IsBuffAlive(EnemyBuff b)

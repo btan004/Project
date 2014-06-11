@@ -146,7 +146,7 @@ public class PlayerSkills
 	{
 		List<float> auraSkillAmounts = new List<float>()
 		{
-			1.0f, 1.5f, 2.0f, 2.5f, 3.0f
+			0.2f, 0.4f, 0.6f, 0.8f, 1.0f
 		};
 		AuraSkill = new Skill(
 			"Aura Skill",
