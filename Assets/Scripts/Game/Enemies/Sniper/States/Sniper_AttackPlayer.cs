@@ -21,7 +21,9 @@ public class Sniper_AttackPlayer : State<EnemySniperScript>
 
 	public override void Action( EnemySniperScript e)
 	{
-		if (e.IsWithinAttackRange ())
+		int layerMask = 1 << Globals.DEFAULT_LAYER;
+		bool lineOfSight = e.clearLineOfSight (EnemyBaseScript.player.transform.position, layerMask);
+		if (e.IsWithinAttackRange () && lineOfSight )
 		{
 			e.NextAttack = e.NextAttack - Time.deltaTime;
 			if(e.NextAttack <= 0)
@@ -64,6 +66,6 @@ public class Sniper_AttackPlayer : State<EnemySniperScript>
 	}
 	public override void BeforeExit( EnemySniperScript e )
 	{
-		e.anim.SetBool ("Attacking", false);	
+		//e.anim.SetBool ("Attacking", false);	
 	}
 }

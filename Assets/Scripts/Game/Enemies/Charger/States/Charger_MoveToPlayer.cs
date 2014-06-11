@@ -28,14 +28,17 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 		{
 			if ( e.ChargeReady && !e.IsWithinAttackRange() )
 			{
-				float ChanceToCharge = Random.Range(0.0f, 100.0f);
-				if( ChanceToCharge <= 2.0 )
+				int layerMask = 1 << Globals.DEFAULT_LAYER;
+				bool lineOfSight = e.clearLineOfSight( EnemyBaseScript.player.transform.position, layerMask );
+				if( lineOfSight )
 				{
-					//e.ChargeAttack();
-					//e.RotateEnemy();
-					IsChargingUp = true;
-					e.GetComponent<NavMeshAgent>().Stop();
-					e.ChangeState(Charger_ChargingUp.Instance);
+					float ChanceToCharge = Random.Range(0.0f, 100.0f);
+					if( ChanceToCharge <= 2.0 )
+					{
+						IsChargingUp = true;
+						e.GetComponent<NavMeshAgent>().Stop();
+						e.ChangeState(Charger_ChargingUp.Instance);
+					}
 				}
 			}
 			else if (e.IsMoving && !e.IsWithinAttackRange() && !e.ChargeReady) {
@@ -67,7 +70,6 @@ public class Charger_MoveToPlayer : State<EnemyChargerScript>
 		}
 
 		//Update anything that needs a cooldown
-		e.NextAttack = e.NextAttack - Time.deltaTime;
 		e.ChargeCooldownCounter += Time.deltaTime;
 		
 		if( e.ChargeCooldownCounter >= e.ChargeCooldown )

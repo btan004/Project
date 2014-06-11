@@ -126,11 +126,16 @@ public class EnemySniperScript : EnemyBaseScript {
 	}
 
 	public void RotateEnemy() {
-		if (player) {
+		if (player)
+		{
 			switch(CurrentState){
 				case StateID.moving:
 					// Get velocity path
 					Vector3 rotateDir = this.GetComponent<NavMeshAgent>().velocity;
+					if( this.GetComponent<NavMeshAgent>().velocity == Vector3.zero )
+					{
+						rotateDir = this.transform.forward;
+					}
 				
 					// Set rotation step
 					float rotationStep = 5f*Time.deltaTime;

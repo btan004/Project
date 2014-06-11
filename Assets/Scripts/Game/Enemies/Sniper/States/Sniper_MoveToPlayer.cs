@@ -24,7 +24,10 @@ public class Sniper_MoveToPlayer : State<EnemySniperScript>
 	{
 		if( EnemyBaseScript.player )
 		{
-			if (e.IsMoving && !e.IsWithinAttackRange()) {
+			int layerMask = 1 << Globals.DEFAULT_LAYER;
+			bool lineOfSight = e.clearLineOfSight (EnemyBaseScript.player.transform.position, layerMask);
+			if (e.IsMoving && ( !e.IsWithinAttackRange() || (e.IsWithinAttackRange() && !lineOfSight) ) )
+			{
 				// Get player location
 				Vector3 playerLocation = EnemyBaseScript.player.transform.position;
 				
@@ -33,13 +36,15 @@ public class Sniper_MoveToPlayer : State<EnemySniperScript>
 				
 				// Make sure the enemy stays on the ground plane
 				//e.transform.SetPositionY(1);
+				e.anim.SetFloat ("Speed", 1);
 			}
-			else if( e.IsWithinAttackRange() )
+			else if( e.IsWithinAttackRange() && lineOfSight )
 			{
 				e.GetComponent<NavMeshAgent>().Stop();
 				e.ChangeState(Sniper_AttackPlayer.Instance);
+				e.anim.SetFloat ("Speed", 0);
 			}
-			e.anim.SetFloat ("Speed", Convert.ToSingle(!e.IsWithinAttackRange()));
+
 		}
 		else
 		{

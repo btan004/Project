@@ -11,6 +11,9 @@ public class EnemyChargerScript : EnemyBaseScript {
 	public float NextAttack;
 	public float AttackDistance;
 	public GameObject EnemyAttackSphere;
+
+	public float ChargeDamage;
+	public float ChargeKnockback = 300;
 	
 	public bool ChargeReady;				//Ready to charge?
 	public bool IsGettingReadyToCharge;		//Preparing to charge
@@ -92,7 +95,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 		MinDistanceToCharge = 10;
 
 		//Knockback
-		Force = 600f;
+		Force = 80f;
 		mass = 20;
 
 		//Checking if there are any renderers to flash when this enemy is hit
@@ -116,6 +119,9 @@ public class EnemyChargerScript : EnemyBaseScript {
 
 		base.Update();
 
+		ChargeDamage = 2 * Damage;
+
+
 		// Check enemy health, if <=0 die
 
 		CheckHealth ();
@@ -126,7 +132,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 		// Rotate enemy towards player
 		RotateEnemy ();
 		
-
+		NextAttack = NextAttack - Time.deltaTime;
 
 		if( Health > 0 )
 		{
@@ -320,8 +326,8 @@ public class EnemyChargerScript : EnemyBaseScript {
 		Vector3 createPosition = transform.position + transform.forward;
 		GameObject attack = Instantiate(EnemyAttackSphere) as GameObject;
 		attack.transform.position = createPosition;
-		attack.GetComponent<EnemyAttackSphereScript>().SetDamage(20);
-		attack.GetComponent<EnemyAttackSphereScript>().SetForce(10);
+		attack.GetComponent<EnemyAttackSphereScript>().SetDamage(ChargeDamage);
+		attack.GetComponent<EnemyAttackSphereScript>().SetForce(ChargeKnockback);
 	}
 
 
@@ -332,6 +338,7 @@ public class EnemyChargerScript : EnemyBaseScript {
 		{
 			if( IsCharging )
 			{
+				IsCharging = false;
 				ApplyChargeHit();
 			}
 		}

@@ -60,6 +60,7 @@ public class Charger_AttackPlayer : State<EnemyChargerScript>
 				Vector3 createPosition = e.transform.position + e.transform.forward;
 				GameObject attack = GameObject.Instantiate(e.EnemyAttackSphere) as GameObject;
 				attack.transform.position = createPosition;
+				attack.GetComponent<SphereCollider>().radius = 1.2f;
 				attack.GetComponent<EnemyAttackSphereScript>().SetDamage(e.Damage);
 				attack.GetComponent<EnemyAttackSphereScript>().SetForce(e.Force);
 				

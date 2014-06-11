@@ -97,7 +97,8 @@ public class EnemyChaserScript : EnemyBaseScript {
 	}
 	
 	// Update is called once per frame
-	public override void Update () {
+	public override void Update ()
+	{
 		// Check enemy health, if <=0 die
 		base.Update();
 
@@ -117,7 +118,7 @@ public class EnemyChaserScript : EnemyBaseScript {
 		NextAttack = NextAttack - Time.deltaTime;
 		
 		//Run through this.StateMachine
-		if( baseHealth > 0 )
+		if( Health > 0 )
 		{
 			StateMachine.Update ();
 		}

@@ -14,9 +14,6 @@ public class EnemySpawnerScript : EnemyBaseScript {
 	public int EnemyStartAmount;
 	public int EnemyMaxAmount;
 
-	//Boss
-	public bool isBoss;
-
 	// Use this for initialization
 	public override void Start () {
 		// Set stats
