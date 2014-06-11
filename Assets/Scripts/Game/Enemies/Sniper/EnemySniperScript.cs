@@ -145,6 +145,7 @@ public class EnemySniperScript : EnemyBaseScript {
 					rotateDir = new Vector3(rotateDir.x,0,rotateDir.z);
 					this.transform.rotation = Quaternion.LookRotation(rotateDir);
 					break;
+					
 
 				case StateID.attacking:
 					// Get player location

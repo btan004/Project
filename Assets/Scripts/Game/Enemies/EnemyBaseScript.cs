@@ -433,8 +433,8 @@ public class EnemyBaseScript : MonoBehaviour {
 		Vector3 targetLOSpos = target;
 
 		//Might not be needed. Simply just casting the ray at a higher position
-		enemyLOSpos.y += 0.1f;
-		targetLOSpos.y += 0.1f;
+		enemyLOSpos.y += 0.5f;
+		targetLOSpos.y += 0.5f;
 		float distanceBetweenPlayer = Vector3.Distance(targetLOSpos, enemyLOSpos);
 		return !(Physics.Raycast( enemyLOSpos, (targetLOSpos - enemyLOSpos).normalized, distanceBetweenPlayer, layerMask));
 	}
