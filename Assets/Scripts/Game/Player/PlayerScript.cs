@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,46 +9,51 @@ public class PlayerScript : MonoBehaviour {
 
 	//player input
 	public InputHandler		inputHandler;
+	public CursorScript		cursor;
 
 	//player skills and leveling
 	public PlayerSkills Skills;
-	public LevelSystem LevelSystem;
+	public PlayerEquipmentScript Equipment;
+	//public LevelSystem LevelSystem;
+
+	//sound effects
+	public AudioClip Accept;
+	public AudioClip Reject;
+	public AudioClip SkillShotEffect;
+	public AudioClip AuraEffect;
+	public AudioClip PowerupSound;
 
 	//player stats
 	public static float		Score = 0;
-	public static int			Lives;
-	public const int			MaxLives = 5;
+	public static int		Lives;
+	public const int		MaxLives = 5;
 
-	/*
-	public float				Health = 100;
-	public float				TotalHealth;
-	public float				Stamina = 10;
-	public float				TotalStamina;
-	public float				Velocity = 10f;
-	public float				AttackDamage = 10f;
-	public static float		AuraDamage = 2f;
-	 */
-
-	public float				Radius = 2f;
+	public float			Radius = 2f;
 
 	//player movement
-	public float				SprintCoefficient = 5.0f;
-	public float				StaminaToSprint = 3;
+	public float			SprintCoefficient;
+	public bool 			CanSprint;
 
-	public bool					RanOutOfStamina = false;
-	public float				FinalMoveSpeed = 0;
+	public float			StaminaToSprint = 3;
+
+	public bool				RanOutOfStamina = false;
+	public float			FinalMoveSpeed = 0;
 
 	//knockback
-	public float				Mass = 10f;
+	public float			Mass = 10f;
 	private Vector3			knockback;
 
 	//player attack
-	
-	public static bool		IsAttacking = false;
-	public bool					IsAttackReady = false;
+	public static bool		IsStartingToAttack = false;	//when the animation starts playing
+	public static bool		IsAttacking = false;				//when the damage is dealt
+	public bool				IsAttackReady = false;
 	public static float		StaminaToAttack = .5f;
 	public static float		AttackCooldown = .25f;
-	private float				attackCooldownTimer = 0;
+	public float			attackCooldownTimer = 0;
+	private bool			waitingForAnimationDelay;
+	public const float		AttackAnimationDelay = 0.36f;
+	private float			attackAnimationDelayTimer;
+
 
 	//player aura
 	public static bool		IsAuraActive = false;
@@ -58,7 +64,7 @@ public class PlayerScript : MonoBehaviour {
 	private static float		auraDurationTimer = 0f;
 
 	private static float		auraCooldownTimer = 0f;
-	public static float		AuraForce = 0.1f;
+	public static float		AuraForce = 1f;
 
 	//player skill shot
 	public bool					IsSkillShotActive = false;
@@ -72,24 +78,56 @@ public class PlayerScript : MonoBehaviour {
 	private float healthFromPowerups = 0;
 	private float staminaFromPowerups = 0;
 	private float movespeedFromPowerups = 1;
-	
+
+	// Animations
+	public Animator anim;
+	private static int player_attackingState = Animator.StringToHash ("AttackLayer.attacking");
+	private static int player_StateBaseLayer = 0;
+	private static int player_StateAttackLayer = 1;
+	private AnimatorStateInfo currentAtkState;
+	public Animation PlayerAnimation;
+	public bool IsMoving;
+	public bool IsHit;
+
+	public ParticleSystem onHitParticle;
+	public static float FlashDuration = 0.2f;
+	private float flashTimer;
+	private bool isFlashing = false;
+
+
+	public bool debugvar = false;
+
 	// Use this for initialization
 	void Start () {
-		INVULNERABLE = true;
-		WaveSystem.GameDifficulty = Difficulty.Easy;
+		INVULNERABLE = false;
+
+		switch (PlayerPrefs.GetString("Difficulty"))
+		{
+			case "Easy":
+				WaveSystem.GameDifficulty = Difficulty.Easy;
+				break;
+			case "Normal":
+				WaveSystem.GameDifficulty = Difficulty.Normal;
+				break;
+			case "Hard":
+				WaveSystem.GameDifficulty = Difficulty.Hard;
+				break;
+			default:
+				WaveSystem.GameDifficulty = Difficulty.Easy;
+				break;
+		}
+
+		anim = GetComponent<Animator>();
+		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
 
 		inputHandler = new InputHandler();
 		IsAuraActive = false;
 
-		LevelSystem = new LevelSystem();
-		Skills = LevelSystem.GetPlayerSkills();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
-		Skills.AddSkillPoint();
+		//LevelSystem = new LevelSystem();
+		//Skills = LevelSystem.GetPlayerSkills();
+		//Skills.AddSkillPoint();
+		Skills = new PlayerSkills (Equipment, audio, Accept, Reject);
+		Skills.AddSkillPoints (WaveSystem.GameDifficulty);
 
 		//get the proper amount of lives
 		Lives = WaveSystem.LivesPerDifficulty[(int)WaveSystem.GameDifficulty];
@@ -97,12 +135,21 @@ public class PlayerScript : MonoBehaviour {
 		renderer.material.color = Color.red;
 		knockback = new Vector3();
 		Mass = 10f;
+
+		Score = 0;
+
+
+		Physics.IgnoreLayerCollision (9, 9);
+
+		PlayerAnimation.animation["attack"].speed = 2.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//check for death
 		CheckForDeath();
+
+		currentAtkState = anim.GetCurrentAnimatorStateInfo (player_StateAttackLayer);
 
 		//Check for user input
 		inputHandler.Update();
@@ -119,20 +166,26 @@ public class PlayerScript : MonoBehaviour {
 		CheckForSkillShot();
 
 		//Regen stamina based on time
-		//Stamina = Mathf.Clamp(Stamina + Time.deltaTime, 0, TotalStamina);
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + Time.deltaTime, 0, Skills.GetPlayerStaminaMax());
 
 		//Health + Stamina from powerup
-		//Health = Mathf.Clamp(Health + healthFromPowerups, 0, TotalHealth);
 		Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthFromPowerups, 0, Skills.GetPlayerHealthMax());
-		//Stamina = Mathf.Clamp(Stamina + staminaFromPowerups, 0, TotalStamina);
 		Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaFromPowerups, 0, Skills.GetPlayerStaminaMax());
 
-		//Check if the player wants to end the game
-		if (InputHandler.WantToQuit) Application.LoadLevel("StartMenuScene");
+		//Update OnHit Red Flash
+		CheckForRedFlash();
+	}
 
-		//increase the score
-		Score += (Time.deltaTime * 10);
+
+
+	private void CheckForRedFlash()
+	{
+		flashTimer -= Time.deltaTime;
+		if (isFlashing && flashTimer <= 0)
+		{
+			isFlashing = false;
+			DisableRedFlash();
+		}
 	}
 
 	private void UpdateActivePowerups()
@@ -155,11 +208,7 @@ public class PlayerScript : MonoBehaviour {
 
 			//if they are move speed powerups, add to the movespeed from powerups pool
 			if (p.Type == PowerupType.MovementSpeed)
-				movespeedFromPowerups *= p.Amount;
-
-			//make sure we havent exceeded our movement speed cap
-			if (movespeedFromPowerups > PowerupInfo.MovementSpeedCap)
-				movespeedFromPowerups = PowerupInfo.MovementSpeedCap;
+				movespeedFromPowerups = SprintCoefficient;
 
 			//reduce the duration of the powerup
 			p.Duration -= Time.deltaTime;
@@ -183,7 +232,11 @@ public class PlayerScript : MonoBehaviour {
 			}
 			else {
 				if (!INVULNERABLE)
-					Application.LoadLevel("StartMenuScene");
+				{
+					Debug.Log("Player Died!");
+					PlayerPrefs.SetFloat("Score", Score);
+					Application.LoadLevel("GameOverScene");
+				}
 			}
 		}
 	}
@@ -191,60 +244,69 @@ public class PlayerScript : MonoBehaviour {
 	private void CheckForMovement()
 	{
 		//apply it to the player
+		IsMoving = false;
 		Vector3 newMovement = InputHandler.MovementVector * Skills.GetPlayerVelocity() * movespeedFromPowerups * Time.deltaTime;
 
 		FinalMoveSpeed = Skills.GetPlayerVelocity() * movespeedFromPowerups;
 
-		//if the player wants to sprint
-		if (InputHandler.WantToSprint)
-		{
-			//and they run out of stamina
-			if (Skills.GetPlayerStamina() <= 0)
-			{
-				//signal that we have run out of stamina
-				RanOutOfStamina = true;
-			}
+		CanSprint = (Skills.GetPlayerStamina () >= StaminaToSprint);
 
-			//if we have run out of stamina
-			if (RanOutOfStamina)
+		//if the player wants to sprint
+		CanSprint = false;
+
+		//and they run out of stamina
+		if (Skills.GetPlayerStamina() <= 0)
+		{
+			//signal that we have run out of stamina
+			RanOutOfStamina = true;
+		}
+
+		//if we have run out of stamina
+		if (RanOutOfStamina)
+		{
+			//check if we have enough stamina to sprint again
+			if (Skills.GetPlayerStamina() > StaminaToSprint) 
 			{
-				//check if we have enough stamina to sprint again
-				if (Skills.GetPlayerStamina() > StaminaToSprint) 
-				{
-					//then disable our lock against sprinting again
-					RanOutOfStamina = false;
-				}
+				//then disable our lock against sprinting again
+				RanOutOfStamina = false;
 			}
-			//if we have not run out of stamina
-			else
+		}
+		//if we have not run out of stamina
+		else
+		{
+			CanSprint = true;
+			if (InputHandler.WantToSprint)
 			{
 				//multiply our movement by our sprint coefficient
 				newMovement *= SprintCoefficient;
+				
 				FinalMoveSpeed *= SprintCoefficient;
+				
 
 				//and decrement our stamina for sprinting
 				Skills.StaminaSkill.CurrentAmount -= 2.0f * Time.deltaTime;
 			}
 		}
+		//Debug.Log("Movement Speed: " + FinalMoveSpeed + ", Coefficient: " + SprintCoefficient);
 
 		//make our player movement
-		this.transform.position = (this.transform.position + newMovement);
-		
+		if (newMovement != Vector3.zero)
+		{
+			//this.transform.position = (this.transform.position + newMovement);
+			this.GetComponent<CharacterController>().Move(newMovement);
+			IsMoving = true;
+		}
 
-		//
+		//apply knockback
 		ApplyKnockback();
+
+		//turn the player to the cursor
+		PlayerAnimation.transform.rotation = Quaternion.LookRotation(cursor.transform.position - transform.position);
+
+		anim.SetFloat ("Speed", Mathf.Clamp(InputHandler.MovementVector.magnitude, 0, 1));
 
 		//make sure our player stays on the ground plan
 		this.transform.SetPositionY(1);
-
-		//Keep the Player within the map bounds
-		transform.BindToArea(
-			MapInfo.MinimumX + Radius, 
-			MapInfo.MaximumX - Radius, 
-			MapInfo.MinimumZ + Radius, 
-			MapInfo.MaximumZ - Radius);
-
-		
 	}
 
 	private void CheckForAttack()
@@ -252,12 +314,15 @@ public class PlayerScript : MonoBehaviour {
 		IsAttacking = false;
 
 		IsAttackReady = (!IsAttacking && attackCooldownTimer <= 0 && Skills.GetPlayerStamina() > StaminaToAttack);
-
-		if (InputHandler.WantToAttack && IsAttackReady)
+	
+		if (InputHandler.WantToAttack && IsAttackReady && currentAtkState.nameHash != player_attackingState )
 		{
-			IsAttacking = true;
+			//IsAttacking = true;
 			Skills.StaminaSkill.CurrentAmount -= StaminaToAttack;
 			attackCooldownTimer = AttackCooldown;
+
+			waitingForAnimationDelay = true;
+			attackAnimationDelayTimer = AttackAnimationDelay;
 		}
 
 		attackCooldownTimer -= Time.deltaTime;
@@ -266,6 +331,18 @@ public class PlayerScript : MonoBehaviour {
 		{
 			IsAttackReady = true;
 		}
+		//Debug.Log ( anim.IsInTransition(player_StateAttackLayer) );
+		debugvar = anim.IsInTransition (player_StateAttackLayer);
+		if (waitingForAnimationDelay)
+		{
+			attackAnimationDelayTimer -= Time.deltaTime;
+			if (attackAnimationDelayTimer <= 0)
+			{
+				IsAttacking = true;
+				waitingForAnimationDelay = false;
+			}
+		}
+		anim.SetBool("Attacking", waitingForAnimationDelay);
 	}
 
 	private void CheckForAuraAttack()
@@ -283,6 +360,11 @@ public class PlayerScript : MonoBehaviour {
 			IsAuraActive = true;
 			Skills.StaminaSkill.CurrentAmount -= AuraCost;
 			auraDurationTimer = AuraDuration;
+
+			audio.clip = AuraEffect;
+			audio.volume = 0.085f;
+			audio.pitch = 1.0f;
+			audio.Play();
 		}
 
 		//if the aura is active
@@ -304,6 +386,9 @@ public class PlayerScript : MonoBehaviour {
 		{
 			//decrement the cooldown timer
 			auraCooldownTimer -= Time.deltaTime;
+
+			if (audio.clip == AuraEffect)
+				audio.Stop();
 		}
 
 	}
@@ -354,16 +439,23 @@ public class PlayerScript : MonoBehaviour {
 
 	public void ApplyPowerup(Powerup powerup)
 	{
+		audio.clip = PowerupSound;
+		audio.pitch = 1.25f;
+		audio.volume = 0.16f;
+		audio.Play();
+
 		switch(powerup.Type)
 		{
 			case (PowerupType.Health):
-				Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + powerup.Amount, 0, Skills.GetPlayerHealthMax());
+				float healthHealed = 0.25f * Skills.GetPlayerHealthMax();
+				Skills.HealthSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerHealth() + healthHealed, 0, Skills.GetPlayerHealthMax());
 				break;
 			case (PowerupType.HealthRegen):
 				ActivePowerups.Add(powerup);
 				break;
 			case (PowerupType.Stamina):
-				Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + powerup.Amount, 0, Skills.GetPlayerStaminaMax());
+				float staminaRecovered = 0.25f * Skills.GetPlayerStaminaMax();
+				Skills.StaminaSkill.CurrentAmount = Mathf.Clamp(Skills.GetPlayerStamina() + staminaRecovered, 0, Skills.GetPlayerStaminaMax());
 				break;
 			case (PowerupType.StaminaRegen):
 				ActivePowerups.Add(powerup);
@@ -383,23 +475,73 @@ public class PlayerScript : MonoBehaviour {
 	{
 		if (Skills.GetPlayerHealth() <= damage) Skills.HealthSkill.CurrentAmount = 0;
 		else Skills.HealthSkill.CurrentAmount -= damage;
+
+		EnableRedFlash();
+		flashTimer = FlashDuration;
+		isFlashing = true;
+
+		Debug.LogWarning("Player took << " + damage + " >>  damage.");
+	}
+
+	public void EnableRedFlash()
+	{
+		onHitParticle.enableEmission = true;
+	}
+
+	public void DisableRedFlash()
+	{
+		onHitParticle.enableEmission = false;
 	}
 
 	public void AddKnockback(Vector3 direction, float force)
 	{
+		direction = new Vector3 (direction.x,0,direction.z);
+		direction.Normalize ();
 		knockback = direction * (force / Mass);
 	}
 
 	protected void ApplyKnockback()
 	{
-		this.transform.position = this.transform.position + knockback;
+		//this.transform.position = this.transform.position + knockback;
+		this.GetComponent<CharacterController>().Move(knockback*Time.deltaTime);
+
 
 		knockback = Vector3.Lerp(knockback, Vector3.zero, 5 * Time.deltaTime);
 	}
 
 	public void ApplyExperience(float experience)
 	{
-		LevelSystem.ApplyExperience(experience);
+		//LevelSystem.ApplyExperience(experience);
 		Score += (experience * 10f);
+	}
+
+	public void ClearAnimationInfo()
+	{
+		IsMoving = false;
+		IsStartingToAttack = false;
+		IsAttacking = false;
+		IsHit = false;
+	}
+
+	public void AnimateSkeleton(bool isHit, bool isAttacking, bool isMoving)
+	{
+
+		if (IsHit)
+		{
+			PlayerAnimation.Play("gethit");
+		}
+		else if (IsAttacking && !PlayerAnimation.IsPlaying("attack"))
+		{
+			PlayerAnimation.Play("attack");
+		}
+		else if (IsMoving && !PlayerAnimation.IsPlaying("run") && !PlayerAnimation.IsPlaying("attack"))
+		{
+			PlayerAnimation.Play("run");
+		}
+		else if (!PlayerAnimation.isPlaying)
+		{
+			PlayerAnimation.Play("idle");
+		}
+
 	}
 }

@@ -10,8 +10,8 @@ public class CameraScript : MonoBehaviour {
 	private Vector3 offset;
 
 	//camera boundaries
-	private float cameraLeftMax = -39;
-	private float cameraRightMax = 39;
+	private float cameraLeftMax = 10;
+	private float cameraRightMax = -10;
 	private float cameraBackMax = -53.5f;
 	private float cameraFrontMax = 100;
 	
@@ -33,7 +33,11 @@ public class CameraScript : MonoBehaviour {
 		transform.position = (target.transform.position + offset);
 
 		//make sure the camera stays in the map
-		transform.BindToArea(cameraLeftMax, cameraRightMax, cameraBackMax, cameraFrontMax);
+		transform.BindToArea(
+			MapSystemScript.instance.GetLevelBounds().left + cameraLeftMax,
+			MapSystemScript.instance.GetLevelBounds().right + cameraRightMax, 
+			cameraBackMax, 
+			cameraFrontMax);
 	}
 
 }

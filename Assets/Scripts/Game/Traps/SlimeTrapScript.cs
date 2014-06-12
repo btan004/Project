@@ -9,7 +9,6 @@ public class SlimeTrapScript : MonoBehaviour {
 	public bool HasVictim = false;
 	public float Duration = 2f;
 
-
 	void Start () 
 	{
 		renderer.material.color = Color.green;
@@ -41,5 +40,8 @@ public class SlimeTrapScript : MonoBehaviour {
 		this.victim = player.gameObject;
 		victimPosition = player.gameObject.transform.position;
 		HasVictim = true;
+
+		if (!audio.isPlaying && HasVictim)
+			audio.Play();
 	}
 }

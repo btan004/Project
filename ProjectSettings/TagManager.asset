@@ -14,6 +14,14 @@ TagManager:
   - PlayerAuraAttackHitbox
   - PlayerMeleeAttackHitbox
   - PlayerSkillShotAttackHitbox
+  - Portal
+  - Stage
+  - Flashable
+  - MapContainer
+  - 
+  - PowerupContainer
+  - EnemyContainer
+  - TrapContainer
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -23,10 +31,10 @@ TagManager:
   Builtin Layer 5: 
   Builtin Layer 6: 
   Builtin Layer 7: 
-  User Layer 8: 
-  User Layer 9: 
-  User Layer 10: 
-  User Layer 11: 
+  User Layer 8: Enemy
+  User Layer 9: Player
+  User Layer 10: Wall
+  User Layer 11: Powerup
   User Layer 12: 
   User Layer 13: 
   User Layer 14: 

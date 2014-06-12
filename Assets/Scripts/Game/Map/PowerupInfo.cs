@@ -6,13 +6,13 @@ public class PowerupInfo : MonoBehaviour
 	public static float Lifetime = 60f;
 
 	/* Health Powerup */
-	public static Color HealthColor = Color.red;
+	public static Color HealthColor = new Color(125f / 255f, 34f / 255f, 37f / 255f, 1);
 	public static float HealthMinAmount = 10f;
 	public static float HealthMaxAmount = 100f;
 
 	/* Health Regen Powerup */
 	private static Texture2D healthRegenIcon;
-	private static string healthRegenIconPath = "Assets/Resources/Textures/Icons/RedPlusPowerup.png";
+	private static string healthRegenIconPath = "Textures/Icons/RedPlusPowerup";
 	public static Color HealthRegenParticleColor = Color.white;
 	public static float HealthRegenMinAmount = 1f;
 	public static float HealthRegenMaxAmount = 10f;
@@ -20,13 +20,13 @@ public class PowerupInfo : MonoBehaviour
 	public static float HealthRegenMaxDuration = 10f;
 
 	/* Stamina Powerup */
-	public static Color StaminaColor = Color.yellow;
+	public static Color StaminaColor = new Color(216f / 255f, 163f / 255f, 84f / 255f, 1);
 	public static float StaminaMinAmount = 1f;
 	public static float StaminaMaxAmount = 5f;
 
 	/* Stamina Regen Powerup */
 	private static Texture2D staminaRegenIcon;
-	private static string staminaRegenIconPath = "Assets/Resources/Textures/Icons/YellowPlusPowerup.png";
+	private static string staminaRegenIconPath = "Textures/Icons/YellowPlusPowerup";
 	public static Color StaminaRegenParticleColor = Color.white;
 	public static float StaminaRegenMinAmount = .5f;
 	public static float StaminaRegenMaxAmount = 2f;
@@ -40,13 +40,10 @@ public class PowerupInfo : MonoBehaviour
 
 	/* Movespeed Powerup */
 	private static Texture2D movespeedIcon;
-	private static string movementSpeedIconPath = "Assets/Resources/Textures/Icons/PurplePlusPowerup.png";
+	private static string movementSpeedIconPath = "Textures/Icons/PurplePlusPowerup";
 	public static Color MovementSpeedColor = new Color(92f / 255f, 33f / 255f, 169f / 255f);
-	public static float MovementSpeedMinAmount = 1.2f;
-	public static float MovementSpeedMaxAmount = 2.0f;
-	public static float MovementSpeedMinDuration = 3f;
-	public static float MovementSpeedMaxDuration = 10f;
-	public static float MovementSpeedCap = 2.0f;
+	public static float MovementSpeedAmount = 1.5f;
+	public static float MovementSpeedDuration = 5f;
 
 	public static Color GetColor(PowerupType type)
 	{
@@ -107,21 +104,21 @@ public class PowerupInfo : MonoBehaviour
 	public static Texture2D GetHealthRegenIcon()
 	{
 		if (healthRegenIcon == null)
-			healthRegenIcon = Resources.LoadAssetAtPath<Texture2D>(healthRegenIconPath);
+			healthRegenIcon = Resources.Load<Texture2D>(healthRegenIconPath);
 		return healthRegenIcon;
 	}
 
 	public static Texture2D GetStaminaRegenIcon()
 	{
 		if (staminaRegenIcon == null)
-			staminaRegenIcon = Resources.LoadAssetAtPath<Texture2D>(staminaRegenIconPath);
+			staminaRegenIcon = Resources.Load<Texture2D>(staminaRegenIconPath);
 		return staminaRegenIcon;
 	}
 
 	public static Texture2D GetMovespeedIcon()
 	{
 		if (movespeedIcon == null)
-			movespeedIcon = Resources.LoadAssetAtPath<Texture2D>(movementSpeedIconPath);
+			movespeedIcon = Resources.Load<Texture2D>(movementSpeedIconPath);
 		return movespeedIcon;
 	}
 

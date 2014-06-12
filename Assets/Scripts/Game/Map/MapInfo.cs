@@ -3,11 +3,8 @@ using System.Collections;
 
 public class MapInfo
 {
-	public static float MinimumX = -50;
-	public static float MaximumX = 50;
-	public static float MinimumZ = -50;
-	public static float MaximumZ = 50;
 	public static float MinimumY = 1;
+	public static float Buffer = 2;
 
 	/// <summary>
 	/// Returns a random point on the map
@@ -19,6 +16,26 @@ public class MapInfo
 	/// <returns></returns>
 	public static Vector3 GetRandomPointOnMap()
 	{
-		return new Vector3(Random.Range(MinimumX, MaximumX), MinimumY, Random.Range(MinimumZ, MaximumZ));
+		
+
+		float minimumX = MapSystemScript.instance.GetLevelBounds().left;
+		float maximumX = MapSystemScript.instance.GetLevelBounds().right;
+		float minimumZ = MapSystemScript.instance.GetLevelBounds().bottom;
+		float maximumZ = MapSystemScript.instance.GetLevelBounds().top;
+
+		NavMeshHit hit;
+
+		Vector3 position = new Vector3(
+			Random.Range(minimumX + Buffer, maximumX - Buffer), 
+			MinimumY, 
+			Random.Range(minimumZ + Buffer, maximumZ - Buffer));
+
+		NavMesh.SamplePosition(position, out hit, 10, 1);
+
+		if(hit.position.x == Mathf.Infinity || hit.position.y == Mathf.Infinity || hit.position.z == Mathf.Infinity){
+			hit.position = new Vector3(MapSystemScript.instance.GetLevelBounds().center.x,1,MapSystemScript.instance.GetLevelBounds().center.y);
+		}
+
+		return hit.position;
 	}
 }

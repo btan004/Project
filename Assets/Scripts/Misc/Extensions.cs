@@ -45,4 +45,13 @@ public static class Extensions
 		if (t.position.z < minZ) t.SetPositionZ(minZ);
 		if (t.position.z > maxZ) t.SetPositionZ(maxZ);
 	}
+
+	public static void BindToArea(this Transform t, Rect rect)
+	{
+		t.BindToArea(
+			rect.x,
+			rect.y,
+			rect.x + rect.width,
+			rect.y + rect.height);
+	}
 }

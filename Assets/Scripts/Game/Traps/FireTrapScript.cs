@@ -7,8 +7,11 @@ public class FireTrapScript : MonoBehaviour {
 	public float Damage = 10f;
 	public float TimeOff = 5f;
 	public float TimeOn = 5f;
-	private float timer = 0f;
+	public float timer = 0f;
 	public bool IsActive = false;
+
+	public bool partOfSpinningTrap = false;
+	public bool partOfBossLevel = false;
 
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
@@ -20,6 +23,10 @@ public class FireTrapScript : MonoBehaviour {
 			particleSystems.Add(s);
 			s.enableEmission = false;
 		}
+
+		//get a random delay to start from
+		if (!partOfSpinningTrap)
+			timer = Random.Range(0.0f, 6.0f);
 	}
 	
 	// Update is called once per frame
@@ -28,34 +35,42 @@ public class FireTrapScript : MonoBehaviour {
 		timer -= Time.deltaTime;
 
 		//if the fire trap is active
-		if (IsActive)
+		if (partOfBossLevel)
 		{
-			//check if its time to turn the fire trap off
-			if (timer <= 0)
-			{
-				//turn the fire trap off
-				TurnTrapOff();
-
-				//reset our timer
-				timer = TimeOff;
-			}
+			
 		}
-		//if the fire trap is inactive
 		else
 		{
-			//check if its time to turn the fire trap on
-			if (timer <= 0)
+			if (IsActive)
 			{
-				//turn the fire trap on
-				TurnTrapOn();
+				//check if its time to turn the fire trap off
+				if (timer <= 0)
+				{
+					//turn the fire trap off
+					TurnTrapOff();
 
-				//reset our timer
-				timer = TimeOn;
+					//reset our timer
+					timer = TimeOff;
+				}
+			}
+			//if the fire trap is inactive
+			else
+			{
+				//check if its time to turn the fire trap on
+				if (timer <= 0)
+				{
+					//turn the fire trap on
+					TurnTrapOn();
+
+					//reset our timer
+					timer = TimeOn;
+				}
 			}
 		}
+
 	}
 
-	void TurnTrapOn()
+	public void TurnTrapOn()
 	{
 		//enable particle systems
 		foreach (ParticleSystem s in particleSystems)
@@ -65,9 +80,9 @@ public class FireTrapScript : MonoBehaviour {
 		IsActive = true;
 	}
 
-	void TurnTrapOff()
+	public void TurnTrapOff()
 	{
-		//enable particle systems
+		//disable particle systems
 		foreach (ParticleSystem s in particleSystems)
 			s.enableEmission = false;
 
@@ -81,7 +96,24 @@ public class FireTrapScript : MonoBehaviour {
 		if (IsActive)
 		{
 			//apply the damage to the player
-			player.ApplyDamage(Damage);
+			player.ApplyDamage(1.0f * player.Skills.GetPlayerHealthMax() * Time.deltaTime);
 		}
 	}
+
+	public void ActivateTrap(EnemyBaseScript enemy)
+	{
+		//if the trap is active
+		if (IsActive)
+		{
+			//apply the damage to the enemy
+			if (!enemy.IsSpawned)
+			{
+				if (enemy.isBoss)
+					enemy.ApplyDamage(0.01f * enemy.MaxHealth * Time.deltaTime);
+				else
+					enemy.ApplyDamage(0.1f * enemy.MaxHealth * Time.deltaTime);
+			}
+		}		
+	}
+
 }

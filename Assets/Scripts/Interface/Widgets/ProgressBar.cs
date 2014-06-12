@@ -12,12 +12,17 @@ namespace AssemblyCSharp
 		private Texture2D 	progressBarCover;
 		private Texture2D 	progressBarText;
 
-		private Vector2 	position;
-		private Vector2 	size;
+		public Vector2 	position;
+		public Vector2 	size;
 		private float		textOffset;
 		private float		percent;
 		private bool		greyedOut;
 		private GUIStyle  style;
+
+		public Rect GetRect()
+		{
+			return new Rect(position.x, position.y, size.x, size.y);
+		}
 
 		public ProgressBar(Vector2 position, Vector2 size, Texture2D back, Texture2D progressBar, Texture2D greyBar, Texture2D cover, GUIStyle style, float textOffset)
 		{

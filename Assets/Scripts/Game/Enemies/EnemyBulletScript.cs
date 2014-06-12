@@ -8,29 +8,36 @@ public class EnemyBulletScript : MonoBehaviour {
 	public float Damage;
 	public Vector3 Direction;
 	public float Force;
+	public bool isBoss;
+	public Vector3 initialDirection;
+	public float timer;
+
+	static GameObject player;
+	static PlayerScript playerScript;
+
+	float bulletLifetime;
 
 	// Use this for initialization
 	void Start () {
-
+		if (player == null)
+		{
+			player = GameObject.FindGameObjectWithTag("Player");
+			playerScript = player.GetComponent<PlayerScript>();
+		}
+		bulletLifetime = 5.0f;
 
 		//Bullet color
 		this.renderer.material.color = Color.cyan;
 
-		// Find player and move in that direction
-		if (GameObject.FindGameObjectWithTag ("Player")) {
-			// Get player location
-			Vector3 playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-
-			// Set as direction
-			Direction = playerPosition - this.transform.position;
-			Direction.Normalize();
-		}
-		else{
-			Direction = Vector3.forward;
-		}
+		// Set initial bullet direction
+		MoveBullet();
 
 		// Other stats
 		Velocity = 10f;
+
+		timer = 1f;
+
+		Force = 100f;
 	}
 	
 	// Update is called once per frame
@@ -38,7 +45,15 @@ public class EnemyBulletScript : MonoBehaviour {
 		// Move fowards
 		this.transform.Translate(Direction * Velocity * Time.deltaTime);
 
-		CheckLifeBound ();
+		//CheckLifeBound ();
+		bulletLifetime -= Time.deltaTime;
+		if (bulletLifetime <= 0)
+		{
+			Destroy(gameObject);
+		}
+
+		//Update bullet direction
+		UpdateBullet();
 	}
 
 	public void CheckLifeBound (){
@@ -62,7 +77,7 @@ public class EnemyBulletScript : MonoBehaviour {
 			float zpositive = sizeOfMap.z/2 + centerOfMap.z;
 			float znegative = centerOfMap.z - sizeOfMap.z/2;
 			if(currentPosition.z > zpositive || currentPosition.z < znegative){
-				if (this.gameObject) DestroyImmediate(this.gameObject);
+				if (this) DestroyImmediate(this.gameObject);
 			}
 		}
 	}
@@ -72,11 +87,59 @@ public class EnemyBulletScript : MonoBehaviour {
 		Damage = dmg;
 	}
 
+	public void MoveBullet(){
+		if(!isBoss){
+			// Find player and move in that direction
+			if (player) {
+				// Get player location
+				Vector3 playerPosition = player.transform.position;
+			
+				// Set as direction
+				Direction = playerPosition - this.transform.position;
+				Direction.Normalize();
+			}
+			else{
+				Direction = Vector3.forward;
+			}
+		}
+		else{
+			if(player){
+				// Move in the initial direction first
+				Direction = initialDirection;
+			}
+		}
+	}
+
+	public void UpdateBullet(){
+		if(isBoss){
+			timer = timer - Time.deltaTime;
+			if (timer <= 0){
+				if (player) {
+					// Get player location
+					Vector3 playerPosition = player.transform.position;
+				
+					// Set as direction
+					Direction = playerPosition - this.transform.position;
+					Direction.Normalize();
+
+					//Turn off boss
+					isBoss = false;
+				}
+			}
+		}
+	}
+
+	public void SetBossBullet(bool boss){
+		isBoss = boss;
+	}
+
+	public void SetInitialDirection(Vector3 dir){
+		initialDirection = dir;
+	}
+
 	void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag == "PlayerHitbox"){
 			// Apply damage to player and destroy self
-			GameObject player = GameObject.FindGameObjectWithTag("Player");
-			PlayerScript playerScript = player.GetComponent<PlayerScript>();
 			playerScript.ApplyDamage(Damage);
 			playerScript.AddKnockback(playerScript.transform.position - this.transform.position, Force);
 			Destroy(gameObject);

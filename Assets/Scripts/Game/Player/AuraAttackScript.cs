@@ -8,8 +8,6 @@ public class AuraAttackScript : MonoBehaviour {
 	public float RotateSpeed;
 	public bool Debug;
 
-	public float Force = 1f;
-
 	private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
 
 	// Use this for initialization
@@ -37,12 +35,37 @@ public class AuraAttackScript : MonoBehaviour {
 		transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime);
 	}
 
-	public void ApplyAuraAttack(EnemyBaseScript enemy)
+	
+	public void OnTriggerEnter(Collider other)
 	{
-		if (PlayerScript.IsAuraActive)
+		if (other.gameObject.tag == "Enemy")
 		{
-			enemy.ApplyDamage(player.Skills.GetAuraDamage());
-			enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+			//UnityEngine.Debug.LogWarning("Aura Enter: " + other.name);
+		}
+	}
+
+	public void OnTriggerStay(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			//UnityEngine.Debug.LogWarning("Aura Stay: " + other.name);
+			if (PlayerScript.IsAuraActive)
+			{
+				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
+				if (enemy)
+				{
+					//Aura Damage =  Aura Skill Multiplier x Player Attack Damage x deltaTime
+					enemy.ApplyDamage(player.Skills.GetAuraDamage() * player.Skills.GetPlayerDamage() * Time.deltaTime);
+					enemy.AddKnockback(enemy.transform.position - player.transform.position, PlayerScript.AuraForce);
+
+					UnityEngine.Debug.LogWarning("Aura Damage: " + (player.Skills.GetAuraDamage() * player.Skills.GetPlayerDamage() * Time.deltaTime));
+				}
+				EnemyBulletScript bullet = other.GetComponent<EnemyBulletScript>();
+				if (bullet)
+				{
+					Destroy(bullet.gameObject);
+				}
+			}
 		}
 	}
 }

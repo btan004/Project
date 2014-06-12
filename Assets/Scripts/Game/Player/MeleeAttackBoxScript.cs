@@ -7,9 +7,12 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 	public CursorScript cursor;
 	public PlayerScript player;
 	private Vector3 directionToOffset;
-	public float Force = 3f;
+	public float Force = 30f;
 	private bool attacking;
 	private bool really;
+
+	public AudioClip[] swordSounds;
+	public AudioClip[] enemyBeingHitSounds;
 
 	private List<GameObject> enemiesInRange = new List<GameObject>();
 
@@ -30,24 +33,50 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 		rotation *= Quaternion.Euler(0, 90, 0);
 		this.transform.rotation = rotation;
 
-		this.renderer.enabled = PlayerScript.IsAttacking;
+		//this.renderer.enabled = PlayerScript.IsAttacking;
 	}
-	
+
 	void LateUpdate()
 	{
 		if (PlayerScript.IsAttacking)
 		{
+			audio.clip = swordSounds[Random.Range(0, swordSounds.Length)];
+			audio.pitch = 1.76f;
+			audio.volume = 1.0f;
+
 			foreach (GameObject other in enemiesInRange)
 			{
-				EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
-				enemy.ApplyDamage(player.Skills.GetPlayerDamage());
-				enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+				if (other)
+				{
+					EnemyBaseScript enemy = other.GetComponent<EnemyBaseScript>();
+
+					/*REMOVE LATER
+					 **/
+					EnemyBaseCloneScript enemy2 = other.GetComponent<EnemyBaseCloneScript>();
+
+					audio.clip = enemyBeingHitSounds[Random.Range(0, enemyBeingHitSounds.Length)];
+					audio.pitch = 0.6f;
+					audio.volume = 0.188f;
+
+					if (enemy)
+					{
+						enemy.ApplyDamage(player.Skills.GetPlayerDamage());
+						enemy.AddKnockback(enemy.transform.position - player.transform.position, Force);
+					}
+					if (enemy2)
+					{
+						enemy2.ApplyDamage(player.Skills.GetPlayerDamage());
+						enemy2.AddKnockback(enemy2.transform.position - player.transform.position, Force);
+					}
+				}
 			}
+
+			audio.Play();
 		}
 
 		enemiesInRange.Clear();
 	}
-
+	
 	void OnTriggerStay(Collider other)
 	{
 		if (other.gameObject.tag == "Enemy")
@@ -55,5 +84,12 @@ public class MeleeAttackBoxScript : MonoBehaviour {
 			enemiesInRange.Add(other.gameObject);
 		}
 	}
-	 
+	
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.tag == "Enemy")
+		{
+			enemiesInRange.Add(other.gameObject);
+		}
+	}
 }

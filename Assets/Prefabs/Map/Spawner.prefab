@@ -65,6 +65,10 @@ MonoBehaviour:
   DebugEnemyPrefab: {fileID: 100000, guid: b88d1989725877c4bb5f7eb8e834e3a3, type: 2}
   EnemyChaserPrefab: {fileID: 100000, guid: 4c28773ebe2d0410a9723a93237adbc2, type: 2}
   EnemySniperPrefab: {fileID: 100000, guid: 56319cdc21b3d487e9a14b87b471c438, type: 2}
+  EnemyHealerPrefab: {fileID: 100000, guid: 2c990519fed71174da71625ae1afe763, type: 2}
+  EnemySpawnerPrefab: {fileID: 100000, guid: d0c89dc2b324c40d49908044e347d0e6, type: 2}
+  EnemyBouncerPrefab: {fileID: 100000, guid: 69d5520e6db834dafb0083affd746323, type: 2}
+  EnemyChargerPrefab: {fileID: 100000, guid: 840b5165a04a70a4d829b7866cd12803, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
