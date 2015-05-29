@@ -9,3 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/StartMenuScene.unity
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
+  - enabled: 1
+    path: Assets/Scenes/GameOverScene.unity
+  - enabled: 1
+    path: Assets/Scenes/ControlsScene.unity

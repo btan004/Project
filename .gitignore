@@ -11,3 +11,9 @@
 /*.userprefs
 /*.pidb
 /*.booproj
+
+Assembly-CSharp.csproj
+Assembly-CSharp-vs.csproj
+Project.sln
+Project.userprefs
+Project-csharp.sln
